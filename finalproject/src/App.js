@@ -16,7 +16,7 @@ function App() {
       <div>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
-  <a className="navbar-brand" href="#">FriendShip</a>
+  <a className="navbar-brand" href="#">Friendship</a>
 
   <ul class="navbar-nav">
     <li className="nav-item">
