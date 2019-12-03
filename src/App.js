@@ -9,33 +9,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./components/login/login.js";
 import logo from './logo.svg';
 import './App.css';
+import RegisterStudent from './components/register/register-student.js';
+import RegisterTutor from './components/register/register-tutor.js';
 
 function App() {
   return (
     <Router>
-      <div>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
-  <a className="navbar-brand" href="#">Friendship</a>
-
-  <ul class="navbar-nav">
-    <li className="nav-item">
-    <Link className="nav-link" to="/login">Login</Link>
-    </li>
-
-
-  </ul>
-</nav>
       <Switch>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/register-student">
+          <RegisterStudent />
+        </Route>
+        <Route path="/register-tutor">
+          <RegisterTutor />
         </Route>
         <Route path="/">
         <Login />
           </Route>
       </Switch>
 
-    </div>
   </Router>
   );
 }
