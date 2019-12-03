@@ -11,7 +11,8 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles  } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 function Copyright() {
   return (
@@ -26,7 +27,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     height: '100vh',
   },
@@ -55,11 +56,12 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+});
 
-export default function Login() {
-  const classes = useStyles();
+ class Login extends React.Component {
 
+  render() {
+    const { classes } = this.props;
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -128,4 +130,10 @@ export default function Login() {
       </Grid>
     </Grid>
   );
+  }
 }
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Login);

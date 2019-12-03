@@ -10,11 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
+import { withStyles  } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 function Copyright() {
   return (
@@ -29,7 +30,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const styles =theme => ({
 
   root: {
     '&:hover': {
@@ -91,11 +92,11 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+});
 
 // Inspired by blueprintjs
 function StyledRadio(props) {
-  const classes = useStyles();
+  const {classes} = props;
 
   return (
     <Radio
@@ -109,9 +110,10 @@ function StyledRadio(props) {
   );
 }
 
-export default function RegisterStudent() {
-  const classes = useStyles();
+ class RegisterStudent extends React.Component {
 
+render() {
+  const {classes} = this.props;
   return (
     <div className={classes.body}>
     <Container style={{backgroundColor: 'white', paddingTop: '50px', height: '100%'}} component="main"  maxWidth="xs">
@@ -151,9 +153,9 @@ export default function RegisterStudent() {
             <Grid item xs={12} sm={12} >
             <FormLabel component="legend">Gender</FormLabel>  
             <RadioGroup  defaultValue="female" name="customized-radios" row>
-              <FormControlLabel   value="female" control={<StyledRadio />} label="Female" />
-              <FormControlLabel  value="male" control={<StyledRadio />} label="Male" />
-              <FormControlLabel  value="other" control={<StyledRadio />} label="Other" />
+              <FormControlLabel   value="female" control={<StyledRadio classes={classes} />} label="Female" />
+              <FormControlLabel  value="male" control={<StyledRadio classes={classes} />} label="Male" />
+              <FormControlLabel  value="other" control={<StyledRadio classes={classes} />} label="Other" />
               </RadioGroup>
             </Grid>
             <Grid item xs={12}>
@@ -207,3 +209,8 @@ export default function RegisterStudent() {
    
   );
 }
+}
+RegisterStudent.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+export default withStyles(styles)(RegisterStudent);
