@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./components/login/login.js";
-import logo from './logo.svg';
 import './App.css';
 import RegisterStudent from './components/register/register-student.js';
 import RegisterTutor from './components/register/register-tutor.js';
