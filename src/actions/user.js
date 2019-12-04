@@ -7,21 +7,21 @@ function requestLogin() {
       type: types.REQUEST_LOGIN
     };
   }
-  
+
   function receiveLogin(stateLogin) {
     return {
       type: types.RECEIVE_LOGIN,
       stateLogin
     };
   }
-  
+
   function getCurrentUser(user) {
     return {
       type: types.GET_CURRENT_USER,
       user
     };
   }
-  
+
   export function fetchPostsLogin(usernameLogin, passwordLogin) {
     return function(dispatch) {
       dispatch(requestLogin());
@@ -38,7 +38,7 @@ function requestLogin() {
       })
         .then(
           response => response.json(),
-  
+
           error => console.log('An error occurred.', error)
         )
         .then(json => {
@@ -52,7 +52,7 @@ function requestLogin() {
         });
     };
   }
-  
+
   export function fetchCurrentUser() {
     if (localStorage.getItem('authToken') != null) {
       return function(dispatch) {
@@ -76,7 +76,7 @@ function requestLogin() {
   }
 
   export function logOut() {
-    
+
     localStorage.removeItem('authToken');
     console.log(localStorage.getItem('authToken'));
     return function(dispatch) {
