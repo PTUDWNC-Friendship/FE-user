@@ -1,4 +1,5 @@
 import React from 'react';
+import  {FiLogOut}  from "react-icons/fi";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as action from '../../actions/login';
@@ -96,7 +97,7 @@ class Header extends React.Component {
                           <li><a href="contact.html">Contact</a></li>
                           <li><a href="new-post.html"><span className="bg-primary text-white py-3 px-4 rounded"><span className="icon-plus mr-3"></span>Post New Job</span></a></li>
                           <li><a style={{fontSize: '14px', color: 'blue'}} href="contact.html"><u> {stateLogins.user.username}</u></a></li>
-                          <li><a style={{color: 'red', }} href="">Logout</a></li>
+                          <li><a style={{fontSize: '14px', }} href="">Logout <FiLogOut/></a></li>
                         </ul>
                       </div>
                     </nav>

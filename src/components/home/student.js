@@ -1,9 +1,18 @@
 import React from 'react';
-
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { fetchPostsLogin, fetchCurrentUser } from '../../actions/login';
 import Header from '../header/header';
+import $ from 'jquery';
 
 class Student extends React.Component {
 
+  constructor(props) {
+    super(props);
+    const {stateLogins, fetchCurrent} = this.props;
+    fetchCurrent();
+  }
 
     render() {
         return (
@@ -577,4 +586,23 @@ class Student extends React.Component {
     }
 }
 
-export default Student;
+const mapStateToProps = (state) =>{
+  return {
+  stateLogins: state.login,
+  }
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      fetchSubmit: fetchPostsLogin,
+      fetchCurrent: fetchCurrentUser
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Student));
+

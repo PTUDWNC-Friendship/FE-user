@@ -65,6 +65,15 @@ const styles = theme => ({
 
  class Login extends React.Component {
 
+  constructor(props) {
+    super(props);
+    const {stateLogins} = this.props;
+
+    if(stateLogins.user !== null) {   
+      const {history} = this.props;
+      history.push('/');
+    } 
+  }
 
   handleSubmit = e => {
     $('#idLoading').show();
