@@ -16,6 +16,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { withStyles  } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
 
 function Copyright() {
   return (
@@ -111,6 +112,43 @@ function StyledRadio(props) {
 }
 
  class RegisterStudent extends React.Component {
+
+  doRegister = e =>{
+    e.preventDefault();
+    if(e.target.password.value!==e.target.retypepassword.value || e.target.password.value ==='') {
+      $('#errorMsg').show();
+    } else {
+      $('#errorMsg').hide();
+
+      fetch(`https://jwtduyhau.herokuapp.com/user/register`, {
+        method: 'POST',
+        body: JSON.stringify({
+            username: e.target.username.value,
+            password: e.target.password.value
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+        .then(
+          response => response.json(),
+
+          error => console.log('An error occurred.', error)
+        )
+        .then(json =>
+        {
+            if(json!=null) {
+              const {history} = this.props;
+              history.push('/login');
+            } else {
+              $('#errorMsgSer').show();
+            }
+
+        }
+        )
+    }
+  }
+
 
 render() {
   const {classes} = this.props;

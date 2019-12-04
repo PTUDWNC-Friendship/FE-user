@@ -74,3 +74,12 @@ function requestLogin() {
       dispatch(getCurrentUser(null));
     };
   }
+
+  export function logOut() {
+    
+    localStorage.removeItem('authToken');
+    console.log(localStorage.getItem('authToken'));
+    return function(dispatch) {
+      dispatch(getCurrentUser(null));
+    };
+  }

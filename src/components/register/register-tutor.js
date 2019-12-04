@@ -16,6 +16,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { withStyles  } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
