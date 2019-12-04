@@ -39,7 +39,7 @@ class Header extends React.Component {
                               </ul>
                             </li>
                             <li><a href="contact.html">Contact</a></li>
-                            <li><a href="new-post.html"><span className="bg-primary text-white py-3 px-4 rounded"><span className="icon-plus mr-3"></span>Post New Job</span></a></li>
+                            <li><a href="new-post.html"><span className="bg-success text-white py-3 px-4 rounded"><span className="icon-plus mr-3"></span>Post New Job</span></a></li>
                           </ul>
                         </div>
                       </nav>
