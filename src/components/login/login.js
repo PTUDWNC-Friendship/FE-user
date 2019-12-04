@@ -16,7 +16,7 @@ import { withStyles  } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchPostsLogin, fetchCurrentUser } from '../../actions/login';
+import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
 import $ from 'jquery';
 
 function Copyright() {
@@ -34,6 +34,7 @@ function Copyright() {
 
 const styles = theme => ({
   root: {
+    paddingTop: '10vh',
     height: '100vh',
   },
   image: {
@@ -65,6 +66,15 @@ const styles = theme => ({
 
  class Login extends React.Component {
 
+  constructor(props) {
+    super(props);
+    const {stateLogins, fetchCurrent} = this.props;
+    fetchCurrent();
+    if(stateLogins.user !== null) {   
+      const {history} = this.props;
+      history.push('/');
+    } 
+  }
 
   handleSubmit = e => {
     $('#idLoading').show();
@@ -74,9 +84,9 @@ const styles = theme => ({
       fetchSubmit(e.target.email.value, e.target.password.value),
       fetchCurrent(),
     ).then(() => {
-      const { actions, userLogin } = this.props;
-      if(userLogin.isFetching===false) {
-        if(userLogin.user===null) {
+      const {  stateLogins } = this.props;
+      if(stateLogins.isFetching===false) {
+        if(stateLogins.user===null) {
           $('#errorMsg').show();
         } else {
           const {history} = this.props;
@@ -174,7 +184,7 @@ const styles = theme => ({
 
 const mapStateToProps = (state) =>{
   return {
-  userLogin: state.login,
+  stateLogins: state.login,
   }
 };
 

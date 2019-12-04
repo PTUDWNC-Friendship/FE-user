@@ -1,24 +1,24 @@
 import React from 'react';
-
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
 import Header from '../header/header';
+import $ from 'jquery';
 
 class Student extends React.Component {
 
+  constructor(props) {
+    super(props);
+    const {stateLogins, fetchCurrent} = this.props;
+    fetchCurrent();
+  }
 
     render() {
         return (
             <div>
             <div className="site-wrap">
-                <div className="site-mobile-menu">
-                  <div className="site-mobile-menu-header">
-                    <div className="site-mobile-menu-close mt-3">
-                      <span className="icon-close2 js-menu-toggle"></span>
-                    </div>
-                  </div>
-                  <div className="site-mobile-menu-body"></div>
-                </div>
 
-                <Header/>
 
                 <div style={{height: "113px"}}></div>
 
@@ -524,4 +524,23 @@ class Student extends React.Component {
     }
 }
 
-export default Student;
+const mapStateToProps = (state) =>{
+  return {
+  stateLogins: state.login,
+  }
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      fetchSubmit: fetchPostsLogin,
+      fetchCurrent: fetchCurrentUser
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Student));
+
