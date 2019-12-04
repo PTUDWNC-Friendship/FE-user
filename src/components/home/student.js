@@ -32,6 +32,7 @@ class Student extends React.Component {
 
                                 <ul className="site-menu js-clone-nav d-none d-lg-block">
                                   <li><a href="categories.html">For Candidates</a></li>
+                                  <li><a href="/login">Login</a></li>
                                   <li className="has-children">
                                     <a href="category.html">For Employees</a>
                                     <ul className="dropdown arrow-top">
