@@ -13,7 +13,6 @@ import './App.css';
 import RegisterStudent from './components/register/register-student.js';
 import RegisterTutor from './components/register/register-tutor.js';
 import Logout from './components/logout/logout';
-
 function App() {
   return (
     
@@ -34,6 +33,12 @@ function App() {
         </Route>
         <Route path="/">
           <Student />
+        </Route>
+        <Route path="/home-student">
+          <Student />
+        </Route>
+        <Route path="/home-tutor">
+          <Tutor />
         </Route>
         <Route path="/student-home">
           <Student />
