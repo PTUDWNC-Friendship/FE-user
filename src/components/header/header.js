@@ -30,20 +30,19 @@ class Header extends React.Component {
                 <div   className="py-1 bg-white">
                   <div className="row align-items-center">
                     <div className="col-2">
-                      <h2 className="mb-0 site-logo"><a href="index.html">Tutor<strong className="font-weight-bold">Finder</strong> </a></h2>
+                      <h2 className="mb-0 site-logo" style={{paddingLeft: "20%"}}><a href="/">Tutor<strong className="font-weight-bold">Finder</strong> </a></h2>
                     </div>
                     <div className="col-10">
                       <nav className="site-navigation text-right" role="navigation">
                         <div >
                           <div className="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" className="site-menu-toggle js-menu-toggle text-black"><span className="icon-menu h3"></span></a></div>
 
-                          <ul className="site-menu js-clone-nav d-none d-lg-block">
-                            <li><a href="categories.html">For Candidates</a></li>
+                          <ul className="site-menu js-clone-nav d-none d-lg-block" style={{paddingRight: "3%"}}>
                             <li><a href="/login">Login</a></li>
                             <li><a href="/register-student">Register For Student</a></li>
                             <li><a href="/register-tutor">Register For Tutor</a></li>
                             <li className="has-children">
-                              <a href="category.html">For Employees</a>
+                              {/*<a href="category.html">For Employees</a>
                               <ul className="dropdown arrow-top">
                                 <li><a href="category.html">Category</a></li>
                                 <li><a href="#">Browse Candidates</a></li>
@@ -58,10 +57,9 @@ class Header extends React.Component {
                                   </ul>
                                 </li>
 
-                              </ul>
+                              </ul>*/}
                             </li>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="new-post.html"><span className="bg-success text-white py-3 px-4 rounded"><span className="icon-plus mr-3"></span>Post New Job</span></a></li>
+                            {/*<li><a href="new-post.html"><span className="bg-success text-white py-3 px-4 rounded"><span className="icon-plus mr-3"></span>Post New Job</span></a></li>*/}
                           </ul>
                         </div>
                       </nav>
@@ -137,4 +135,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default  connect(mapStateToProps, mapDispatchToProps)(Header);
-

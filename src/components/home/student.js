@@ -343,9 +343,10 @@ class Student extends React.Component {
                               <img src="images/person_1.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#" className="text-success">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Tina Galloway</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>Math Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>Viet Nam</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
 
                         <div className="media-with-text">
@@ -354,9 +355,10 @@ class Student extends React.Component {
                               <img src="images/person_2.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#" className="text-success">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Stephanie Croft</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>English Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
 
                         <div className="media-with-text">
@@ -365,9 +367,10 @@ class Student extends React.Component {
                               <img src="images/person_3.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#" className="text-success">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Johnathon Estes</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>Biology Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>Canada</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
 
                         <div className="media-with-text">
@@ -376,9 +379,10 @@ class Student extends React.Component {
                               <img src="images/person_1.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#" className="text-success">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Tina Galloway</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>Math Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>Viet Nam</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
 
                         <div className="media-with-text">
@@ -387,9 +391,10 @@ class Student extends React.Component {
                               <img src="images/person_2.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#" className="text-success">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Stephanie Croft</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>English Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
 
                         <div className="media-with-text">
@@ -398,9 +403,10 @@ class Student extends React.Component {
                               <img src="images/person_3.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Johnathon Estes</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>Biology Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>Canada</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
 
                         <div className="media-with-text">
@@ -409,24 +415,22 @@ class Student extends React.Component {
                               <img src="images/person_1.jpg" alt="" className="img-fluid"></img>
                             </a>
                           </div>
-                          <h2 className="heading mb-0 h5"><a href="#">Jobs are made easy</a></h2>
-                          <span className="mb-3 d-block post-date">January 20, 2018 &bullet; By <a href="#">Josh Holmes</a></span>
-                          <p>I am a good tutor</p>
+                          <h2 className="heading mb-0 h5"><a href="#" className="text-success">Tina Galloway</a></h2>
+                          <div className="mr-3"><span className="icon-suitcase mr-1"></span>Math Teacher</div>
+                          <div className="mr-3"><span className="icon-room mr-1"></span>Viet Nam</div>
+                          <div><span className="icon-money mr-1"></span>$15 per hour</div>
                         </div>
-                    </div>
-
-                    <div className="row">
-
                     </div>
                   </div>
                 </div>
+
 
 
                 <div className="site-section site-block-feature bg-light">
                   <div className="container">
 
                     <div className="text-center mb-5 section-heading">
-                      <h2>Why Choose Us</h2>
+                      <h2>How does it work?</h2>
                     </div>
 
                     <div className="d-block d-md-flex border-bottom">
@@ -459,6 +463,7 @@ class Student extends React.Component {
                     </div>
                   </div>
                 </div>
+
 
 
                 <footer className="site-footer">
@@ -543,4 +548,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withRouter(Student));
-

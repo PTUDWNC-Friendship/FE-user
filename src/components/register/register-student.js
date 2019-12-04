@@ -197,7 +197,7 @@ render() {
               />
             </Grid>
             <Grid item xs={12} sm={12} >
-            <FormLabel component="legend">Gender</FormLabel>  
+            <FormLabel component="legend">Gender</FormLabel>
             <RadioGroup  defaultValue="female" name="gender" row>
               <FormControlLabel   value="female" control={<StyledRadio classes={classes} />} label="Female" />
               <FormControlLabel  value="male" control={<StyledRadio classes={classes} />} label="Male" />
@@ -234,7 +234,7 @@ render() {
                 required
                 fullWidth
                 name="retypepassword"
-                label="Retype Password"
+                label="Confirm Password"
                 type="password"
                 id="retypepassword"
                 autoComplete="current-password"
@@ -266,7 +266,7 @@ render() {
       </Box>
     </Container>
     </div>
-   
+
   );
 }
 }

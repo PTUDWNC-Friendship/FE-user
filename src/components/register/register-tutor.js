@@ -126,7 +126,7 @@ function StyledRadio(props) {
         $('#errorMsg').show();
       } else {
         $('#errorMsg').hide();
-  
+
         fetch(`https://jwtduyhau.herokuapp.com/user/register`, {
           method: 'POST',
           body: JSON.stringify({
@@ -139,7 +139,7 @@ function StyledRadio(props) {
       })
           .then(
             response => response.json(),
-  
+
             error => console.log('An error occurred.', error)
           )
           .then(json =>
@@ -150,7 +150,7 @@ function StyledRadio(props) {
               } else {
                 $('#errorMsgSer').show();
               }
-  
+
           }
           )
       }
@@ -196,7 +196,7 @@ function StyledRadio(props) {
               />
             </Grid>
             <Grid item xs={12} sm={12} >
-            <FormLabel component="legend">Gender</FormLabel>  
+            <FormLabel component="legend">Gender</FormLabel>
             <RadioGroup  defaultValue="female" name="customized-radios" row>
               <FormControlLabel   value="female" control={<StyledRadio classes={classes} />} label="Female" />
               <FormControlLabel  value="male" control={<StyledRadio  classes={classes} />} label="Male" />
@@ -232,7 +232,7 @@ function StyledRadio(props) {
                 required
                 fullWidth
                 name="retypepassword"
-                label="Retype Password"
+                label="Confirm Password"
                 type="password"
                 id="retypepassword"
                 autoComplete="current-password"
@@ -276,7 +276,7 @@ function StyledRadio(props) {
       </Box>
     </Container>
     </div>
-   
+
   );
 }
 }
