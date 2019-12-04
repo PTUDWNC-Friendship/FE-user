@@ -1,5 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
+import fetch from 'cross-fetch'
+import { withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -169,7 +171,7 @@ render() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form  className={classes.form} noValidate>
+        <form onSubmit={this.doRegister}  className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -196,7 +198,7 @@ render() {
             </Grid>
             <Grid item xs={12} sm={12} >
             <FormLabel component="legend">Gender</FormLabel>  
-            <RadioGroup  defaultValue="female" name="customized-radios" row>
+            <RadioGroup  defaultValue="female" name="gender" row>
               <FormControlLabel   value="female" control={<StyledRadio classes={classes} />} label="Female" />
               <FormControlLabel  value="male" control={<StyledRadio classes={classes} />} label="Male" />
               <FormControlLabel  value="other" control={<StyledRadio classes={classes} />} label="Other" />
@@ -207,9 +209,9 @@ render() {
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
+                id="username"
+                label="Username"
+                name="username"
                 autoComplete="email"
               />
             </Grid>
@@ -226,6 +228,18 @@ render() {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="retypepassword"
+                label="Retype Password"
+                type="password"
+                id="retypepassword"
+                autoComplete="current-password"
+              />
+            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -244,6 +258,8 @@ render() {
             </Grid>
           </Grid>
         </form >
+        <div className='error' id="errorMsg" style={{display: "none", color: "red", textAlign: "center"}} >Xin vui lòng nhập lại mật khẩu giống với mật khẩu đã nhập</div>
+      <div className='error' id="errorMsgSer" style={{display: "none", color: "red", textAlign: "center"}} >Có lỗi xảy ra</div>
       </div>
       <Box mt={5}>
         <Copyright />
@@ -257,4 +273,4 @@ render() {
 RegisterStudent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default withStyles(styles)(RegisterStudent);
+export default withStyles(styles)(withRouter(RegisterStudent));

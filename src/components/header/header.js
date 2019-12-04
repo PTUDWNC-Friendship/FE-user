@@ -1,16 +1,13 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import  {FiLogOut}  from "react-icons/fi";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import  {FiLogOut}  from "react-icons/fi";
 import * as action from '../../actions/user';
 
 class Header extends React.Component {
 
   constructor(props) {
     super(props);
-    const {stateLogins, fetchCurrent} = this.props;
-    fetchCurrent();
 
   }
 

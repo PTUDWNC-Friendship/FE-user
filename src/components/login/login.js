@@ -68,8 +68,8 @@ const styles = theme => ({
 
   constructor(props) {
     super(props);
-    const {stateLogins} = this.props;
-
+    const {stateLogins, fetchCurrent} = this.props;
+    fetchCurrent();
     if(stateLogins.user !== null) {   
       const {history} = this.props;
       history.push('/');
