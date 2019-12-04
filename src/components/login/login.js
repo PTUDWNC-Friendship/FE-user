@@ -74,9 +74,9 @@ const styles = theme => ({
       fetchSubmit(e.target.email.value, e.target.password.value),
       fetchCurrent(),
     ).then(() => {
-      const { actions, userLogin } = this.props;
-      if(userLogin.isFetching===false) {
-        if(userLogin.user===null) {
+      const {  stateLogins } = this.props;
+      if(stateLogins.isFetching===false) {
+        if(stateLogins.user===null) {
           $('#errorMsg').show();
         } else {
           const {history} = this.props;
@@ -174,7 +174,7 @@ const styles = theme => ({
 
 const mapStateToProps = (state) =>{
   return {
-  userLogin: state.login,
+  stateLogins: state.login,
   }
 };
 
