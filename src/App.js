@@ -33,7 +33,7 @@ function App() {
           <RegisterTutor />
         </Route>
         <Route path="/">
-          <Tutor />
+          <Guest />
         </Route>
         <Route path="/home-student">
           <Student />
