@@ -16,8 +16,9 @@ import Logout from './components/logout/logout';
 
 function App() {
   return (
+    
     <Router>
-
+      
       <Switch>
       <Route path="/logout">
           <Logout />

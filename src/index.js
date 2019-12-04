@@ -8,7 +8,7 @@ import './index.css';
 import App from './App';
 import  myReducer  from './reducers/index';
 import * as serviceWorker from './serviceWorker';
-
+import Header from './components/header/header';
 const loggerMiddleware = createLogger()
 
 const store = createStore(
@@ -20,7 +20,10 @@ const store = createStore(
 );
 
 ReactDOM.render( <Provider store={store}>
-    <App />
+  <Header />
+ 
+  <App />
+
 </Provider>, 
 document.getElementById('root'));
 

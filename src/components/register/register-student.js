@@ -72,7 +72,13 @@ const styles =theme => ({
     },
   },
   body: {
-    backgroundColor: 'gray',
+    paddingTop: '10vh',
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+    theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
     width: '100vw',
     height: '110vh',
   },

@@ -16,7 +16,7 @@ import { withStyles  } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchPostsLogin, fetchCurrentUser } from '../../actions/login';
+import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
 import $ from 'jquery';
 
 function Copyright() {
@@ -34,6 +34,7 @@ function Copyright() {
 
 const styles = theme => ({
   root: {
+    paddingTop: '10vh',
     height: '100vh',
   },
   image: {
