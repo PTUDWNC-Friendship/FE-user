@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +14,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles  } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { fetchPostsLogin, fetchCurrentUser } from '../../actions/login';
+import $ from 'jquery';
 
 function Copyright() {
   return (
@@ -60,6 +65,32 @@ const styles = theme => ({
 
  class Login extends React.Component {
 
+
+  handleSubmit = e => {
+    $('#idLoading').show();
+    e.preventDefault();
+    const { fetchSubmit, fetchCurrent } = this.props;
+    Promise.resolve(
+      fetchSubmit(e.target.email.value, e.target.password.value),
+      fetchCurrent(),
+    ).then(() => {
+      const { actions, userLogin } = this.props;
+      if(userLogin.isFetching===false) {
+        if(userLogin.user===null) {
+          $('#errorMsg').show();
+        } else {
+          const {history} = this.props;
+          
+          history.push('/');
+          $('#idLoading').hide();
+        }
+      } 
+
+    })
+
+
+  }
+
   render() {
     const { classes } = this.props;
   return (
@@ -74,7 +105,7 @@ const styles = theme => ({
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form onSubmit={()=>this.handleSubmit} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -126,14 +157,41 @@ const styles = theme => ({
               <Copyright />
             </Box>
           </form>
+          <div className='error' id="errorMsg" style={{display: "none", color: "red", textAlign: "center"}} >Incorrect email or password, please check again!</div>
+          <div className="d-flex justify-content-center">
+          <div
+              id="idLoading"
+              style={{ display: 'none' }}
+              className="spinner-border text-success"
+            />
+          </div>
         </div>
       </Grid>
     </Grid>
   );
   }
 }
+
+const mapStateToProps = (state) =>{
+  return {
+  userLogin: state.login,
+  }
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      fetchSubmit: fetchPostsLogin,
+      fetchCurrent: fetchCurrentUser
+    },
+    dispatch
+  );
+
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(withRouter(Login)));
