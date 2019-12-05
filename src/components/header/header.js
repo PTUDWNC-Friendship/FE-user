@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Link } from 'react-router-dom';
 import * as action from "../../actions/user";
 
 class Header extends React.Component {
@@ -27,12 +28,12 @@ class Header extends React.Component {
                       className="mb-0 site-logo"
                       style={{ paddingLeft: "20%" }}
                     >
-                      <a href="/">
+                      <Link to="/">
                         Tutor
                         <strong className="font-weight-bold">
                           Finder
                         </strong>{" "}
-                      </a>
+                      </Link>
                     </h2>
                   </div>
                   <div className="col-10">
@@ -42,12 +43,12 @@ class Header extends React.Component {
                     >
                       <div>
                         <div className="d-inline-block d-lg-none ml-md-0 mr-auto py-3">
-                          <a
-                            href="#"
+                          <Link
+                            to="/"
                             className="site-menu-toggle js-menu-toggle text-black"
                           >
                             <span className="icon-menu h3"></span>
-                          </a>
+                          </Link>
                         </div>
 
                         {stateLogins.user === null ? (
@@ -56,15 +57,15 @@ class Header extends React.Component {
                             style={{ paddingRight: "3%" }}
                           >
                             <li>
-                              <a href="/login">Login</a>
+                              <Link to="/login">Login</Link>
                             </li>
                             <li>
-                              <a href="/register-student">
+                              <Link to="/register-student">
                                 Register For Student
-                              </a>
+                              </Link>
                             </li>
                             <li>
-                              <a href="/register-tutor">Register For Tutor</a>
+                              <Link to="/register-tutor">Register For Tutor</Link>
                             </li>
                           </ul>
                         ) : (
@@ -73,9 +74,9 @@ class Header extends React.Component {
                             style={{ paddingRight: "3%" }}
                           >
                             <li>
-                              <a href="/" onClick={i => this.props.logout()}>
+                              <Link to="/" onClick={i => this.props.logout()}>
                                 Logout
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         )}

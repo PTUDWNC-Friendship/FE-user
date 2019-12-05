@@ -1,15 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createStore,applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import './index.css';
-import App from './App';
-import  myReducer  from './reducers/index';
-import * as serviceWorker from './serviceWorker';
-import Header from './components/header/header';
-const loggerMiddleware = createLogger()
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore, applyMiddleware } from "redux";
+import { createLogger } from "redux-logger";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router } from 'react-router-dom';
+import thunk from "redux-thunk";
+import "./index.css";
+import App from "./App";
+import myReducer from "./reducers/index";
+import * as serviceWorker from "./serviceWorker";
+import Header from "./components/header/header";
+const loggerMiddleware = createLogger();
 
 const store = createStore(
   myReducer,
@@ -21,13 +22,13 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Header />
-    <App />
+    <Router>
+      <Header />
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
-
-
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
