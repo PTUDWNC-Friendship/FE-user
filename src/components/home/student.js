@@ -61,7 +61,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="100">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/calculator.svg"></image>
+                            <img width="90" height="90" alt="" src="images/calculator.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Math</span>
@@ -70,7 +70,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="200">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/study.svg"></image>
+                            <img width="90" height="90" alt="" src="images/study.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Literature</span>
@@ -79,7 +79,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="300">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/dna.svg"></image>
+                            <img width="90" height="90" alt="" src="images/dna.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Biology</span>
@@ -88,7 +88,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="400">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/translate.svg"></image>
+                            <img width="90" height="90" alt="" src="images/translate.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Languages</span>
@@ -97,7 +97,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="500">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/global.svg"></image>
+                            <img width="90" height="90" alt="" src="images/global.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Geography</span>
@@ -106,7 +106,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="600">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/atom.svg"></image>
+                            <img width="90" height="90" alt="" src="images/atom.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Physics</span>
@@ -115,7 +115,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="700">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/chemistry.svg"></image>
+                            <img width="90" height="90" alt="" src="images/chemistry.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">Chemistry</span>
@@ -124,7 +124,7 @@ class Student extends React.Component {
                       <div className="col-sm-6 col-md-4 col-lg-3 mb-3" data-aos="fade-up" data-aos-delay="800">
                         <Link to="#" className="h-100 feature-item">
                           <span className="d-block icon mb-3">
-                            <image width="90" height="90" src="images/history.svg"></image>
+                            <img width="90" height="90" alt="" src="images/history.svg"></img>
                           </span>
                           <h2> </h2>
                           <span className="counting">History</span>
@@ -145,7 +145,7 @@ class Student extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_2.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -166,7 +166,7 @@ class Student extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_1.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_1.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -188,7 +188,7 @@ class Student extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_3.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_3.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -210,7 +210,7 @@ class Student extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center fulltime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_4.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_4.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -231,7 +231,7 @@ class Student extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center partime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/company_logo_blank.png" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/company_logo_blank.png" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -331,7 +331,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="image-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_1.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_1.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Tina Galloway</Link></h2>
@@ -343,7 +343,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_2.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_2.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Stephanie Croft</Link></h2>
@@ -355,7 +355,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_3.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_3.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Johnathon Estes</Link></h2>
@@ -367,7 +367,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_1.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_1.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Tina Galloway</Link></h2>
@@ -379,7 +379,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_2.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_2.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Stephanie Croft</Link></h2>
@@ -391,7 +391,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_3.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_3.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Johnathon Estes</Link></h2>
@@ -403,7 +403,7 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="#" className="image-play">
-                              <image src="images/person_1.jpg" alt="" className="img-fluid"></image>
+                              <img src="images/person_1.jpg" alt="" className="img-fluid"></img>
                             </Link>
                           </div>
                           <h2 className="heading mb-0 h5"><Link to="#" className="text-success">Tina Galloway</Link></h2>

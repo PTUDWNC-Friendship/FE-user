@@ -34,7 +34,7 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_2.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -55,7 +55,7 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_1.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_1.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -77,7 +77,7 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_3.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_3.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -99,7 +99,7 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center fulltime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/person_4.jpg" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/person_4.jpg" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
@@ -120,7 +120,7 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center partime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <image src="images/company_logo_blank.png" alt="Image" className="img-fluid mx-auto"></image>
+                              <img src="images/company_logo_blank.png" alt="" className="img-fluid mx-auto"></img>
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
