@@ -1,15 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import  {FiLogOut}  from "react-icons/fi";
 import * as action from '../../actions/user';
 
 class Header extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-  }
 
     render() {
       const {stateLogins} = this.props;

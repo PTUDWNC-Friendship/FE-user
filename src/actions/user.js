@@ -22,25 +22,22 @@ function requestLogin() {
     };
   }
 
-  export function fetchPostsLogin(usernameLogin, passwordLogin) {
+  export function fetchPostsLogin(username, password) {
     return function(dispatch) {
       dispatch(requestLogin());
-        console.log(usernameLogin, passwordLogin);
       return fetch(`https://jwtduyhau.herokuapp.com/user/login`, {
         method: 'POST',
         body: JSON.stringify({
-          username: usernameLogin,
-          password: passwordLogin
+          username: username,
+          password: password
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
       })
-        .then(
-          response => response.json(),
-
-          error => console.log('An error occurred.', error)
-        )
+        .then(response => {
+          console.log(response);
+        })
         .then(json => {
           if (json != null) {
             if (json.user != null) {
@@ -76,7 +73,6 @@ function requestLogin() {
   }
 
   export function logOut() {
-
     localStorage.removeItem('authToken');
     console.log(localStorage.getItem('authToken'));
     return function(dispatch) {
