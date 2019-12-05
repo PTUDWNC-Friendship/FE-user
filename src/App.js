@@ -4,45 +4,29 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import routes from './routes/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from "./components/login/login";
-import Student from "./components/home/student";
-import Tutor from "./components/home/tutor";
-import Guest from "./components/home/guest";
 import './App.css';
-import RegisterStudent from './components/register/student';
-import RegisterTutor from './components/register/tutor';
-import Logout from './components/logout/logout';
+
 function App() {
   return (
-
     <Router>
 
       <Switch>
-      <Route path="/logout">
-          <Logout />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/register-student">
-          <RegisterStudent />
-        </Route>
-        <Route path="/register-tutor">
-          <RegisterTutor />
-        </Route>
-        <Route path="/">
-          <Guest />
-        </Route>
-        <Route path="/home-student">
-          <Student />
-        </Route>
-        <Route path="/home-tutor">
-          <Tutor />
-        </Route>
+        { 
+          routes.map((route, index) => {
+            return (
+              <Route 
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                component={route.main}
+              />
+            );
+          })
+        }
       </Switch>
-
-  </Router>
+    </Router>
   );
 }
 
