@@ -7,12 +7,6 @@ import Header from '../header/header';
 
 class Guest extends React.Component {
 
-  constructor(props) {
-    super(props);
-    const {stateLogins, fetchCurrent} = this.props;
-    fetchCurrent();
-  }
-
     render() {
         return (
             <div>

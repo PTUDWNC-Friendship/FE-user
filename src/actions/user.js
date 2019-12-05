@@ -40,6 +40,8 @@ function requestLogin() {
         .then(user => {
           if (user != null) {
                localStorage.setItem('authToken', user.token);
+               localStorage.setItem('user', JSON.stringify(user));
+
                dispatch(getCurrentUser(user));
             dispatch(receiveLogin(user));
           }
@@ -50,16 +52,19 @@ function requestLogin() {
   export function fetchCurrentUser() {
     if (localStorage.getItem('authToken') != null) {
       return function(dispatch) {
-        return fetch(`https://jwtduyhau.herokuapp.com/me`, {
+        return fetch(`https://uberfortutor-server-user.herokuapp.com/me`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`
           }
         })
           .then(response => response.json())
-          .then(json => {
-            dispatch(getCurrentUser(json));
+          .then(user => {
+            localStorage.setItem('user', JSON.stringify(user));
+            dispatch(getCurrentUser(user));
           })
           .catch(err => {
+            dispatch(getCurrentUser(null));
+            localStorage.removeItem('user');
             console.log(err);
           });
       };
@@ -70,8 +75,9 @@ function requestLogin() {
   }
 
   export function logOut() {
+    localStorage.removeItem('user');
     localStorage.removeItem('authToken');
-    console.log(localStorage.getItem('authToken'));
+   
     return function(dispatch) {
       dispatch(getCurrentUser(null));
     };

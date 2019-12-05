@@ -8,7 +8,24 @@ const stateLogin = {
     isLogin: false,
   };
 
-const loginReducer = (state = stateLogin, action) =>{
+  const getUserState =  GetInitialState(stateLogin);
+
+  function GetInitialState(stateLogin) {
+
+
+    var user = JSON.parse(localStorage.getItem('user'));
+    if (user !== null) {
+        return {
+            ...stateLogin,
+            user: user,
+        }
+    } else {
+        return stateLogin;
+    }
+
+}
+
+const loginReducer = (state = getUserState, action) =>{
     switch (action.type) {
         case types.REQUEST_LOGIN:
 

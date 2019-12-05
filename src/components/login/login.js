@@ -68,21 +68,21 @@ const styles = theme => ({
 
   constructor(props) {
     super(props);
-    const {stateLogins, fetchCurrent} = this.props;
-    fetchCurrent();
+    const {stateLogins} = this.props;
     if(stateLogins.user !== null) {   
       const {history} = this.props;
       history.push('/');
     } 
+   
+  
   }
 
   handleSubmit = e => {
     $('#idLoading').show();
     e.preventDefault();
-    const { fetchSubmit, fetchCurrent } = this.props;
+    const { fetchSubmit } = this.props;
     Promise.resolve(
       fetchSubmit(e.target.email.value, e.target.password.value),
-      fetchCurrent(),
     ).then(() => {
       const {  stateLogins } = this.props;
       if(stateLogins.isFetching===false) {
@@ -102,6 +102,7 @@ const styles = theme => ({
   }
 
   render() {
+    
     const { classes } = this.props;
   return (
     <Grid container component="main" className={classes.root}>
