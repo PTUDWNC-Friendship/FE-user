@@ -268,16 +268,6 @@ class RegisterTutor extends React.Component {
                     autoComplete="current-password"
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="title"
-                    label="Title"
-                    id="title"
-                  />
-                </Grid>
               </Grid>
               <Button
                 type="submit"

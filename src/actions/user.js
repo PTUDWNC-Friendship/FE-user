@@ -25,7 +25,7 @@ function requestLogin() {
   export function fetchPostsLogin(username, password) {
     return function(dispatch) {
       dispatch(requestLogin());
-      return fetch(`https://jwtduyhau.herokuapp.com/user/login`, {
+      return fetch(`https://uberfortutor-server-user.herokuapp.com/user/login`, {
         method: 'POST',
         body: JSON.stringify({
           username: username,
@@ -35,16 +35,13 @@ function requestLogin() {
           'Content-type': 'application/json; charset=UTF-8'
         }
       })
-        .then(response => {
-          console.log(response);
-        })
-        .then(json => {
-          if (json != null) {
-            if (json.user != null) {
-              localStorage.setItem('authToken', json.token);
-              dispatch(getCurrentUser(json));
-            }
-            dispatch(receiveLogin(json));
+        .then(response => response.json()
+        )
+        .then(user => {
+          if (user != null) {
+               localStorage.setItem('authToken', user.token);
+               dispatch(getCurrentUser(user));
+            dispatch(receiveLogin(user));
           }
         });
     };

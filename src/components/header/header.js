@@ -74,7 +74,7 @@ class Header extends React.Component {
                             style={{ paddingRight: "3%" }}
                           >
                             <li>
-                              <Link to="/logout" onClick={i => this.props.logout()}>
+                              <Link to="/logout" >
                                 Logout
                               </Link>
                             </li>
