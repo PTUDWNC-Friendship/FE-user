@@ -23,10 +23,7 @@ nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 /*end reset*
  */
-body{
-	background: url(../images/bg1.png);
-	font-family: "Century Gothic",Arial, Helvetica, sans-serif;
-	}
+
 .content p{
 	margin: 18px 0px 45px 0px;
 }

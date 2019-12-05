@@ -19,15 +19,13 @@ const store = createStore(
   )
 );
 
-ReactDOM.render( <Provider store={store}>
-
-
-  <Header /> 
- 
-  <App />
-
-</Provider>, 
-document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Header />
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 
 
 

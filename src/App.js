@@ -11,7 +11,6 @@ import './App.css';
 function App() {
   return (
     <Router>
-
       <Switch>
         { 
           routes.map((route, index) => {
