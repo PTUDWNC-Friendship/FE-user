@@ -124,7 +124,7 @@ function StyledRadio(props) {
   );
 }
 
-class RegisterStudent extends React.Component {
+class Register extends React.Component {
   doRegister = e => {
     e.preventDefault();
     if (
@@ -135,10 +135,13 @@ class RegisterStudent extends React.Component {
     } else {
       $("#errorMsg").hide();
 
-      fetch(`https://jwtduyhau.herokuapp.com/user/register`, {
+      fetch(`https://uberfortutor-server-user.herokuapp.com/user/register`, {
         method: "POST",
         body: JSON.stringify({
           username: e.target.username.value,
+          firstName: e.target.firstName.value,
+          lastName: e.target.lastName.value,
+          gender: e.target.gender.value,
           password: e.target.password.value
         }),
         headers: {
@@ -333,8 +336,8 @@ class RegisterStudent extends React.Component {
   }
 }
 
-RegisterStudent.propTypes = {
+Register.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withRouter(RegisterStudent));
+export default withStyles(styles)(withRouter(Register));

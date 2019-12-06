@@ -4,7 +4,7 @@ import Student from '../components/home/student';
 import Tutor from '../components/home/tutor';
 import Login from '../components/login/login';
 import NotFound from '../components/notfound/notfound';
-import RegisterStudent from '../components/register/student';
+import Register from '../components/register/register';
 import RegisterTutor from '../components/register/tutor';
 import RolePicking from '../components/login/role';
 import Logout from '../components/logout/logout';
@@ -31,9 +31,9 @@ const routes = [
         main: () => <Login />
     },
     {
-        path: "/register-student",
+        path: "/register",
         exact: false,
-        main: () => <RegisterStudent />
+        main: () => <Register />
     },
     {
         path: "/register-tutor",

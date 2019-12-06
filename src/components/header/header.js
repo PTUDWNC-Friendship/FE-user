@@ -60,13 +60,13 @@ class Header extends React.Component {
                               <Link to="/login">Login</Link>
                             </li>
                             <li>
-                              <Link to="/register-student">
-                                Register For Student
+                              <Link to="/register">
+                                Register
                               </Link>
                             </li>
-                            <li>
+                            {/* <li>
                               <Link to="/register-tutor">Register For Tutor</Link>
-                            </li>
+                            </li> */}
                           </ul>
                         ) : (
                           <ul

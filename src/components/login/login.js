@@ -73,7 +73,12 @@ const styles = theme => ({
     const {stateLogins} = this.props;
     if(stateLogins.user !== null) {
       const {history} = this.props;
-      history.push('/');
+      if(stateLogins.user.role==='tutor') {
+        history.push('/home-tutor');
+      }
+      if(stateLogins.user.role==='student') {
+        history.push('/home-student');
+      }
     }
 
 
@@ -93,9 +98,18 @@ const styles = theme => ({
           $('#idLoading').hide();
         } else {
           const {history} = this.props;
-
-          history.push('/');
-          $('#idLoading').hide();
+          if(stateLogins.user.role===null) {
+            history.push('/roles');
+            $('#idLoading').hide();
+          } else {
+            if(stateLogins.user.role==='tutor') {
+              history.push('/home-tutor');
+            }
+            if(stateLogins.user.role==='student') {
+              history.push('/home-student');
+            }
+            $('#idLoading').hide();
+          }
         }
       }
 
