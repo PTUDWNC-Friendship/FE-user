@@ -175,6 +175,7 @@ const styles = theme => ({
             </Grid>
             <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-end" >                           
                 <FacebookLogin
+
                     autoLoad={false}
                     appId="2538620279701791"
                     fields="name,email,picture"
@@ -184,7 +185,8 @@ const styles = theme => ({
                     </i>}
                     textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
                     />
-                    <GoogleLogin
+                    <button
+                    
                         clientId=""
                         // onSuccess={this.props.SocialSignUp}
                         // onFailure={this.props.SocialSignUp}
@@ -193,7 +195,7 @@ const styles = theme => ({
                         <i className="fa fa-google-plus" style={{ marginLeft: 
                         '5px' }}/> 
                         <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
-                    </GoogleLogin>
+                    </button>
             </div>
             <Box mt={5}>
               <Copyright />
