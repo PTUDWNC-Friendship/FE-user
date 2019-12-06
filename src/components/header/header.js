@@ -13,10 +13,10 @@ class Header extends React.Component {
         <div className="site-mobile-menu">
           <div className="site-mobile-menu-header">
             <div className="site-mobile-menu-close mt-3">
-              <span className="icon-close2 js-menu-toggle"></span>
+              <span className="icon-close2 js-menu-toggle" />
             </div>
           </div>
-          <div className="site-mobile-menu-body"></div>
+          <div className="site-mobile-menu-body" />
         </div>
         <div className="site-navbar-wrap js-site-navbar bg-white">
           <div>
@@ -47,7 +47,7 @@ class Header extends React.Component {
                             to="/"
                             className="site-menu-toggle js-menu-toggle text-black"
                           >
-                            <span className="icon-menu h3"></span>
+                            <span className="icon-menu h3" />
                           </Link>
                         </div>
 

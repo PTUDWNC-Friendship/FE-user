@@ -17,9 +17,9 @@ import { withStyles  } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
 import $ from 'jquery';
-import './style.css'
+import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
+import './style.css';
 
 function Copyright() {
   return (
@@ -71,12 +71,12 @@ const styles = theme => ({
   constructor(props) {
     super(props);
     const {stateLogins} = this.props;
-    if(stateLogins.user !== null) {   
+    if(stateLogins.user !== null) {
       const {history} = this.props;
       history.push('/');
-    } 
-   
-  
+    }
+
+
   }
 
   handleSubmit = e => {
@@ -93,13 +93,13 @@ const styles = theme => ({
           $('#idLoading').hide();
         } else {
           const {history} = this.props;
-          
+
           history.push('/');
           $('#idLoading').hide();
         }
-      } 
+      }
 
-    })
+    });
 
 
   }
@@ -107,7 +107,8 @@ const styles = theme => ({
   render() {
     const responseFacebook = (response) => {
       console.log(response);
-    }
+    };
+
     const { classes } = this.props;
   return (
     <Grid container component="main" className={classes.root}>
@@ -162,7 +163,21 @@ const styles = theme => ({
               Sign In
             </Button>
 
-            <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-end" >                           
+            <Grid container style={{height: "80px"}}>
+              <Grid item xs>
+                <Link href="/" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/register-tutor" variant="body2">
+                  Don&apos;t have an account? Sign Up
+                </Link>
+              </Grid>
+            </Grid>
+
+
+            <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-center" >
                 <FacebookLogin
 
                     autoLoad={false}
@@ -170,34 +185,20 @@ const styles = theme => ({
                     fields="name,email,picture"
                     callback={responseFacebook}
                     cssClass="btnFacebook"
-                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}}>
-                    </i>}
-                    textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
+                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}} />}
+                    textButton = "&nbsp;&nbsp;Sign In with Facebook"
                     />
                     <a href="javascript;">
                       <button
                       type="button"
                       className="btnGoogle"
                       >
-                      <i className="fa fa-google-plus" style={{ marginLeft: 
-                      '5px' }}/> 
-                      <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
+                      <i className="fa fa-google-plus" style={{ marginLeft:
+                      '5px' }}/>
+                      <span>&nbsp;&nbsp;Sign In with Google</span>
                       </button>
                     </a>
             </div>
-
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register-tutor" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
 
             <Box mt={5}>
               <Copyright />
@@ -227,7 +228,7 @@ const styles = theme => ({
 const mapStateToProps = (state) =>{
   return {
   stateLogins: state.login,
-  }
+};
 };
 
 const mapDispatchToProps = dispatch =>
