@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -41,7 +40,7 @@ const styles = theme => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://source.unsplash.com/featured/?programming,education)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
@@ -91,6 +90,7 @@ const styles = theme => ({
       if(stateLogins.isFetching===false) {
         if(stateLogins.user===null) {
           $('#errorMsg').show();
+          $('#idLoading').hide();
         } else {
           const {history} = this.props;
           
@@ -161,18 +161,7 @@ const styles = theme => ({
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register-tutor" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+
             <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-end" >                           
                 <FacebookLogin
 
@@ -185,18 +174,31 @@ const styles = theme => ({
                     </i>}
                     textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
                     />
-                    <button
-                    
-                        clientId=""
-                        // onSuccess={this.props.SocialSignUp}
-                        // onFailure={this.props.SocialSignUp}
-                        className="btnGoogle"
-                    >
-                        <i className="fa fa-google-plus" style={{ marginLeft: 
-                        '5px' }}/> 
-                        <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
-                    </button>
+                    <a href="javascript;">
+                      <button
+                      type="button"
+                      className="btnGoogle"
+                      >
+                      <i className="fa fa-google-plus" style={{ marginLeft: 
+                      '5px' }}/> 
+                      <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
+                      </button>
+                    </a>
             </div>
+
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/register-tutor" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+
             <Box mt={5}>
               <Copyright />
             </Box>

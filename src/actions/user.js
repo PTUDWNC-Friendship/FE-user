@@ -37,15 +37,20 @@ function requestLogin() {
       })
         .then(response => response.json()
         )
-        .then(user => {
-          if (user != null) {
-               localStorage.setItem('authToken', user.token);
-               localStorage.setItem('user', JSON.stringify(user));
+        .then(json => {
+          if (json.user !== false) {
+               localStorage.setItem('authToken', json.token);
+               localStorage.setItem('user', JSON.stringify(json));
 
-               dispatch(getCurrentUser(user));
-            dispatch(receiveLogin(user));
+               dispatch(getCurrentUser(json));
+              dispatch(receiveLogin(json));
+          } else {
+            dispatch(getCurrentUser(null));
+            dispatch(receiveLogin(json));
           }
-        });
+        }).catch(err=>{
+          dispatch(getCurrentUser(null));
+        })
     };
   }
 

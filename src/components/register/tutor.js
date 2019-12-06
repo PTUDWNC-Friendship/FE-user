@@ -4,7 +4,6 @@ import fetch from "cross-fetch";
 import { withRouter } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -80,7 +79,7 @@ const styles = theme => ({
   },
   body: {
     paddingTop: "10vh",
-    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundImage: "url(https://source.unsplash.com/featured/?programming,education)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "dark"
@@ -281,6 +280,29 @@ class RegisterTutor extends React.Component {
               >
                 Sign Up
               </Button>
+              <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-end" >                           
+                <FacebookLogin
+                    appId=""
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    // callback={this.props.SocialSignUp}
+                    cssClass="btnFacebook"
+                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}}>
+                    </i>}
+                    textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
+                    />
+                    <a href="javascript;">
+                    <button
+                        type="button"
+                        // onSuccess={this.props.SocialSignUp}
+                        // onFailure={this.props.SocialSignUp}
+                        className="btnGoogle">
+                        <i className="fa fa-google-plus" style={{ marginLeft: 
+                        '5px' }}/> 
+                        <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
+                    </button>
+                    </a>
+            </div>
               <Grid container justify="flex-end">
                 <Grid item>
                   <Link href="#" variant="body2">
@@ -304,28 +326,6 @@ class RegisterTutor extends React.Component {
               Có lỗi xảy ra
             </div>
           </div>
-          <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-end" >                           
-                <FacebookLogin
-                    appId=""
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    // callback={this.props.SocialSignUp}
-                    cssClass="btnFacebook"
-                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}}>
-                    </i>}
-                    textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
-                    />
-                    <GoogleLogin
-                        clientId=""
-                        // onSuccess={this.props.SocialSignUp}
-                        // onFailure={this.props.SocialSignUp}
-                        className="btnGoogle"
-                    >
-                        <i className="fa fa-google-plus" style={{ marginLeft: 
-                        '5px' }}/> 
-                        <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
-                    </GoogleLogin>
-            </div>
           <Box mt={5}>
             <Copyright />
           </Box>
