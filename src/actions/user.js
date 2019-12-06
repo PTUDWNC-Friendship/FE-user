@@ -28,8 +28,8 @@ function requestLogin() {
       return fetch(`https://uberfortutor-server-user.herokuapp.com/user/login`, {
         method: 'POST',
         body: JSON.stringify({
-          username: username,
-          password: password
+          username,
+          password
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
@@ -50,7 +50,7 @@ function requestLogin() {
           }
         }).catch(err=>{
           dispatch(getCurrentUser(null));
-        })
+        });
     };
   }
 
@@ -82,7 +82,7 @@ function requestLogin() {
   export function logOut() {
     localStorage.removeItem('user');
     localStorage.removeItem('authToken');
-   
+
     return function(dispatch) {
       dispatch(getCurrentUser(null));
     };

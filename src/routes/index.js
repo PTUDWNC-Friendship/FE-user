@@ -6,7 +6,8 @@ import Login from '../components/login/login';
 import NotFound from '../components/notfound/notfound';
 import RegisterStudent from '../components/register/student';
 import RegisterTutor from '../components/register/tutor';
-import Logout from '../components/logout/logout'
+import RolePicking from '../components/login/role';
+import Logout from '../components/logout/logout';
 
 const routes = [
     {
@@ -38,6 +39,11 @@ const routes = [
         path: "/register-tutor",
         exact: false,
         main: () => <RegisterTutor />
+    },
+    {
+        path: "/roles",
+        exact: false,
+        main: () => <RolePicking />
     },
     {
         path: "/logout",

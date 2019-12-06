@@ -27,7 +27,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Friendship
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -277,16 +277,24 @@ class RegisterStudent extends React.Component {
               >
                 Sign Up
               </Button>
-              <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-end" >                           
+
+              <Grid container justify="flex-end" style={{height: "50px"}}>
+                <Grid item>
+                  <Link href="/" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+
+              <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-center" >
                 <FacebookLogin
                     appId=""
                     autoLoad={false}
                     fields="name,email,picture"
                     // callback={this.props.SocialSignUp}
                     cssClass="btnFacebook"
-                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}}>
-                    </i>}
-                    textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
+                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}} />}
+                    textButton = "&nbsp;&nbsp;Sign In with Facebook"
                     />
                     <a href="javascript;">
                     <button
@@ -294,19 +302,12 @@ class RegisterStudent extends React.Component {
                         // onSuccess={this.props.SocialSignUp}
                         // onFailure={this.props.SocialSignUp}
                         className="btnGoogle">
-                        <i className="fa fa-google-plus" style={{ marginLeft: 
-                        '5px' }}/> 
-                        <span>&nbsp;&nbsp;Sign In with Google</span>                                                               
+                        <i className="fa fa-google-plus" style={{ marginLeft:
+                        '5px' }}/>
+                        <span>&nbsp;&nbsp;Sign In with Google</span>
                     </button>
                     </a>
-            </div>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Grid>
+              </div>
             </form>
             <div
               className="error"

@@ -293,7 +293,8 @@ class Guest extends React.Component {
                         <h1 className="h3 mb-0">Your Future</h1>
                         <p className="h3 text-white mb-5">Is Waiting Ahead</p>
                         <p>
-                          <Link to="/register-student" className="btn btn-outline-warning py-3 px-4">Find Tutors</Link>
+                          <Link to="/register-student" className="btn btn-outline-warning py-3 px-4"> Find Tutors</Link>
+                          <p />
                           <Link to="/register-tutor" className="btn btn-warning py-3 px-4">Apply For A Tutor</Link>
                         </p>
 

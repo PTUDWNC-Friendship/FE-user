@@ -10,6 +10,7 @@ import App from "./App";
 import myReducer from "./reducers/index";
 import * as serviceWorker from "./serviceWorker";
 import Header from "./components/header/header";
+
 const loggerMiddleware = createLogger();
 
 const store = createStore(

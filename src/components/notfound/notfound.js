@@ -5,8 +5,8 @@ import { Icon } from "antd";
 class NotFound extends Component {
   render() {
     return (
-      <div class="wrap bg-dark">
-        <div class="content">
+      <div className="wrap bg-dark">
+        <div className="content">
           <div style={{textAlign: "center", paddingTop: "200px"}}>
             <img src="images/error-img.png" alt="" title="error" />
             <div className="mt-5">

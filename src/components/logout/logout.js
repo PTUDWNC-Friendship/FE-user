@@ -14,6 +14,7 @@ class Logout extends React.Component {
       logOut();
       // const { history } = this.props;
   }
+
   render() {
 
     return(
@@ -25,10 +26,10 @@ class Logout extends React.Component {
 const mapStateToProps = (state) =>{
   return {
   stateLogins: state.login
-  }
+};
 };
 
-const mapDispatchToProps = (dispatch) => 
+const mapDispatchToProps = (dispatch) =>
 bindActionCreators(
   {
     logOut: action.logOut
@@ -36,4 +37,4 @@ bindActionCreators(
   dispatch
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Logout))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Logout));

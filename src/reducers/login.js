@@ -8,22 +8,22 @@ const stateLogin = {
     isLogin: false,
   };
 
-  const getUserState =  GetInitialState(stateLogin);
-
-  function GetInitialState(stateLogin) {
 
 
-    var user = JSON.parse(localStorage.getItem('user'));
+function GetInitialState() {
+
+
+    const user = JSON.parse(localStorage.getItem('user'));
     if (user !== null) {
         return {
             ...stateLogin,
-            user: user,
-        }
-    } else {
-        return stateLogin;
+            user,
+        };
     }
-
+        return stateLogin;
 }
+
+const getUserState =  GetInitialState(stateLogin);
 
 const loginReducer = (state = getUserState, action) =>{
     switch (action.type) {
@@ -32,21 +32,21 @@ const loginReducer = (state = getUserState, action) =>{
             return {...state,
                 isFetching: true,
                 didInvalidate: false,
-                
+
             };
         case types.RECEIVE_LOGIN:
             return {...state,
                 isFetching: false,
                 didInvalidate: false,
                 userAuth: action.stateLogin
-        
-        }
+
+        };
         case types.GET_CURRENT_USER:
-            return { ...state, 
-                user: action.user, 
-                isLogin: true 
+            return { ...state,
+                user: action.user,
+                isLogin: true
             };
         default: return state;
     }
-}
+};
 export default loginReducer;

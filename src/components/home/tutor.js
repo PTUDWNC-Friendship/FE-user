@@ -8,7 +8,7 @@ class Tutor extends React.Component {
             <div className="site-wrap">
 
 
-                <div style={{height: "113px"}}></div>
+                <div style={{height: "113px"}} />
 
                 <div className="site-blocks-cover overlay" data-aos="fade" data-stellar-background-ratio="0.5" style={{backgroundImage: "url('images/tutor-1.jpg')"}}>
                   <div className="container">
@@ -34,15 +34,15 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
+                              <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto" />
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
                                 <h3>Stephanie Croft</h3>
                                 <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>10th grade</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                                  <div className="mr-3"><span className="icon-suitcase mr-1" />10th grade</div>
+                                  <div className="mr-3"><span className="icon-room mr-1" />America</div>
+                                  <div><span className="icon-money mr-1" />$15 per hour</div>
                                 </div>
                               </div>
                             </div>
@@ -55,15 +55,15 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_1.jpg" alt="" className="img-fluid mx-auto"></img>
+                              <img src="images/person_1.jpg" alt="" className="img-fluid mx-auto" />
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
                                 <h3>Tina Galloway</h3>
                                 <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>11th grade</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>Viet Nam</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                                  <div className="mr-3"><span className="icon-suitcase mr-1" />11th grade</div>
+                                  <div className="mr-3"><span className="icon-room mr-1" />Viet Nam</div>
+                                  <div><span className="icon-money mr-1" />$15 per hour</div>
                                 </div>
                               </div>
                             </div>
@@ -77,15 +77,15 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_3.jpg" alt="" className="img-fluid mx-auto"></img>
+                              <img src="images/person_3.jpg" alt="" className="img-fluid mx-auto" />
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
                                 <h3>Johnathon Estes</h3>
                                 <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>10th grade</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>Canada</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                                  <div className="mr-3"><span className="icon-suitcase mr-1" />10th grade</div>
+                                  <div className="mr-3"><span className="icon-room mr-1" />Canada</div>
+                                  <div><span className="icon-money mr-1" />$15 per hour</div>
                                 </div>
                               </div>
                             </div>
@@ -99,15 +99,15 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center fulltime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_4.jpg" alt="" className="img-fluid mx-auto"></img>
+                              <img src="images/person_4.jpg" alt="" className="img-fluid mx-auto" />
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
                                 <h3>Derrick Walls</h3>
                                 <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>11th grade</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                                  <div className="mr-3"><span className="icon-suitcase mr-1" />11th grade</div>
+                                  <div className="mr-3"><span className="icon-room mr-1" />America</div>
+                                  <div><span className="icon-money mr-1" />$15 per hour</div>
                                 </div>
                               </div>
                             </div>
@@ -120,15 +120,15 @@ class Tutor extends React.Component {
 
                           <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center partime">
                             <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/company_logo_blank.png" alt="" className="img-fluid mx-auto"></img>
+                              <img src="images/company_logo_blank.png" alt="" className="img-fluid mx-auto" />
                             </div>
                             <div className="job-details h-100">
                               <div className="p-3 align-self-center">
                                 <h3>Frank Ridley</h3>
                                 <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>12th grade</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                                  <div className="mr-3"><span className="icon-suitcase mr-1" />12th grade</div>
+                                  <div className="mr-3"><span className="icon-room mr-1" />America</div>
+                                  <div><span className="icon-money mr-1" />$15 per hour</div>
                                 </div>
                               </div>
                             </div>
@@ -143,7 +143,7 @@ class Tutor extends React.Component {
                         </div>
 
                         <div className="col-md-12 text-center mt-5">
-                          <Link to="/" className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle"></span> Load More</Link>
+                          <Link to="/" className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle" /> Load More</Link>
                         </div>
                       </div>
                       <div className="col-md-4 block-16" data-aos="fade-up" data-aos-delay="200">
@@ -158,9 +158,9 @@ class Tutor extends React.Component {
                             <h2 className="h5">Randall Guzman</h2>
                             <p><span className="text-info p-2 rounded border border-info">80% Contract</span></p>
                             <p>
-                              <span className="d-block"><span className="icon-suitcase"></span>  10th grade</span>
-                              <span className="d-block"><span className="icon-room"></span>  America</span>
-                              <span className="d-block"><span className="icon-money mr-1"></span> $30 per hour</span>
+                              <span className="d-block"><span className="icon-suitcase" />  10th grade</span>
+                              <span className="d-block"><span className="icon-room" />  America</span>
+                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
                             </p>
                             <p className="mb-0">I am a good tutor</p>
                           </div>
@@ -169,9 +169,9 @@ class Tutor extends React.Component {
                             <h2 className="h5">Emilee Mayer</h2>
                             <p><span className="text-info p-2 rounded border border-info">80% Contract</span></p>
                             <p>
-                              <span className="d-block"><span className="icon-suitcase"></span>  11th grade</span>
-                              <span className="d-block"><span className="icon-room"></span>  America</span>
-                              <span className="d-block"><span className="icon-money mr-1"></span> $30 per hour</span>
+                              <span className="d-block"><span className="icon-suitcase" />  11th grade</span>
+                              <span className="d-block"><span className="icon-room" />  America</span>
+                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
                             </p>
                             <p className="mb-0">I am a good tutor</p>
                           </div>
@@ -180,9 +180,9 @@ class Tutor extends React.Component {
                             <h2 className="h5">Prof. Brayden Hines</h2>
                             <p><span className="text-info p-2 rounded border border-info">80% Contract</span></p>
                             <p>
-                              <span className="d-block"><span className="icon-suitcase"></span>  12th grade</span>
-                              <span className="d-block"><span className="icon-room"></span>  Canada</span>
-                              <span className="d-block"><span className="icon-money mr-1"></span> $30 per hour</span>
+                              <span className="d-block"><span className="icon-suitcase" />  12th grade</span>
+                              <span className="d-block"><span className="icon-room" />  Canada</span>
+                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
                             </p>
                             <p className="mb-0">I am a good tutor</p>
                           </div>
@@ -191,9 +191,9 @@ class Tutor extends React.Component {
                             <h2 className="h5">Dr. Petra Mays</h2>
                             <p><span className="text-info p-2 rounded border border-info">80% Contract</span></p>
                             <p>
-                              <span className="d-block"><span className="icon-suitcase"></span>  11th grade</span>
-                              <span className="d-block"><span className="icon-room"></span>  Spain</span>
-                              <span className="d-block"><span className="icon-money mr-1"></span> $30 per hour</span>
+                              <span className="d-block"><span className="icon-suitcase" />  11th grade</span>
+                              <span className="d-block"><span className="icon-room" />  Spain</span>
+                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
                             </p>
                             <p className="mb-0">I am a good tutor</p>
                           </div>
@@ -213,30 +213,30 @@ class Tutor extends React.Component {
 
                   <div className="d-block d-md-flex border-bottom">
                     <div className="text-center p-4 item border-right" data-aos="fade">
-                      <span className="flaticon-worker display-3 mb-3 d-block text-success"></span>
+                      <span className="flaticon-worker display-3 mb-3 d-block text-success" />
                       <h2 className="h4">Will Be Updated</h2>
                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small"></span></Link></p>
+                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
                     </div>
                     <div className="text-center p-4 item" data-aos="fade">
-                      <span className="flaticon-wrench display-3 mb-3 d-block text-success"></span>
+                      <span className="flaticon-wrench display-3 mb-3 d-block text-success" />
                       <h2 className="h4">Will Be Updated</h2>
                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small"></span></Link></p>
+                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
                     </div>
                   </div>
                   <div className="d-block d-md-flex">
                     <div className="text-center p-4 item border-right" data-aos="fade">
-                      <span className="flaticon-stethoscope display-3 mb-3 d-block text-success"></span>
+                      <span className="flaticon-stethoscope display-3 mb-3 d-block text-success" />
                       <h2 className="h4">Will Be Updated</h2>
                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small"></span></Link></p>
+                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
                     </div>
                     <div className="text-center p-4 item" data-aos="fade">
-                      <span className="flaticon-calculator display-3 mb-3 d-block text-success"></span>
+                      <span className="flaticon-calculator display-3 mb-3 d-block text-success" />
                       <h2 className="h4">Will Be Updated</h2>
                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small"></span></Link></p>
+                      <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
                     </div>
                   </div>
                   </div>
@@ -286,19 +286,17 @@ class Tutor extends React.Component {
                         <div className="col-md-12"><h3 className="footer-heading mb-4 text-white">Social Icons</h3></div>
                           <div className="col-md-12">
                             <p>
-                              <Link to="/" className="pb-2 pr-2 pl-0"><span className="icon-facebook"></span></Link>
-                              <Link to="/" className="p-2"><span className="icon-twitter"></span></Link>
-                              <Link to="/" className="p-2"><span className="icon-instagram"></span></Link>
-                              <Link to="/" className="p-2"><span className="icon-vimeo"></span></Link>
+                              <Link to="/" className="pb-2 pr-2 pl-0"><span className="icon-facebook" /></Link>
+                              <Link to="/" className="p-2"><span className="icon-twitter" /></Link>
+                              <Link to="/" className="p-2"><span className="icon-instagram" /></Link>
+                              <Link to="/" className="p-2"><span className="icon-vimeo" /></Link>
 
                             </p>
                           </div>
                       </div>
                     </div>
                     <div className="row pt-5 mt-5 text-center">
-                      <div className="col-md-12">
-
-                      </div>
+                      <div className="col-md-12" />
 
                     </div>
                   </div>
