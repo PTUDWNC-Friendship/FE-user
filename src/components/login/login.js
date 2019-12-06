@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
+import FacebookLogin from 'react-facebook-login';
 import $ from 'jquery';
 
 function Copyright() {
@@ -102,7 +103,9 @@ const styles = theme => ({
   }
 
   render() {
-    
+    const responseFacebook = (response) => {
+      console.log(response);
+    }
     const { classes } = this.props;
   return (
     <Grid container component="main" className={classes.root}>
@@ -116,7 +119,11 @@ const styles = theme => ({
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form onSubmit={this.handleSubmit} className={classes.form} noValidate>
+          <form
+            onSubmit={this.handleSubmit}
+            className={classes.form}
+            noValidate
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -152,6 +159,12 @@ const styles = theme => ({
             >
               Sign In
             </Button>
+
+            <FacebookLogin
+              appId="2538620279701791"
+              fields="name,email,picture"
+              callback={responseFacebook}
+            />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -168,11 +181,17 @@ const styles = theme => ({
               <Copyright />
             </Box>
           </form>
-          <div className='error' id="errorMsg" style={{display: "none", color: "red", textAlign: "center"}} >Incorrect email or password, please check again!</div>
-          <div className="d-flex justify-content-center">
           <div
+            className="error"
+            id="errorMsg"
+            style={{ display: "none", color: "red", textAlign: "center" }}
+          >
+            Incorrect email or password, please check again!
+          </div>
+          <div className="d-flex justify-content-center">
+            <div
               id="idLoading"
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               className="spinner-border text-success"
             />
           </div>
