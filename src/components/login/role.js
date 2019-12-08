@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from 'react-router-dom';
 import Typography from "@material-ui/core/Typography";
 import $ from "jquery";
-import { Button } from "@material-ui/core";
+import { Button } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {fetchCurrentUser } from '../../actions/user';
@@ -62,10 +62,24 @@ class RolePicking extends React.Component {
               <Typography component="h1" variant="h5">
                 What Are You Applying For?
               </Typography>
-              <p/>
-              <Button type="button" variant="contained" color="primary" onClick={()=>this.doRegisterStudent('student')}  className="btn btn-outline-warning py-3 px-4" style={{width: '30%'}}><strong>Student</strong></Button>
-              <p/>
-              <Button type="button" variant="contained" color="secondary" onClick={()=>this.doRegisterStudent('tutor')}  className="btn btn-outline-warning py-3 px-4" style={{width: '30%'}}><strong>Tutor</strong></Button>
+              <Button
+                type="button"
+                onClick={()=>this.doRegisterStudent('student')}
+                className="btn btn-warning py-3 px-4 text-white"
+                style={{margin: '2.5%', width: '30%'}}>
+                  <strong>
+                    STUDENT
+                  </strong>
+              </Button>
+              <Button
+                type="button"
+                onClick={()=>this.doRegisterStudent('tutor')}
+                className="btn btn-success py-3 px-4 text-white"
+                style={{margin: '2,5%', width: '30%'}}>
+                  <strong>
+                    TUTOR
+                  </strong>
+              </Button>
 
 
             </div>

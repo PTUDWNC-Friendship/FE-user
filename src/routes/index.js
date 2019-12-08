@@ -1,12 +1,20 @@
 import React from 'react';
+
 import Guest from '../components/home/guest';
 import Student from '../components/home/student';
 import Tutor from '../components/home/tutor';
+
 import Login from '../components/login/login';
+
 import NotFound from '../components/notfound/notfound';
+
 import Register from '../components/register/register';
 import RegisterTutor from '../components/register/tutor';
 import RolePicking from '../components/login/role';
+
+import TutorProfile from '../components/profile/tutor';
+import StudentProfile from '../components/profile/student';
+
 import Logout from '../components/logout/logout';
 
 const routes = [
@@ -19,6 +27,16 @@ const routes = [
         path: "/home-student",
         exact: false,
         main: () => <Student />
+    },
+    {
+        path: "/profile-student",
+        exact: false,
+        main: () => <StudentProfile />
+    },
+    {
+        path: "/profile-tutor",
+        exact: false,
+        main: () => <TutorProfile />
     },
     {
         path: "/home-tutor",

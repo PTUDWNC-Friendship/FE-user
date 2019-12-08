@@ -20,7 +20,6 @@ class Guest extends React.Component {
                   <div className="site-mobile-menu-body" />
                 </div>
 
-                <Header/>
 
                 <div style={{height: "113px"}} />
 

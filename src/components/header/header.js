@@ -71,12 +71,22 @@ class Header extends React.Component {
                         ) : (
                           <ul
                             className="site-menu js-clone-nav d-none d-lg-block"
-                            style={{ paddingRight: "3%" }}
+                            style={{ paddingRight: "5%" }}
                           >
-                            <li>
-                              <Link to="/logout" >
-                                Logout
-                              </Link>
+                            <li className="has-children">
+                              <Link to="/">Account</Link>
+                              <ul className="dropdown arrow-top">
+                                <li>
+                                  <Link to="/profile-tutor" >
+                                    Profile
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/logout" >
+                                    Logout
+                                  </Link>
+                                </li>
+                                </ul>
                             </li>
                           </ul>
                         )}
