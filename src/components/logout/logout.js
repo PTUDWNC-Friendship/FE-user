@@ -7,34 +7,27 @@ import * as action from '../../actions/user';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Logout extends React.Component {
-
-  constructor(props) {
-      super(props);
-      const { logOut } = this.props;
-      logOut();
-      // const { history } = this.props;
+  componentDidMount() {
+    this.props.logoutAction();
   }
 
   render() {
-
-    return(
-       <Redirect to='/login'/>
-    );
+    return <Redirect to="/login" />;
   }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = state => {
   return {
-  stateLogins: state.login
-};
+    userState: state.userState
+  };
 };
 
-const mapDispatchToProps = (dispatch) =>
-bindActionCreators(
-  {
-    logOut: action.logOut
-  },
-  dispatch
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      logoutAction: action.logout
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Logout));

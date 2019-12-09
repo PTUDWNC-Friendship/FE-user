@@ -13,12 +13,11 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { withStyles  } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import { fetchPostsLogin, fetchCurrentUser } from '../../actions/user';
+import { login, authorizeUser } from '../../actions/user';
 import './style.css';
 
 function Copyright() {
@@ -37,225 +36,225 @@ function Copyright() {
 const styles = theme => ({
   root: {
     paddingTop: '10vh',
-    height: '100vh',
+    height: '100vh'
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/featured/?programming,education)',
+    backgroundImage:
+      'url(https://source.unsplash.com/featured/?programming,education)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
+      theme.palette.type === 'dark'
+        ? theme.palette.grey[900]
+        : theme.palette.grey[50],
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'center'
   },
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 });
 
- class Login extends React.Component {
-
+class Login extends React.Component {
   constructor(props) {
     super(props);
-    const {stateLogins} = this.props;
-    if(stateLogins.user !== null) {
-      const {history} = this.props;
-      if(stateLogins.user.role==='tutor') {
+    const { userState } = this.props;
+    if (userState.user !== null) {
+      const { history } = this.props;
+      if (userState.user.role === 'tutor') {
         history.push('/home-tutor');
       }
-      if(stateLogins.user.role==='student') {
+      if (userState.user.role === 'student') {
         history.push('/home-student');
       }
     }
-
-
   }
 
   handleSubmit = e => {
     $('#idLoading').show();
     e.preventDefault();
-    const { fetchSubmit } = this.props;
+    const { loginAction } = this.props;
     Promise.resolve(
-      fetchSubmit(e.target.email.value, e.target.password.value),
+      loginAction(e.target.email.value, e.target.password.value)
     ).then(() => {
-      const {  stateLogins } = this.props;
-      if(stateLogins.isFetching===false) {
-        if(stateLogins.user===null) {
+      const { userState } = this.props;
+      if (userState.isFetching === false) {
+        if (userState.user === null) {
           $('#errorMsg').show();
           $('#idLoading').hide();
         } else {
-          const {history} = this.props;
-          if(stateLogins.user.role===null) {
+          const { history } = this.props;
+          if (userState.user.role === null) {
             history.push('/roles');
             $('#idLoading').hide();
           } else {
-            if(stateLogins.user.role==='tutor') {
+            if (userState.user.role === 'tutor') {
               history.push('/home-tutor');
             }
-            if(stateLogins.user.role==='student') {
+            if (userState.user.role === 'student') {
               history.push('/home-student');
             }
             $('#idLoading').hide();
           }
         }
       }
-
     });
-
-
-  }
+  };
 
   render() {
-    const responseFacebook = (response) => {
+    const responseFacebook = response => {
       console.log(response);
     };
 
     const { classes } = this.props;
-  return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form
-            onSubmit={this.handleSubmit}
-            className={classes.form}
-            noValidate
-          >
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+    return (
+      <Grid container component="main" className={classes.root}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form
+              onSubmit={this.handleSubmit}
+              className={classes.form}
+              noValidate
             >
-              Sign In
-            </Button>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
 
-            <Grid container style={{height: "80px"}}>
-              <Grid item xs>
-                <Link href="/" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid container style={{ height: '80px' }}>
+                <Grid item xs>
+                  <Link href="/" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/register-tutor" variant="body2">
+                    Don&apos;t have an account? Sign Up
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/register-tutor" variant="body2">
-                  Don&apos;t have an account? Sign Up
-                </Link>
-              </Grid>
-            </Grid>
 
-
-            <div style={{display: 'flex',flexWrap: 'wrap' }} className="d-flex justify-content-center" >
+              <div
+                style={{ display: 'flex', flexWrap: 'wrap' }}
+                className="d-flex justify-content-center"
+              >
                 <FacebookLogin
-
-                    autoLoad={false}
-                    appId="2538620279701791"
-                    fields="name,email,picture"
-                    callback={responseFacebook}
-                    cssClass="btnFacebook"
-                    icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}} />}
-                    textButton = "&nbsp;&nbsp;Sign In with Facebook"
+                  autoLoad={false}
+                  appId="2538620279701791"
+                  fields="name,email,picture"
+                  callback={responseFacebook}
+                  cssClass="btnFacebook"
+                  icon={
+                    <i
+                      className="fa fa-facebook"
+                      style={{ marginLeft: '5px' }}
                     />
-                    <a href="javascript;">
-                      <button
-                      type="button"
-                      className="btnGoogle"
-                      >
-                      <i className="fa fa-google-plus" style={{ marginLeft:
-                      '5px' }}/>
-                      <span>&nbsp;&nbsp;Sign In with Google</span>
-                      </button>
-                    </a>
-            </div>
+                  }
+                  textButton="&nbsp;&nbsp;Sign In with Facebook"
+                />
+                <a href="javascript;">
+                  <button type="button" className="btnGoogle">
+                    <i
+                      className="fa fa-google-plus"
+                      style={{ marginLeft: '5px' }}
+                    />
+                    <span>&nbsp;&nbsp;Sign In with Google</span>
+                  </button>
+                </a>
+              </div>
 
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-          <div
-            className="error"
-            id="errorMsg"
-            style={{ display: "none", color: "red", textAlign: "center" }}
-          >
-            Incorrect email or password, please check again!
-          </div>
-          <div className="d-flex justify-content-center">
+              <Box mt={5}>
+                <Copyright />
+              </Box>
+            </form>
             <div
-              id="idLoading"
-              style={{ display: "none" }}
-              className="spinner-border text-success"
-            />
+              className="error"
+              id="errorMsg"
+              style={{ display: 'none', color: 'red', textAlign: 'center' }}
+            >
+              Incorrect email or password, please check again!
+            </div>
+            <div className="d-flex justify-content-center">
+              <div
+                id="idLoading"
+                style={{ display: 'none' }}
+                className="spinner-border text-success"
+              />
+            </div>
           </div>
-        </div>
+        </Grid>
       </Grid>
-    </Grid>
-  );
+    );
   }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = state => {
   return {
-  stateLogins: state.login,
-};
+    userState: state.userState
+  };
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      fetchSubmit: fetchPostsLogin,
-      fetchCurrent: fetchCurrentUser
-    },
-    dispatch
-  );
+const mapDispatchToProps = dispatch => {
+  return {
+    loginAction: (username, password) => dispatch(login(username, password)),
+    authorizeUserAction: () => dispatch(authorizeUser)
+  };
+};
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default connect(

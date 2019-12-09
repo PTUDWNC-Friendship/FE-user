@@ -1,89 +1,79 @@
 import fetch from 'cross-fetch';
 import * as types from '../helpers/index';
 
-
 function requestLogin() {
-    return {
-      type: types.REQUEST_LOGIN
-    };
-  }
+  return {
+    type: types.REQUEST_LOGIN
+  };
+}
 
-  function receiveLogin(stateLogin) {
-    return {
-      type: types.RECEIVE_LOGIN,
-      stateLogin
-    };
-  }
+function receiveLogin() {
+  return {
+    type: types.RECEIVE_LOGIN
+  };
+}
 
-  function getCurrentUser(user) {
-    return {
-      type: types.GET_CURRENT_USER,
-      user
-    };
-  }
+function getCurrentUser(user) {
+  return {
+    type: types.GET_CURRENT_USER,
+    user
+  };
+}
 
-  export function fetchPostsLogin(username, password) {
+export function login(username, password) {
+  return function(dispatch) {
+    dispatch(requestLogin());
+    return fetch(`https://uberfortutor-server-user.herokuapp.com/user/login`, {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        password
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.user !== false) {
+          localStorage.setItem('authToken', json.token);
+          dispatch(getCurrentUser(json));
+        }
+        dispatch(receiveLogin(json));
+      })
+      .catch(() => {
+        dispatch(receiveLogin(null));
+      });
+  };
+}
+
+export function authorizeUser() {
+  const authToken = localStorage.getItem('authToken');
+  if (authToken) {
     return function(dispatch) {
-      dispatch(requestLogin());
-      return fetch(`https://uberfortutor-server-user.herokuapp.com/user/login`, {
-        method: 'POST',
-        body: JSON.stringify({
-          username,
-          password
-        }),
+      return fetch(`http://localhost:3000/me`, {
         headers: {
-          'Content-type': 'application/json; charset=UTF-8'
+          Authorization: `Bearer ${authToken}`
         }
       })
-        .then(response => response.json()
-        )
-        .then(json => {
-          if (json.user !== false) {
-               localStorage.setItem('authToken', json.token);
-               localStorage.setItem('user', JSON.stringify(json));
-
-               dispatch(getCurrentUser(json));
-              dispatch(receiveLogin(json));
-          } else {
-            dispatch(getCurrentUser(null));
-            dispatch(receiveLogin(json));
-          }
-        }).catch(err=>{
+        .then(response => response.json() )
+        .then(user => {
+          dispatch(getCurrentUser(user));
+        })
+        .catch((error) => {
           dispatch(getCurrentUser(null));
         });
     };
   }
+  return function(dispatch) {
+    dispatch(getCurrentUser(null));
+  };
+}
 
-  export function fetchCurrentUser() {
-    if (localStorage.getItem('authToken') != null) {
-      return function(dispatch) {
-        return fetch(`https://uberfortutor-server-user.herokuapp.com/me`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`
-          }
-        })
-          .then(response => response.json())
-          .then(user => {
-            localStorage.setItem('user', JSON.stringify(user));
-            dispatch(getCurrentUser(user));
-          })
-          .catch(err => {
-            dispatch(getCurrentUser(null));
-            localStorage.removeItem('user');
-            console.log(err);
-          });
-      };
-    }
-    return function(dispatch) {
-      dispatch(getCurrentUser(null));
-    };
-  }
+export function logout() {
+  localStorage.removeItem('authToken');
 
-  export function logOut() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('authToken');
-
-    return function(dispatch) {
-      dispatch(getCurrentUser(null));
-    };
-  }
+  return function(dispatch) {
+    dispatch(getCurrentUser(null));
+  };
+}

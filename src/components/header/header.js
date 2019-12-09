@@ -1,12 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { Link } from 'react-router-dom';
-import * as action from "../../actions/user";
+import { authorizeUser }from "../../actions/user";
 
 class Header extends React.Component {
+
+  componentDidMount() {
+    this.props.authorizeUserAction();
+  }
+
   render() {
-    const { stateLogins } = this.props;
+    const { userState } = this.props;
 
     return (
       <div>
@@ -51,7 +55,7 @@ class Header extends React.Component {
                           </Link>
                         </div>
 
-                        {stateLogins.user === null ? (
+                        {userState.user === null ? (
                           <ul
                             className="site-menu js-clone-nav d-none d-lg-block"
                             style={{ paddingRight: "3%" }}
@@ -104,13 +108,13 @@ class Header extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    stateLogins: state.login
+    userState: state.userState
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchCurrent: bindActionCreators(action.fetchCurrentUser, dispatch)
+    authorizeUserAction:() => dispatch(authorizeUser())
   };
 };
 
