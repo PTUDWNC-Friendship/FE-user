@@ -27,6 +27,7 @@ import {
 } from "react-bootstrap";
 
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
 
@@ -42,6 +43,11 @@ class TutorProfile extends Component {
     };
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
+  }
+
+  onUpdateInfor = e => {
+    e.preventDefault();
+
   }
 
   enableEditProfile(){
@@ -66,7 +72,11 @@ class TutorProfile extends Component {
     }
   }
 
+
   render() {
+    const  {userState} = this.props;
+    const {user} = userState;
+    console.log(user);
     return (
       <div >
         <div style={{height: '113px'}} />
@@ -82,8 +92,9 @@ class TutorProfile extends Component {
                 <Col md={4}>
                   <UserCard
                     avatar='images/person_1.jpg'
-                    name="Tina Galloway"
-                    userName="username123"
+                    // eslint-disable-next-line no-nested-ternary
+                    name={ user!=null?user.firstName:''}
+                    userName={user!=null?user.username:''}
                     socials={
                       <div>
                         *****
@@ -208,6 +219,7 @@ class TutorProfile extends Component {
                             },
                             {
                               label: "Gender/Male",
+                              
                               type: "checkbox",
                               bsClass: "form-check",
                               style: {marginTop: '10%'},
@@ -229,7 +241,7 @@ class TutorProfile extends Component {
                               label: "First name",
                               type: "text",
                               bsClass: "form-control",
-                              placeholder: "First name",
+                              placeholder: user!=null?user.firstName:'',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             },
@@ -242,6 +254,7 @@ class TutorProfile extends Component {
                               disabled: !this.state.isEditable
                             }
                           ]}
+                          
                         />
 
                         <FormInputs
@@ -251,7 +264,7 @@ class TutorProfile extends Component {
                               label: "Address",
                               type: "text",
                               bsClass: "form-control",
-                              placeholder: "Home Address",
+                              placeholder: user!=null?user.address:'',
                               maxLength: '255',
                               disabled: !this.state.isEditable
                             },
@@ -259,7 +272,7 @@ class TutorProfile extends Component {
                               label: "PHONE NUMBER",
                               type: "numeric",
                               bsClass: "form-control",
-                              placeholder: "0123456789",
+                              placeholder: user!=null?user.phone:'',
                               maxLength: '11',
                               disabled: !this.state.isEditable
                             }
@@ -298,4 +311,13 @@ class TutorProfile extends Component {
   }
 }
 
-export default TutorProfile;
+const mapStateToProps = state => {
+  return {
+    userState: state.userState
+  };
+};
+export default connect(
+  mapStateToProps,
+  null
+)(TutorProfile);
+

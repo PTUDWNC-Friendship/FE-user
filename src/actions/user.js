@@ -81,7 +81,7 @@ export function authorizeUser() {
 
 export function fetchAllTutors() {
   return function(dispatch) {
-    return fetch(`http://localhost:3000/user/list-all-tutors`)
+    return fetch(`http://localhost:3000/user/get-all-tutors`)
       .then(response => response.json() )
       .then(users => {
         dispatch(getAllTutors(users));
