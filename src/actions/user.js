@@ -51,7 +51,7 @@ export function authorizeUser() {
   const authToken = localStorage.getItem('authToken');
   if (authToken) {
     return function(dispatch) {
-      return fetch(`http://localhost:3000/me`, {
+      return fetch(`https://uberfortutor-server-user.herokuapp.com/me`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
