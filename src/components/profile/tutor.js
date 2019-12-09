@@ -82,13 +82,6 @@ class TutorProfile extends Component {
                       avatar='images/person_1.jpg'
                       name="Tina Galloway"
                       userName="username123"
-                      description={
-                        <div>
-                          <div className="mr-3"><span className="icon-suitcase mr-1" />Math Teacher</div>
-                          <div className="mr-3"><span className="icon-room mr-1" />Viet Nam</div>
-                          <div><span className="icon-money mr-1" />$15 per hour</div>
-                        </div>
-                      }
                       socials={
                         <div>
                           *****
@@ -208,6 +201,7 @@ class TutorProfile extends Component {
                                 type: "text",
                                 bsClass: "form-control",
                                 placeholder: "Your title",
+                                maxLength: '128',
                                 disabled: !this.state.isEditable
                               },
                               {
@@ -234,6 +228,7 @@ class TutorProfile extends Component {
                                 type: "text",
                                 bsClass: "form-control",
                                 placeholder: "First name",
+                                maxLength: '128',
                                 disabled: !this.state.isEditable
                               },
                               {
@@ -241,6 +236,7 @@ class TutorProfile extends Component {
                                 type: "text",
                                 bsClass: "form-control",
                                 placeholder: "Last name",
+                                maxLength: '128',
                                 disabled: !this.state.isEditable
                               }
                             ]}
@@ -254,13 +250,15 @@ class TutorProfile extends Component {
                                 type: "text",
                                 bsClass: "form-control",
                                 placeholder: "Home Address",
+                                maxLength: '255',
                                 disabled: !this.state.isEditable
                               },
                               {
                                 label: "PHONE NUMBER",
-                                type: "text",
+                                type: "numeric",
                                 bsClass: "form-control",
                                 placeholder: "0123456789",
+                                maxLength: '11',
                                 disabled: !this.state.isEditable
                               }
                             ]}
@@ -271,10 +269,13 @@ class TutorProfile extends Component {
                               <FormGroup controlId="formControlsTextarea">
                                 <ControlLabel>About Me</ControlLabel>
                                 <FormControl
-                                  rows="5"
+                                  rows="30"
                                   componentClass="textarea"
-                                  bsClass="form-control noresize"
+                                  bsClass="form-control"
+                                  maxLength='1000'
+                                  style={{maxHeight: '250px'}}
                                   placeholder="Here can be your description"
+                                  className="noresize"
                                   disabled= {!this.state.isEditable}
                                 />
                               </FormGroup>

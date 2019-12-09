@@ -32,16 +32,14 @@ export class UserCard extends Component {
                 alt="..."
               />
             </Link>
-
-            <Link to="/">
+            <div>
               <h4 className="title text-center">
                 {this.props.name}
                 <br />
                 <small>{this.props.userName}</small>
               </h4>
-            </Link>
+            </div>
           </div>
-          <p className="description text-black">{this.props.description}</p>
         </div>
         <hr />
         <div className="text-center">{this.props.socials}</div>

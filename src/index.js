@@ -10,6 +10,7 @@ import App from "./App";
 import myReducer from "./reducers/index";
 import * as serviceWorker from "./serviceWorker";
 import Header from "./components/header/header";
+import Footer from "./components/footer/footer";
 
 const loggerMiddleware = createLogger();
 
@@ -26,6 +27,7 @@ ReactDOM.render(
     <Router>
       <Header />
       <App />
+      <Footer />
     </Router>
   </Provider>,
   document.getElementById("root")
