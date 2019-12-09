@@ -1,25 +1,27 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import routes from "./routes/index";
-import "./App.css";
+import React from 'react';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import routes from './routes/index';
+import Header from './components/header/header';
+import './App.css';
 
 function App() {
-
   return (
-    <Switch>
-      {routes.map((route, index) => {
-        return (
-          <Route
-            key={index.id}
-            path={route.path}
-            exact={route.exact}
-            component={route.main}
-          />
-        );
-      })}
-    </Switch>
-
+    <Router>
+      <Header />
+      <Switch>
+        {routes.map((route, index) => {
+          return (
+            <Route
+              key={index.toString()}
+              path={route.path}
+              exact={route.exact}
+              component={route.main}
+            />
+          );
+        })}
+      </Switch>
+    </Router>
   );
 }
 

@@ -29,6 +29,11 @@ const routes = [
         main: () => <Student />
     },
     {
+        path: "/home-tutor",
+        exact: false,
+        main: () => <Tutor />
+    },
+    {
         path: "/profile-student",
         exact: false,
         main: () => <StudentProfile />
@@ -37,11 +42,6 @@ const routes = [
         path: "/profile-tutor",
         exact: false,
         main: () => <TutorProfile />
-    },
-    {
-        path: "/home-tutor",
-        exact: false,
-        main: () => <Tutor />
     },
     {
         path: "/login",

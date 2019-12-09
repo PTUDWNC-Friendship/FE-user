@@ -1,61 +1,55 @@
-import React from "react";
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import Typography from "@material-ui/core/Typography";
-import $ from "jquery";
-import { Button } from "react-bootstrap";
+import Typography from '@material-ui/core/Typography';
+import $ from 'jquery';
+import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {fetchCurrentUser } from '../../actions/user';
-
+import { authorizeUser } from '../../actions/user';
 
 class RolePicking extends React.Component {
-
-  doRegisterStudent = (type) => {
-    const {stateLogins} = this.props;
-    const {user} = stateLogins;
-    fetch(`https://uberfortutor-server-user.herokuapp.com/user/${  type}/register`, {
-      method: "POST",
-      body: JSON.stringify({
-      user
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
+  registerRole = role => {
+    const { userState } = this.props;
+    fetch(
+      `https://uberfortutor-server-user.herokuapp.com/user/${role}/register`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          _id: userState.user._id
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
       }
-    })
+    )
       .then(
         response => response.json(),
-
-        error => console.log("An error occurred.", error)
+        error => console.log('An error occurred.', error)
       )
       .then(json => {
         if (json != null) {
-          const { fetchCurrent } = this.props;
-          fetchCurrent();
-          const {history} = this.props;
-          if(json.role==='tutor') {
+          const { history, authorizeUserAction } = this.props;
+          authorizeUserAction();
+          if (json.role === 'tutor') {
             history.push('/home-tutor');
           }
-          if(json.role==='student') {
+          if (json.role === 'student') {
             history.push('/home-student');
           }
-
         } else {
-          $("#errorMsgSer").show();
+          $('#errorMsgSer').show();
         }
       });
-  }
-
-
-
+  };
 
   render() {
-
     return (
       <div
         className="site-blocks-cover overlay"
         data-aos="fade"
         data-stellar-background-ratio="0.5"
-        style={{backgroundImage: "url('images/tutor-1.jpg')"}}>
+        style={{ backgroundImage: "url('images/tutor-1.jpg')" }}
+      >
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-12 text-center text-white" data-aos="fade">
@@ -64,24 +58,20 @@ class RolePicking extends React.Component {
               </Typography>
               <Button
                 type="button"
-                onClick={()=>this.doRegisterStudent('student')}
+                onClick={() => this.registerRole('student')}
                 className="btn btn-warning py-3 px-4 text-white"
-                style={{margin: '2.5%', width: '30%'}}>
-                  <strong>
-                    STUDENT
-                  </strong>
+                style={{ margin: '2.5%', width: '30%' }}
+              >
+                <strong>STUDENT</strong>
               </Button>
               <Button
                 type="button"
-                onClick={()=>this.doRegisterStudent('tutor')}
+                onClick={() => this.registerRole('tutor')}
                 className="btn btn-success py-3 px-4 text-white"
-                style={{margin: '2,5%', width: '30%'}}>
-                  <strong>
-                    TUTOR
-                  </strong>
+                style={{ margin: '2,5%', width: '30%' }}
+              >
+                <strong>TUTOR</strong>
               </Button>
-
-
             </div>
           </div>
         </div>
@@ -89,16 +79,16 @@ class RolePicking extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) =>{
+const mapStateToProps = state => {
   return {
-  stateLogins: state.login,
-};
+    userState: state.userState
+  };
 };
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      fetchCurrent: fetchCurrentUser
+      authorizeUserAction: authorizeUser
     },
     dispatch
   );
