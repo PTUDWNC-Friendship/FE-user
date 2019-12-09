@@ -7,11 +7,14 @@ import { login, authorizeUser } from '../../actions/user';
 class Guest extends React.Component {
   componentDidMount() {
     const { userState, history } = this.props;
-    if (userState.user.role === 'student') {
-      history.push('/home-student');
-    }
-    else if (userState.user.role === 'tutor') {
-      history.push('/home-tutor');
+    const { user } = userState;
+    if (user) {
+      if (user.role === 'student') {
+        history.push('/home-student');
+      }
+      else if (user.role === 'tutor') {
+        history.push('/home-tutor');
+      }
     }
   }
 
