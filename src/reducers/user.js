@@ -5,6 +5,7 @@ const initialState = {
     user: null,
     didInvalidate: false,
     isLogin: false,
+    allTutors: []
 };
 
 const userState = (state = initialState, action) =>{
@@ -23,6 +24,11 @@ const userState = (state = initialState, action) =>{
                 isLogin: true,
                 user: action.user,            
             };
+        case types.GET_ALL_TUTORS:
+            return { ...state,
+                allTutors: action.allTutors
+
+            }
         default: return state;
     }
 };

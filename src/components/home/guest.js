@@ -2,23 +2,26 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { login, authorizeUser } from '../../actions/user';
+import { login, authorizeUser, fetchAllTutors } from '../../actions/user';
 
 class Guest extends React.Component {
   componentDidMount() {
-    const { userState, history } = this.props;
-    const { user } = userState;
-    if (user) {
-      if (user.role === 'student') {
-        history.push('/home-student');
-      }
-      else if (user.role === 'tutor') {
-        history.push('/home-tutor');
-      }
+    const { userState, history, getListTutors } = this.props;
+    getListTutors();
+    if(userState.user!==null) {
+    if (userState.user.role === 'student') {
+      history.push('/home-student');
     }
+    else if (userState.user.role === 'tutor') {
+      history.push('/home-tutor');
+    }
+    }
+
   }
 
   render() {
+    const { userState } = this.props;
+    console.log(userState.allTutors);
     return (
       <div>
         <div className="site-wrap">
@@ -240,120 +243,37 @@ class Guest extends React.Component {
             </div>
           </div>
 
-          <div className="site-section bg-light">
+           <div className="site-section bg-light">
                   <div className="container">
                     <div className="row">
                       <div className="col-md-8 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="100">
                         <h2 className="mb-5 h3">All Tutors</h2>
                         <div className="rounded border jobs-wrap">
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Stephanie Croft</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>English Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                          {userState.allTutors.map(element=>(
+                            <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+                              <div className="company-logo blank-logo text-center text-md-left pl-3">
+                                <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
+                              </div>
+                              <div className="job-details h-100">
+                                <div className="p-3 align-self-center">
+                                  <h3>{element.firstName} {element.lastName}</h3>
+                                  <div className="d-block d-lg-flex">
+                                    <div className="mr-3"><span className="icon-suitcase mr-1"></span>English Teacher</div>
+                                    <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
+                                    <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-info p-2 rounded border border-info">100% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_1.jpg" alt="" className="img-fluid mx-auto"></img>
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Tina Galloway</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>Math Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>Viet Nam</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
+                              <div className="job-category align-self-center">
+                                <div className="p-3">
+                                  <span className="text-info p-2 rounded border border-info">100% Trusted</span>
                                 </div>
                               </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-warning p-2 rounded border border-warning">85% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
+                            </Link>
+                          ))
 
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_3.jpg" alt="" className="img-fluid mx-auto"></img>
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Johnathon Estes</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>Biology Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>Canada</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-warning p-2 rounded border border-warning">77% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center fulltime">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_4.jpg" alt="" className="img-fluid mx-auto"></img>
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Derrick Walls</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>Physics Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-info p-2 rounded border border-info">90% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center partime">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/company_logo_blank.png" alt="" className="img-fluid mx-auto"></img>
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Frank Ridley</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1"></span>History Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                  <div><span className="icon-money mr-1"></span>$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-danger p-2 rounded border border-danger">50% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
+                          }
+                          
 
                         </div>
 
@@ -376,9 +296,7 @@ class Guest extends React.Component {
                       </div>
                     </div>
                   </div>
-                </div>
-
-
+                </div> 
 
           <div
             className="site-blocks-cover overlay inner-page"
@@ -393,7 +311,7 @@ class Guest extends React.Component {
                   <p className="h3 text-white mb-5">Is Waiting Ahead</p>
                   <p>
                     <Link
-                      to="/register-student"
+                      to="/register"
                       className="btn btn-outline-warning py-3 px-4"
                     >
                       {' '}
@@ -401,7 +319,7 @@ class Guest extends React.Component {
                     </Link>
                     <p />
                     <Link
-                      to="/register-tutor"
+                      to="/register"
                       className="btn btn-warning py-3 px-4"
                     >
                       Apply For A Tutor
@@ -762,6 +680,32 @@ class Guest extends React.Component {
                   </div>
                 </div>
 
+                <div className="col-md-2">
+                  <div className="col-md-12">
+                    <h3 className="footer-heading mb-4 text-white">
+                      Social Icons
+                    </h3>
+                  </div>
+                  <div className="col-md-12">
+                    <p>
+                      <Link to="/" className="pb-2 pr-2 pl-0">
+                        <span className="icon-facebook" />
+                      </Link>
+                      <Link to="/" className="p-2">
+                        <span className="icon-twitter" />
+                      </Link>
+                      <Link to="/" className="p-2">
+                        <span className="icon-instagram" />
+                      </Link>
+                      <Link to="/" className="p-2">
+                        <span className="icon-vimeo" />
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="row pt-5 mt-5 text-center">
+                <div className="col-md-12" />
               </div>
             </div>
           </footer>
@@ -781,7 +725,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       loginAction: login,
-      authorizeUserAction: authorizeUser
+      authorizeUserAction: authorizeUser,
+      getListTutors: fetchAllTutors
     },
     dispatch
   );

@@ -20,6 +20,14 @@ function getCurrentUser(user) {
   };
 }
 
+function getAllTutors(allTutors) {
+  return {
+    type: types.GET_ALL_TUTORS,
+    allTutors: allTutors
+  }
+}
+
+
 export function login(username, password) {
   return function(dispatch) {
     dispatch(requestLogin());
@@ -47,11 +55,12 @@ export function login(username, password) {
   };
 }
 
+
 export function authorizeUser() {
   const authToken = localStorage.getItem('authToken');
   if (authToken) {
     return function(dispatch) {
-      return fetch(`https://uberfortutor-server-user.herokuapp.com/me`, {
+      return fetch(`http://localhost:3000/me`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -68,6 +77,19 @@ export function authorizeUser() {
   return function(dispatch) {
     dispatch(getCurrentUser(null));
   };
+}
+
+export function fetchAllTutors() {
+  return function(dispatch) {
+    return fetch(`http://localhost:3000/user/list-all-tutors`)
+      .then(response => response.json() )
+      .then(users => {
+        dispatch(getAllTutors(users));
+      })
+      .catch((error) => {
+        dispatch(getCurrentUser(null));
+      });
+  }
 }
 
 export function logout() {
