@@ -3,6 +3,8 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import routes from './routes/index';
 import Header from './components/header/header';
+
+import Footer from './components/footer/footer';
 import './App.css';
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
           );
         })}
       </Switch>
+      <Footer />
     </Router>
   );
 }

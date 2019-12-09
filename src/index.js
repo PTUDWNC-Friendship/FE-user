@@ -4,14 +4,12 @@ import { createStore, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
 import { Provider } from "react-redux";
 
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from "redux-thunk";
 import "./index.css";
 import App from "./App";
 import myReducer from "./reducers/index";
 import * as serviceWorker from "./serviceWorker";
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
 
 const loggerMiddleware = createLogger();
 
@@ -26,11 +24,8 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Header />
       <App />
-      <Footer />
     </Router>
-    <App />
   </Provider>,
   document.getElementById("root")
 );
