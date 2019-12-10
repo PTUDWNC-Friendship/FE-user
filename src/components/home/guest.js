@@ -256,7 +256,7 @@ class Guest extends React.Component {
                               </div>
                               <div className="job-details h-100">
                                 <div className="p-3 align-self-center">
-                                  <h3>{element.firstName} {element.lastName}</h3>
+                                  <h3>{element!=null?element.firstName:''} {element!=null?element.lastName:''}</h3>
                                   <div className="d-block d-lg-flex">
                                     <div className="mr-3"><span className="icon-suitcase mr-1"></span>English Teacher</div>
                                     <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
