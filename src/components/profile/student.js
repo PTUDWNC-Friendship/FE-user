@@ -11,6 +11,8 @@ import {
 
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { FormInputs } from '../ui-components/FormInputs/FormInputs';
 import { UserCard } from '../ui-components/UserCard/UserCard';
 import { CustomCard } from '../ui-components/Card/Card';
@@ -26,8 +28,11 @@ class StudentProfile extends Component {
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
     this.handleSubmitPassword = this.handleSubmitPassword.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handChange = this.handleChange.bind(this);
 
     this.formPassword = React.createRef();
+    this.formGeneral = React.createRef();
   }
 
   onUpdateInfor = e => {
@@ -50,16 +55,35 @@ class StudentProfile extends Component {
     }
   }
 
+  handleChange(e) {
+    
+  }
+
   handleSubmitPassword(e) {
     e.preventDefault();
     const { updateUserAction, userState } = this.props;
-    let { elements } = this.formPassword.current;
-    // for (const key in userState.user) {
-    //     if (elements[key]) {
-    //         userState.user[key] = elements[key];
-    //     }
-    // }
-    updateUserAction(userState.user);
+    const { elements } = this.formPassword.current;
+    if (elements.password.value === elements.confirmPassword.value) {
+      Object.keys(userState.user).forEach(key => {
+        if (elements[key]) {
+          userState.user[key] = elements[key].value;
+        }
+        updateUserAction(userState.user);
+      });
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { updateUserAction, userState } = this.props;
+    const { elements } = this.formGeneral.current;
+
+    Object.keys(userState.user).forEach(key => {
+      if (elements[key]) {
+        userState.user[key] = elements[key].value;
+      }
+      updateUserAction(userState.user);
+    });
   }
 
   render() {
@@ -73,7 +97,7 @@ class StudentProfile extends Component {
         <div
           className="unit-5 overlay"
           style={{
-            backgroundImage: "url('images/tutor-1.jpg')",
+            backgroundImage: `url('${user !== null ? user.imageURL : 'images/tutor-1.jpg'}')`,
             minHeight: '200px'
           }}
         />
@@ -84,12 +108,27 @@ class StudentProfile extends Component {
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <Row>
+                    <Col md={6} />
+                    <Col md={6}>
+                      <Fade
+                        in={userState.isFetching}
+                        unmountOnExit
+                      >
+                        <CircularProgress />
+                      </Fade>
+                    </Col>
+                  </Row>
+                  <Row>
                     <Col md={4}>
                       <UserCard
                         avatar="images/person_1.jpg"
-                        name={user !== null ? user.firstName : ''}
+                        name={
+                          user !== null
+                            ? `${user.firstName} ${user.lastName}`
+                            : ''
+                        }
                         userName={user !== null ? user.username : ''}
-                        socials={<div>*****</div>}
+                        socials={<div>Student</div>}
                       />
 
                       <CustomCard
@@ -144,9 +183,7 @@ class StudentProfile extends Component {
                                     bsClass: 'form-control',
                                     name: 'password',
                                     placeholder: 'Enter your password here',
-                                    disabled: !this.state.isChangeable,
-                                    value: 'heello',
-                                    onChange: this.handleChange
+                                    disabled: !this.state.isChangeable || this.userState.isFetching
                                   }
                                 ]}
                               />
@@ -160,8 +197,7 @@ class StudentProfile extends Component {
                                     bsClass: 'form-control',
                                     name: 'confirmPassword',
                                     placeholder: 'Enter your password here',
-                                    disabled: !this.state.isChangeable,
-                                    onChange: this.handleChange
+                                    disabled: !this.state.isChangeable || this.userState.isFetching
                                   }
                                 ]}
                               />
@@ -174,7 +210,10 @@ class StudentProfile extends Component {
                     <Col md={8}>
                       <CustomCard
                         content={
-                          <form>
+                          <form
+                            onSubmit={this.handleSubmit}
+                            ref={this.formGeneral}
+                          >
                             {this.state.isEditable ? (
                               <h4>
                                 Personal Information
@@ -208,7 +247,12 @@ class StudentProfile extends Component {
                             )}
 
                             <FormInputs
-                              ncols={['col-md-5', 'col-md-5', 'col-md-1', 'col-md-1']}
+                              ncols={[
+                                'col-md-5',
+                                'col-md-5',
+                                'col-md-1',
+                                'col-md-1'
+                              ]}
                               properties={[
                                 {
                                   label: 'First name',
@@ -217,7 +261,8 @@ class StudentProfile extends Component {
                                   bsClass: 'form-control',
                                   value: user !== null ? user.firstName : '',
                                   maxLength: '128',
-                                  disabled: !this.state.isEditable
+                                  disabled: !this.state.isEditable,
+                                  onChange: this.handleChange || this.userState.isFetching
                                 },
                                 {
                                   label: 'Last name',
@@ -226,28 +271,28 @@ class StudentProfile extends Component {
                                   bsClass: 'form-control',
                                   value: user !== null ? user.lastName : '',
                                   maxLength: '128',
-                                  disabled: !this.state.isEditable
+                                  disabled: !this.state.isEditable || this.userState.isFetching
                                 },
                                 {
-                                    label: 'Male',
-                                    name: 'gender',
-                                    type: 'radio',
-                                    bsClass: 'form-check',
-                                    checked:
-                                      user !== null && user.gender === 'male',
-                                    style: { marginTop: '10%' },
-                                    disabled: !this.state.isEditable
-                                  },
-                                  {
-                                    label: 'Female',
-                                    name: 'gender',
-                                    checked:
-                                      user !== null && user.gender === 'female',
-                                    type: 'radio',
-                                    bsClass: 'form-check',
-                                    style: { margin: '10%' },
-                                    disabled: !this.state.isEditable
-                                  }
+                                  label: 'Male',
+                                  name: 'gender',
+                                  type: 'radio',
+                                  bsClass: 'form-check',
+                                  checked:
+                                    user !== null && user.gender === 'male',
+                                  style: { marginTop: '10%' },
+                                  disabled: !this.state.isEditable || this.userState.isFetching
+                                },
+                                {
+                                  label: 'Female',
+                                  name: 'gender',
+                                  checked:
+                                    user !== null && user.gender === 'female',
+                                  type: 'radio',
+                                  bsClass: 'form-check',
+                                  style: { margin: '10%' },
+                                  disabled: !this.state.isEditable || this.userState.isFetching
+                                }
                               ]}
                             />
 
