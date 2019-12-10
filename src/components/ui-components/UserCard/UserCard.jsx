@@ -17,7 +17,7 @@
 */
 import React, { Component } from "react";
 import { Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {  Button } from "@material-ui/core";
 
 export class UserCard extends Component {
   render() {
@@ -25,13 +25,14 @@ export class UserCard extends Component {
       <div className="card card-user">
         <div className="content">
           <div className="author">
-            <Link to='/' className='align-items-center'>
+            <Button onClick={this.props.onClick} className='align-items-center'>
               <Image
+                id ="idImg"
                 className="avatar border-gray"
                 src={this.props.avatar}
                 alt="..."
               />
-            </Link>
+            </Button>
             <div>
               <h4 className="title text-center">
                 {this.props.name}

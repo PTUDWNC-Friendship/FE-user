@@ -28,10 +28,12 @@ import {
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import $ from 'jquery';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
-
 import { CustomCard } from "../ui-components/Card/Card";
+import { login, authorizeUser, fetchAllTutors } from '../../actions/user';
 
 class TutorProfile extends Component {
 
@@ -44,6 +46,13 @@ class TutorProfile extends Component {
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
   }
+
+  componentDidMount() {
+    const {  getListTutors } = this.props;
+    getListTutors();
+    }
+
+
 
   onUpdateInfor = e => {
     e.preventDefault();
@@ -72,11 +81,37 @@ class TutorProfile extends Component {
     }
   }
 
+  displayImg= e => {
+
+    e.preventDefault();
+    const image = e.target.files[0];
+    // eslint-disable-next-line prefer-const
+    let reader = new FileReader();
+    reader.onload = function (ev) {
+        $('#idImg')
+            .attr('src', ev.target.result);
+    };
+    reader.readAsDataURL(image);
+  }
 
   render() {
+
     const  {userState} = this.props;
-    const {user} = userState;
-    console.log(user);
+    const {user,allTutors} = userState;
+    let currentTutor = null;
+
+    if(allTutors.length>0) {
+      currentTutor =allTutors.find(el=>el._id===user._id);
+    }
+    
+
+    let fullName = '';
+    if(currentTutor!==null) {
+      fullName = currentTutor.firstName + currentTutor.lastName;
+    }
+
+    
+
     return (
       <div >
         <div style={{height: '113px'}} />
@@ -91,17 +126,18 @@ class TutorProfile extends Component {
               <Row>
                 <Col md={4}>
                   <UserCard
-                    avatar='images/person_1.jpg'
+                    onClick={()=>{$('#inputImg').click();}}
+                    avatar={currentTutor!=null?currentTutor.imageURL:''}
                     // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
+                    name={fullName}
+                    userName={currentTutor!=null?currentTutor.username:''}
                     socials={
                       <div>
                         *****
                       </div>
                     }
                   />
-
+                  <input id="inputImg" style={{display: 'none'}} onChange={this.displayImg} type="file" accept="image/*" name="imageURL" />
                   <CustomCard
                     content={
                       <form>
@@ -212,8 +248,9 @@ class TutorProfile extends Component {
                             {
                               label: "Title",
                               type: "text",
+                              name: "title",
                               bsClass: "form-control",
-                              placeholder: "Your title",
+                              placeholder: currentTutor!==null?currentTutor.title:'',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             },
@@ -240,16 +277,18 @@ class TutorProfile extends Component {
                             {
                               label: "First name",
                               type: "text",
+                              name: "firstName",
                               bsClass: "form-control",
-                              placeholder: user!=null?user.firstName:'',
+                              placeholder: currentTutor!=null?currentTutor.firstName:'',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "Last name",
                               type: "text",
+                              name: "lastName",
                               bsClass: "form-control",
-                              placeholder: "Last name",
+                              placeholder: currentTutor!=null?currentTutor.lastName:'',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             }
@@ -263,14 +302,16 @@ class TutorProfile extends Component {
                             {
                               label: "Address",
                               type: "text",
+                              name: "address",
                               bsClass: "form-control",
-                              placeholder: user!=null?user.address:'',
+                              placeholder: currentTutor!=null?currentTutor.address:'',
                               maxLength: '255',
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "PHONE NUMBER",
                               type: "numeric",
+                              name: "phone",
                               bsClass: "form-control",
                               placeholder: user!=null?user.phone:'',
                               maxLength: '11',
@@ -285,9 +326,10 @@ class TutorProfile extends Component {
                               <ControlLabel>About Me</ControlLabel>
                               <FormControl
                                 rows="10"
+                                name="bio"
                                 componentClass="textarea"
                                 bsClass="form-control"
-                                placeholder="Here can be your description"
+                                placeholder={currentTutor!==null?currentTutor.bio:''}
                                 disabled= {!this.state.isEditable}
                               />
                             </FormGroup>
@@ -316,8 +358,19 @@ const mapStateToProps = state => {
     userState: state.userState
   };
 };
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      loginAction: login,
+      authorizeUserAction: authorizeUser,
+      getListTutors: fetchAllTutors
+    },
+    dispatch
+  );
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(TutorProfile);
 
