@@ -25,7 +25,7 @@ export class UserCard extends Component {
       <div className="card card-user">
         <div className="content">
           <div className="author">
-            <Button onClick={this.props.onClick} className='align-items-center'>
+            <Button disabled={this.props.disabled} onClick={this.props.onClick} className='align-items-center'>
               <Image
                 id ="idImg"
                 className="avatar border-gray"

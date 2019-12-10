@@ -92,13 +92,13 @@ export function fetchAllTutors() {
   };
 }
 
-export function updateUser(user) {
+export function updateUser(tutor) {
   return function(dispatch) {
     dispatch(requestLogin());
-    return fetch(`http://localhost:3000/user/update`, {
+    return fetch(`http://localhost:3000/user/tutor/update`, {
       method: 'POST',
       body: JSON.stringify({
-        ...user
+        ...tutor
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
@@ -115,7 +115,33 @@ export function updateUser(user) {
         
         dispatch(getCurrentUser(null));
       });
-  }
+  };
+}
+
+export function updateTutor(tutor) {
+  return function(dispatch) {
+    dispatch(requestLogin());
+    return fetch(`http://localhost:3000/user/update`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...tutor
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json() )
+      .then(data => {
+      console.log("TCL: updateUser -> data", data);
+        dispatch(getCurrentUser(data));
+        dispatch(receiveLogin());
+      })
+      .catch((error) => {
+      console.log("TCL: updateUser -> error", error);
+        
+        dispatch(getCurrentUser(null));
+      });
+  };
 }
 
 export function logout() {

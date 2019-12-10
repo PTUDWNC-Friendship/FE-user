@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /*!
 
 =========================================================
@@ -26,14 +27,14 @@ import {
   Button
 } from "react-bootstrap";
 
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import $ from 'jquery';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
 import { CustomCard } from "../ui-components/Card/Card";
-import { login, authorizeUser, fetchAllTutors } from '../../actions/user';
+import { login, authorizeUser, fetchAllTutors, updateUser, updateTutor } from '../../actions/user';
+import {storage}  from "../../Firebase/index";
 
 class TutorProfile extends Component {
 
@@ -52,11 +53,68 @@ class TutorProfile extends Component {
     getListTutors();
     }
 
+    onUpdateInfor = e => {
+      $('#idLoading').show();
+      $('#successMsg').hide();
+      const { userState } = this.props;
+      e.preventDefault();
+      let user = {
+        gender: e.target.gender.value===true?'male':'female',
+        firstName: e.target.firstName.value,
+        address: e.target.address.value,
+        phone: e.target.phone.value,
+        bio: e.target.bio.value
+      };
+      let imgAvatar;
+      imgAvatar = userState.user.imageURL;
+      const image = this.fileUpload.files[0];
+      console.log(user);
+      if(this.fileUpload.files.length>0) {
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            // progress function ...
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            if(progress===100) {
+              $('#idLoading').hide();
+              $('#successMsg').show();
+            }
+          },
+          error => {
+            // Error function ...
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(image.name)
+              .getDownloadURL()
+              .then(url => {
+                imgAvatar = url;
+                
+              });
+          }
+        );
+      } 
+
+    }
 
 
-  onUpdateInfor = e => {
+
+  displayImg= e => {
+
     e.preventDefault();
-
+    const image = e.target.files[0];
+    // eslint-disable-next-line prefer-const
+    let reader = new FileReader();
+    reader.onload = function (ev) {
+        $('#idImg')
+            .attr('src', ev.target.result);
+    };
+    reader.readAsDataURL(image);
   }
 
   enableEditProfile(){
@@ -79,19 +137,6 @@ class TutorProfile extends Component {
     {
       this.setState({isChangeable: false});
     }
-  }
-
-  displayImg= e => {
-
-    e.preventDefault();
-    const image = e.target.files[0];
-    // eslint-disable-next-line prefer-const
-    let reader = new FileReader();
-    reader.onload = function (ev) {
-        $('#idImg')
-            .attr('src', ev.target.result);
-    };
-    reader.readAsDataURL(image);
   }
 
   render() {
@@ -126,6 +171,7 @@ class TutorProfile extends Component {
               <Row>
                 <Col md={4}>
                   <UserCard
+                    disabled = {!this.state.isEditable}
                     onClick={()=>{$('#inputImg').click();}}
                     avatar={currentTutor!=null?currentTutor.imageURL:''}
                     // eslint-disable-next-line no-nested-ternary
@@ -137,10 +183,12 @@ class TutorProfile extends Component {
                       </div>
                     }
                   />
-                  <input id="inputImg" style={{display: 'none'}} onChange={this.displayImg} type="file" accept="image/*" name="imageURL" />
+                  
                   <CustomCard
                     content={
-                      <form>
+                      <form >
+                        
+
                       {this.state.isChangeable?
                         (<h4>
                           Password
@@ -210,7 +258,8 @@ class TutorProfile extends Component {
                 <Col md={8}>
                   <CustomCard
                     content={
-                      <form>
+                      <form onSubmit={this.onUpdateInfor}>
+
                       {this.state.isEditable?
                         (<h4>
                           Personal Information
@@ -241,7 +290,7 @@ class TutorProfile extends Component {
                             </Button>
                           </h4>
                         )}
-
+                  <input id="inputImg" style={{display: 'none'}} onChange={this.displayImg} ref={ref => (this.fileUpload = ref)} type="file" accept="image/*" name="imageURL" />
                         <FormInputs
                           ncols={["col-md-8", "col-md-2", "col-md-2"]}
                           properties={[
@@ -256,16 +305,19 @@ class TutorProfile extends Component {
                             },
                             {
                               label: "Gender/Male",
-                              
+                              name: 'gender',
                               type: "checkbox",
                               bsClass: "form-check",
+                              checked:  currentTutor !== null && currentTutor.gender === 'male',
                               style: {marginTop: '10%'},
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "Gender/Female",
+                              name: 'gender',
                               type: "checkbox",
                               bsClass: "form-check",
+                              checked:  currentTutor !== null && currentTutor.gender === 'female',
                               style: {margin: '10%'},
                               disabled: !this.state.isEditable
                             }
@@ -279,8 +331,7 @@ class TutorProfile extends Component {
                               type: "text",
                               name: "firstName",
                               bsClass: "form-control",
-                              placeholder: currentTutor!=null?currentTutor.firstName:'',
-                              maxLength: '128',
+                              value: currentTutor!=null?currentTutor.firstName:'',
                               disabled: !this.state.isEditable
                             },
                             {
@@ -342,6 +393,21 @@ class TutorProfile extends Component {
                   />
                 </Col>
               </Row>
+              <div className="d-flex justify-content-center">
+          <div
+              id="idLoading"
+              style={{ display: 'none' }}
+              className="spinner-border text-success"
+            />
+          </div>
+          <div className="d-flex justify-content-center">
+          <div
+              id="successMsg"
+              style={{ display: 'none', color: 'green', textAlign: 'center' }}
+            >
+              Chỉnh sửa thành công!
+            </div>
+          </div>
             </Grid>
           </div>
           </div>
@@ -364,7 +430,9 @@ const mapDispatchToProps = dispatch =>
     {
       loginAction: login,
       authorizeUserAction: authorizeUser,
-      getListTutors: fetchAllTutors
+      getListTutors: fetchAllTutors,
+      onUpdateUser: updateUser,
+      onUpdateTutor: updateTutor
     },
     dispatch
   );
