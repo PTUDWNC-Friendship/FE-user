@@ -23,8 +23,8 @@ function getCurrentUser(user) {
 function getAllTutors(allTutors) {
   return {
     type: types.GET_ALL_TUTORS,
-    allTutors: allTutors
-  }
+    allTutors
+  };
 }
 
 
@@ -87,6 +87,32 @@ export function fetchAllTutors() {
         dispatch(getAllTutors(users));
       })
       .catch((error) => {
+        dispatch(getCurrentUser(null));
+      });
+  };
+}
+
+export function updateUser(user) {
+  return function(dispatch) {
+    dispatch(requestLogin());
+    return fetch(`http://localhost:3000/user/update`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...user
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json() )
+      .then(data => {
+      console.log("TCL: updateUser -> data", data);
+        dispatch(getCurrentUser(data));
+        dispatch(receiveLogin());
+      })
+      .catch((error) => {
+      console.log("TCL: updateUser -> error", error);
+        
         dispatch(getCurrentUser(null));
       });
   }
