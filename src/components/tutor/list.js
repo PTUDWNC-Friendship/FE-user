@@ -36,7 +36,8 @@ class TutorList extends Component {
     super(props);
     this.state = {
       isEditable: false,
-      isChangeable: false
+      isChangeable: false,
+      element: null
     };
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
@@ -75,6 +76,11 @@ class TutorList extends Component {
     }
   }
 
+  passingProps(element){
+    this.setState({
+      element
+    });
+  };
 
   render() {
     const  {userState} = this.props;
@@ -85,7 +91,7 @@ class TutorList extends Component {
       subject.push(
         <h>Default</h>
       );
-    }
+    };
 
 
     return (
@@ -96,8 +102,20 @@ class TutorList extends Component {
         <div className="site-section bg-light">
         <div className="container">
           <div className="row align-items-center">
+          {this.state.element !== null ? (
+            <InfoModal
+              avatar={this.state.element.imageURL!==null?this.state.element.imageURL:"images/person_2.jpg"}
+              // eslint-disable-next-line no-nested-ternary
+              name={`${this.state.element.firstName} ${this.state.element.lastName}`}
+              title={(this.state.element.title!==null)?this.state.element.title:'Teacher'}
+              address={this.state.element.address!==null?this.state.element.address:'Việt Nam'}
+              price={this.state.element.price!==null?this.state.element.price:'10'}
+              subjects={ this.state.element.subjects!==null?this.state.element.subjects:subject }
+              bio={this.state.element.bio!==null?this.state.element.bio:'There is no bio of this tutor!'}
+              rate='5.0 stars'
+            />
+          ) : null}
 
-          <InfoModal/>
 
           <div className="col-md-12" data-aos="fade">
 
@@ -137,8 +155,10 @@ class TutorList extends Component {
               <Row>
                 {userState.allTutors.map(element=>(
                   <Col md={4} >
-                    <Button type="button" className="btn btn-light" data-toggle="modal" data-target="#myModal"
-                            style={{padding:'0px'}}>
+                    <Button
+                      type="button" className="btn btn-light" data-toggle="modal" data-target="#myModal" style={{padding:'0px'}}
+                      onClick={() => this.passingProps(element)}
+                      >
                       <TutorCard
                         avatar={element.imageURL!==null?element.imageURL:"images/person_2.jpg"}
                         // eslint-disable-next-line no-nested-ternary
@@ -148,6 +168,7 @@ class TutorList extends Component {
                         price={element.price!==null?element.price:'10'}
                         subjects={ element.subjects!==null?element.subjects:subject }
                         rate='5.0 stars'
+
                       />
                     </Button>
                   </Col>
