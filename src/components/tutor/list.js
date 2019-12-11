@@ -19,13 +19,16 @@ import React, { Component } from "react";
 import {
   Grid,
   Row,
-  Col
+  Col,
+  Button
 } from "react-bootstrap";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TutorCard } from "../ui-components/TutorCard/TutorCard";
+import { InfoModal } from "../ui-components/InfoModal/InfoModal";
 import { fetchAllTutors } from '../../actions/user';
+
 
 class TutorList extends Component {
 
@@ -78,24 +81,26 @@ class TutorList extends Component {
     const {user} = userState;
 
     const subject = [];
-    for (let i = 0; i < 1; i+=1) {
+    for (let i = 0; i < 9; i+=1) {
       subject.push(
         <h>Default</h>
       );
     }
 
-    
+
     return (
       <div >
         <div style={{height: '113px'}} />
 
         <div className="unit-5 overlay" style={{backgroundImage: "url('images/tutor-1.jpg')", minHeight: '200px'}} />
-
         <div className="site-section bg-light">
-
         <div className="container">
           <div className="row align-items-center">
+
+          <InfoModal/>
+
           <div className="col-md-12" data-aos="fade">
+
             <Grid fluid>
             <Row style={{marginBottom: '3%'}}>
               <Col md={1} >Filters: </Col>
@@ -131,20 +136,22 @@ class TutorList extends Component {
 
               <Row>
                 {userState.allTutors.map(element=>(
-                  <Col md={4}>
-                  <TutorCard
-                    avatar={element.imageURL!==null?element.imageURL:"images/person_2.jpg"} 
-                    // eslint-disable-next-line no-nested-ternary
-                    name={`${element.firstName} ${element.lastName}`}
-                    title={(element.title!==null)?element.title:'Teacher'}
-                    address={element.address!==null?element.address:'Việt Nam'}
-                    price={element.price!==null?element.price:'10'}
-                    subjects={ element.subjects!==null?element.subjects:subject }
-                    rate='5.0 stars'
-                  />
-                </Col>
+                  <Col md={4} >
+                    <Button type="button" className="btn btn-light" data-toggle="modal" data-target="#myModal"
+                            style={{padding:'0px'}}>
+                      <TutorCard
+                        avatar={element.imageURL!==null?element.imageURL:"images/person_2.jpg"}
+                        // eslint-disable-next-line no-nested-ternary
+                        name={`${element.firstName} ${element.lastName}`}
+                        title={(element.title!==null)?element.title:'Teacher'}
+                        address={element.address!==null?element.address:'Việt Nam'}
+                        price={element.price!==null?element.price:'10'}
+                        subjects={ element.subjects!==null?element.subjects:subject }
+                        rate='5.0 stars'
+                      />
+                    </Button>
+                  </Col>
                 ))}
-
 
 
 

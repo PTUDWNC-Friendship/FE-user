@@ -19,6 +19,8 @@ import React, { Component } from "react";
 import { Image, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
+
 export class TutorCard extends Component {
   render() {
 
@@ -31,15 +33,14 @@ export class TutorCard extends Component {
     console.log(this.props.subjects.length);
 
     return (
-      <div className="card card-user detailInfo">
+      <div className="card card-user" style={{marginBottom: '3%'}}>
         <div className="content" style={{width: '100%'}}>
           <div className='align-items-center' style={{width: '50%', float: 'left'}}>
-
-            <Image
-              className="avatar border-gray"
-              src={this.props.avatar}
-              alt="..."
-            />
+          <Image
+            className="avatar border-gray"
+            src={this.props.avatar}
+            alt="..."
+          />
           </div>
 
           <div style={{marginLeft: '50%'}}>
@@ -52,7 +53,7 @@ export class TutorCard extends Component {
 
           <hr />
 
-          <div>{alerts}</div>
+          <small>{alerts}</small>
 
         </div>
 
