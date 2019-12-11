@@ -140,6 +140,15 @@ export function updateTutor(tutor) {
   };
 }
 
+export function loginGoogle(user) {
+  return function(dispatch) {
+    if (user) {
+      localStorage.setItem('authToken', user.token);
+      dispatch(getCurrentUser(user));
+    }
+  };
+}
+
 export function logout() {
   localStorage.removeItem('authToken');
 
