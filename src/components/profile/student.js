@@ -71,11 +71,6 @@ class StudentProfile extends Component {
     }
   }
 
-  handleChange(e) {
-    
-  }
-
-
   handleSubmitPassword(e) {
     e.preventDefault();
     const { updateUserAction, userState } = this.props;
@@ -119,7 +114,7 @@ class StudentProfile extends Component {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
           if(progress===100) {
-
+            
           }
         },
         error => {

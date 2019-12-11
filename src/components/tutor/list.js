@@ -23,8 +23,9 @@ import {
 } from "react-bootstrap";
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { TutorCard } from "../ui-components/TutorCard/TutorCard";
-
+import { fetchAllTutors } from '../../actions/user';
 
 class TutorList extends Component {
 
@@ -36,6 +37,12 @@ class TutorList extends Component {
     };
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
+  }
+
+  componentDidMount() {
+    const { getListTutors } = this.props;
+    getListTutors();
+
   }
 
   onUpdateInfor = e => {
@@ -71,9 +78,9 @@ class TutorList extends Component {
     const {user} = userState;
 
     const subject = [];
-    for (let i = 0; i < 10; i+=1) {
+    for (let i = 0; i < 1; i+=1) {
       subject.push(
-        <h>Math</h>
+        <h>Default</h>
       );
     }
 
@@ -123,18 +130,21 @@ class TutorList extends Component {
             </Row>
 
               <Row>
-                <Col md={4}>
+                {userState.allTutors.map(element=>(
+                  <Col md={4}>
                   <TutorCard
-                    avatar='images/person_1.jpg'
+                    avatar={element.imageURL!==null?element.imageURL:"images/person_2.jpg"} 
                     // eslint-disable-next-line no-nested-ternary
-                    name='Tina Galloway'
-                    title='Teacher'
-                    address='VietNam'
-                    price='1000'
-                    subjects={ subject }
+                    name={`${element.firstName} ${element.lastName}`}
+                    title={(element.title!==null)?element.title:'Teacher'}
+                    address={element.address!==null?element.address:'Việt Nam'}
+                    price={element.price!==null?element.price:'10'}
+                    subjects={ element.subjects!==null?element.subjects:subject }
                     rate='5.0 stars'
                   />
                 </Col>
+                ))}
+
 
 
 
@@ -156,7 +166,16 @@ const mapStateToProps = state => {
     userState: state.userState
   };
 };
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      getListTutors: fetchAllTutors
+    },
+    dispatch
+  );
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(TutorList);

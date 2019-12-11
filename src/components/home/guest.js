@@ -8,15 +8,13 @@ class Guest extends React.Component {
   componentDidMount() {
     const { userState, history, getListTutors } = this.props;
     getListTutors();
-    if(userState.user!==null) {
-    if (userState.user.role === 'student') {
-      history.push('/home-student');
+    if (userState.user !== null) {
+      if (userState.user.role === 'student') {
+        history.push('/home-student');
+      } else if (userState.user.role === 'tutor') {
+        history.push('/home-tutor');
+      }
     }
-    else if (userState.user.role === 'tutor') {
-      history.push('/home-tutor');
-    }
-    }
-
   }
 
   render() {
@@ -242,60 +240,88 @@ class Guest extends React.Component {
             </div>
           </div>
 
-           <div className="site-section bg-light">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-md-8 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                        <h2 className="mb-5 h3">All Tutors</h2>
-                        <div className="rounded border jobs-wrap">
-                          {userState.allTutors.map(element=>(
-                            <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
-                              <div className="company-logo blank-logo text-center text-md-left pl-3">
-                                <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
-                              </div>
-                              <div className="job-details h-100">
-                                <div className="p-3 align-self-center">
-                                  <h3>{element!==null?element.firstName:''} {element!==null?element.lastName:''}</h3>
-                                  <div className="d-block d-lg-flex">
-                                    <div className="mr-3"><span className="icon-suitcase mr-1"></span> Teacher</div>
-                                    <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                    <div><span className="icon-money mr-1"></span>${element!==null?element.price:'0'} per hour</div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="job-category align-self-center">
-                                <div className="p-3">
-                                  <span className="text-info p-2 rounded border border-info">100% Trusted</span>
-                                </div>
-                              </div>
-                            </Link>
-                          ))
-
-                          }
-
-
+          <div className="site-section bg-light">
+            <div className="container">
+              <div className="row">
+                <div
+                  className="col-md-8 mb-5 mb-md-0"
+                  data-aos="fade-up"
+                  data-aos-delay="100"
+                >
+                  <h2 className="mb-5 h3">All Tutors</h2>
+                  <div className="rounded border jobs-wrap">
+                    {userState.allTutors.map(element => (
+                      <Link
+                        to="job-single.html"
+                        className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
+                      >
+                        <div className="company-logo blank-logo text-center text-md-left pl-3">
+                          <img
+                            src={element !== null ? element.imageURL : ''}
+                            alt=""
+                            className="img-fluid mx-auto"
+                          />
                         </div>
-
-                        <div className="col-md-12 text-center mt-5">
-                          <Link to="/list-tutors" className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle"/> More Tutors</Link>
-                        </div>
-                      </div>
-                      <div className="col-md-4 block-16" data-aos="fade-up" data-aos-delay="200">
-                        <div className="d-flex mb-0">
-                          <h2 className="mb-5 h3 mb-0">Recent Hired</h2>
-                        </div>
-
-                        <div className="nonloop-block-16 owl-carousel">
-
-                          <div className="border rounded p-4 bg-white">
-                            <h2 className="h5">You need to login to hire tutors!</h2>
+                        <div className="job-details h-100">
+                          <div className="p-3 align-self-center">
+                            <h3>
+                              {element !== null ? element.firstName : ''}
+                              {element !== null ? element.lastName : ''}
+                            </h3>
+                            <div className="d-block d-lg-flex">
+                              <div className="mr-3">
+                                <span className="icon-suitcase mr-1" /> Tutor
+                              </div>
+                              <div className="mr-3">
+                                <span className="icon-room mr-1" />
+                                { element !== null ? element.address : '' }
+                              </div>
+                              <div>
+                                <span className="icon-money mr-1" />$
+                                {element !== null ? element.price : '0'} per
+                                hour
+                              </div>
+                            </div>
                           </div>
                         </div>
+                        <div className="job-category align-self-center">
+                          <div className="p-3">
+                            <span className="text-info p-2 rounded border border-info">
+                              100% Trusted
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
 
-                      </div>
+                  <div className="col-md-12 text-center mt-5">
+                    <Link
+                      to="/list-tutors"
+                      className="btn btn-success rounded py-3 px-5"
+                    >
+                      <span className="icon-plus-circle" /> More Tutors
+                    </Link>
+                  </div>
+                </div>
+                <div
+                  className="col-md-4 block-16"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
+                  <div className="d-flex mb-0">
+                    <h2 className="mb-5 h3 mb-0">Recent Hired</h2>
+                  </div>
+
+                  <div className="nonloop-block-16 owl-carousel">
+                    <div className="border rounded p-4 bg-white">
+                      <h2 className="h5">You need to login to hire tutors!</h2>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
           <div
             className="site-blocks-cover overlay inner-page"
@@ -317,10 +343,7 @@ class Guest extends React.Component {
                       Find Tutors
                     </Link>
                     <p />
-                    <Link
-                      to="/register"
-                      className="btn btn-warning py-3 px-4"
-                    >
+                    <Link to="/register" className="btn btn-warning py-3 px-4">
                       Apply For A Tutor
                     </Link>
                   </p>
@@ -701,7 +724,7 @@ class Guest extends React.Component {
                       </Link>
                     </p>
                   </div>
-                </div>
+                </div>d
               </div>
               <div className="row pt-5 mt-5 text-center">
                 <div className="col-md-12" />
