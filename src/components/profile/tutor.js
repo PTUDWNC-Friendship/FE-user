@@ -59,7 +59,7 @@ class TutorProfile extends Component {
       $('#successMsg').hide();
       const { userState,onUpdateUser,onUpdateTutor, authorizeUserAction } = this.props;
       e.preventDefault();
-      let user = {
+      const user = {
         _id: e.target.id.value,
         password: "",
         gender: e.target.gender.value,
@@ -70,13 +70,13 @@ class TutorProfile extends Component {
         bio: e.target.bio.value.trim()!==""?e.target.bio.value:e.target.bio.placeholder,
         imageURL: userState.user.imageURL
       };
-      let tutor = {
+      const tutor = {
         _id: e.target.id.value,
         title: e.target.title.value.trim()!==""?e.target.title.value:e.target.title.placeholder,
         price: e.target.price.value.trim()!==""?e.target.price.value:e.target.price.placeholder,
-      }
-      let imgAvatar;
-      imgAvatar = userState.user.imageURL;
+      };
+      
+      const imgAvatar = userState.user.imageURL;
       const image = this.fileUpload.files[0];
       if(this.fileUpload.files.length>0) {
         const uploadTask = storage.ref(`images/${image.name}`).put(image);

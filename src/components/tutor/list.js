@@ -71,7 +71,6 @@ class TutorList extends Component {
   render() {
     const  {userState} = this.props;
     const {user} = userState;
-    console.log(user);
 
     const subject = [];
     for (let i = 0; i < 10; i+=1) {
@@ -79,7 +78,6 @@ class TutorList extends Component {
         <h>Math</h>
       );
     }
-    console.log(subject[0]);
     return (
       <div >
         <div style={{height: '113px'}} />
