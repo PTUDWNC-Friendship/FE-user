@@ -19,11 +19,9 @@ import React, { Component } from "react";
 import {
   Grid,
   Row,
-  Col,
-  Button
+  Col
 } from "react-bootstrap";
 
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TutorCard } from "../ui-components/TutorCard/TutorCard";
 

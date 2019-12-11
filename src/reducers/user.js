@@ -1,4 +1,4 @@
-import * as types from '../helpers/index';
+import * as types from '../helpers/action-type';
 
 const initialState = {
     isFetching: false,
