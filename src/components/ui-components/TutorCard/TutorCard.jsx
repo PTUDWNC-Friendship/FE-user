@@ -23,20 +23,20 @@ export class TutorCard extends Component {
   render() {
     return (
       <div className="card card-user">
-        <div className="content">
-          <div>
-            <Link to='/'>
-              <Image
-                className="avatar border-gray"
-                src={this.props.avatar}
-                alt="..."
-              />
-            </Link>
-            <h4 className="title text-center">
-              {this.props.name}
-              <br />
-              <small>{this.props.userName}</small>
-            </h4>
+        <div className="content" style={{width: '100%'}}>
+          <div className='align-items-center' style={{width: '50%', float: 'left'}}>
+            <Image
+              className="avatar border-gray"
+              src={this.props.avatar}
+              alt="..."
+            />
+          </div>
+          <div style={{marginLeft: '50%'}}>
+            <Link to='/list-tutors' style={{color: 'green'}}>{this.props.name}<br/></Link>
+            <h>{this.props.title}</h>
+            <p><strong>${this.props.price}</strong> per hour</p>
+            <p>{this.props.address}</p>
+
           </div>
         </div>
         <hr />

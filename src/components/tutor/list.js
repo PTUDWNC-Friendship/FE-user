@@ -79,17 +79,52 @@ class TutorList extends Component {
         <div className="unit-5 overlay" style={{backgroundImage: "url('images/tutor-1.jpg')", minHeight: '200px'}} />
 
         <div className="site-section bg-light">
+
         <div className="container">
           <div className="row align-items-center">
           <div className="col-md-12" data-aos="fade">
             <Grid fluid>
+            <Row style={{marginBottom: '3%'}}>
+              <Col md={1} >Filters: </Col>
+
+              <Col md={3} >
+                <select className="js-example-basic-single" name='state' style={{minWidth: '200px'}}>
+                  <option value="ANY">Any country</option>
+                  <option value="VN">Viet Nam</option>
+                  <option value="US">USA</option>
+                </select>
+              </Col>
+
+              <Col md={3}>
+                <select className="js-example-basic-single" name='state' style={{minWidth: '200px'}}>
+                  <option value="ANY">Any hourly rate</option>
+                  <option value="10ph">$10/hr and below</option>
+                  <option value="20">$10/hr - $30/hr</option>
+                  <option value="20">$30/hr - $60/hr</option>
+                  <option value="20">$60/hr and above</option>
+                </select>
+              </Col>
+
+              <Col md={3}>
+                <select className="js-example-basic-single" name='state' style={{minWidth: '200px'}}>
+                  <option value="ANY">Any subject</option>
+                  <option value="math">Math</option>
+                  <option value="phy">Physic</option>
+                  <option value="che">Chemistry</option>
+                  <option value="his">History</option>
+                </select>
+              </Col>
+            </Row>
+
               <Row>
                 <Col md={4}>
                   <TutorCard
                     avatar='images/person_1.jpg'
                     // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
+                    name='Tina Galloway'
+                    title='Teacher'
+                    address='VietNam'
+                    price='1000'
                     socials={
                       <div>
                         *****
@@ -99,98 +134,6 @@ class TutorList extends Component {
                 </Col>
 
 
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
-
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
-                <Col md={4}>
-                  <TutorCard
-                    avatar='images/person_1.jpg'
-                    // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
-                  />
-                </Col>
 
               </Row>
 

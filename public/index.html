@@ -112,8 +112,9 @@
 
 
 
-
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="path/to/select2.min.css" rel="stylesheet" />
 
 
     <title>TutorFinder</title>
@@ -267,5 +268,15 @@
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+      <script src="vendor/select2/dist/js/select2.min.js"></script>
+      <script src="path/to/select2.min.js"></script>
+      <script>
+      // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+          $('.js-example-basic-single').select2();
+        });
+      </script>
   </body>
 </html>
