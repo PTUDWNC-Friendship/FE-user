@@ -94,6 +94,7 @@ export function fetchAllTutors() {
 
 export function updateUser(user) {
   return function(dispatch) {
+    console.log(user);
     dispatch(requestLogin());
     return fetch(`http://localhost:3000/user/update`, {
       method: 'POST',

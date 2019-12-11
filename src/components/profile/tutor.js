@@ -45,13 +45,33 @@ class TutorProfile extends Component {
       isEditable: false,
       isChangeable: false
     };
+
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
+    this.formPassword = React.createRef();
   }
 
   componentDidMount() {
     const {  getListTutors } = this.props;
     getListTutors();
+    }
+
+    handleSubmitPassword =e => {
+      $('#idLoading').show();
+      $('#successMsgPass').hide();
+      e.preventDefault();
+      const { onUpdateUser, userState } = this.props;
+      const { elements } = this.formPassword.current;
+      if (elements.password.value === elements.confirmPassword.value) {
+        Object.keys(userState.user).forEach(key => {
+          if (elements[key]) {
+            userState.user[key] = elements[key].value;
+          }
+          onUpdateUser(userState.user);
+        });
+        $('#idLoading').hide();
+        $('#successMsgPass').show();
+      }
     }
 
     onUpdateInfor = e => {
@@ -110,17 +130,23 @@ class TutorProfile extends Component {
           }
         );
       } else {
-        onUpdateUser(user);
-        onUpdateTutor(tutor);
-        authorizeUserAction();
-        $('#idLoading').hide();
-        $('#successMsg').show();
-        console.log(12);
-      }
+        Promise.resolve(
+          onUpdateUser(user),
+          onUpdateTutor(tutor)
+        ).then(()=>{
+          authorizeUserAction();
+          $('#idLoading').hide();
+          $('#successMsg').show();
+  
+
+
+
+        });
+      
 
     }
 
-
+  }
 
   displayImg= e => {
 
@@ -169,8 +195,8 @@ class TutorProfile extends Component {
 
 
     let fullName = '';
-    if(currentTutor!==null) {
-      fullName = currentTutor.firstName + ' ' + currentTutor.lastName;
+    if(user!==null) {
+      fullName =user.firstName + ' ' + user.lastName;
     }
 
 
@@ -197,14 +223,15 @@ class TutorProfile extends Component {
                     userName={currentTutor!=null?currentTutor.username:''}
                     socials={
                       <div>
-                        *****
+                        Tutor
                       </div>
                     }
                   />
 
                   <CustomCard
                     content={
-                      <form >
+                      <form onSubmit={this.handleSubmitPassword}
+                      ref={this.formPassword}>
 
 
                       {this.state.isChangeable?
@@ -248,6 +275,7 @@ class TutorProfile extends Component {
                                 label: "New password",
                                 type: "password",
                                 bsClass: "form-control",
+                                name: 'password',
                                 placeholder: "Enter your password here",
                                 disabled: !this.state.isChangeable
                               }
@@ -261,6 +289,7 @@ class TutorProfile extends Component {
                                 label: "Confirm password",
                                 type: "password",
                                 bsClass: "form-control",
+                                name: 'confirmPassword',
                                 placeholder: "Enter your password here",
                                 disabled: !this.state.isChangeable
                               }
@@ -270,6 +299,12 @@ class TutorProfile extends Component {
                       </form>
                     }
                   />
+                      <div
+                        id="successMsgPass"
+                        style={{ display: 'none', color: 'green', textAlign: 'center' }}
+                      >
+              Đổi mật khẩu thành công!
+            </div>
                 </Col>
 
 
@@ -391,7 +426,7 @@ class TutorProfile extends Component {
                             },
                             {
                               label: "PHONE NUMBER",
-                              type: "numeric",
+                              type: "text",
                               name: "phone",
                               bsClass: "form-control",
                               placeholder: user!=null?user.phone:'',
