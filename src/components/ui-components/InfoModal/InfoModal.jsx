@@ -39,7 +39,7 @@ export class InfoModal extends Component {
                           </div>
 
                           <div style={{marginLeft: '50%'}}>
-                            <Link to='/' style={{color: 'green'}}>{this.props.name}<br/></Link>
+                            <strong style={{color: 'green'}}>{this.props.name}<br/></strong>
                             <p>{this.props.title}</p>
                             <p><strong>${this.props.price}</strong> per hour</p>
                             <p>{this.props.address}</p>
