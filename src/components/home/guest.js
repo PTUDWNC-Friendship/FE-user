@@ -252,7 +252,7 @@ class Guest extends React.Component {
                   <div className="rounded border jobs-wrap">
                     {userState.allTutors.map(element => (
                       <Link
-                        to="job-single.html"
+                        to="/list-tutors"
                         className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
                       >
                         <div className="company-logo blank-logo text-center text-md-left pl-3">

@@ -173,9 +173,6 @@ class TutorList extends Component {
                     </Button>
                   </Col>
                 ))}
-
-
-
               </Row>
 
             </Grid>
