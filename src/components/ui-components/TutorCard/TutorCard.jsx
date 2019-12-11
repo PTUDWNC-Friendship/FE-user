@@ -43,12 +43,12 @@ export class TutorCard extends Component {
 
           <div style={{marginLeft: '50%'}}>
             <Link to='/list-tutors' style={{color: 'green'}}>{this.props.name}<br/></Link>
-            <h>{this.props.title}</h>
+            <p>{this.props.title}</p>
             <p><strong>${this.props.price}</strong> per hour</p>
             <p>{this.props.address}</p>
 
           </div>
-          <br/>
+          
           <hr />
 
           <div>{alerts}</div>
