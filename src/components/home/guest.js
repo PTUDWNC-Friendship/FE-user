@@ -21,7 +21,6 @@ class Guest extends React.Component {
 
   render() {
     const { userState } = this.props;
-    console.log(userState.allTutors);
     return (
       <div>
         <div className="site-wrap">

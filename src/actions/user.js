@@ -95,6 +95,7 @@ export function fetchAllTutors() {
 
 export function updateUser(user) {
   return function(dispatch) {
+    console.log(user);
     dispatch(requestLogin());
     return fetch(`${SERVER_URL}/user/update`, {
       method: 'POST',

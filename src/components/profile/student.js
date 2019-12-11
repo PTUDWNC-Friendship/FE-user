@@ -13,10 +13,12 @@ import {
 import { connect } from 'react-redux';
 import Fade from '@material-ui/core/Fade';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import $ from 'jquery';
 import { FormInputs } from '../ui-components/FormInputs/FormInputs';
 import { UserCard } from '../ui-components/UserCard/UserCard';
 import { CustomCard } from '../ui-components/Card/Card';
-import { updateUser } from '../../actions/user';
+import {  authorizeUser,  updateUser } from '../../actions/user';
+import {storage}  from "../../Firebase/index";
 
 class StudentProfile extends Component {
   constructor(props) {
@@ -39,6 +41,20 @@ class StudentProfile extends Component {
     e.preventDefault();
   };
 
+  
+  displayImg= e => {
+
+    e.preventDefault();
+    const image = e.target.files[0];
+    // eslint-disable-next-line prefer-const
+    let reader = new FileReader();
+    reader.onload = function (ev) {
+        $('#idImg')
+            .attr('src', ev.target.result);
+    };
+    reader.readAsDataURL(image);
+  }
+
   enableEditProfile() {
     if (!this.state.isEditable) {
       this.setState({ isEditable: true });
@@ -59,6 +75,7 @@ class StudentProfile extends Component {
     
   }
 
+
   handleSubmitPassword(e) {
     e.preventDefault();
     const { updateUserAction, userState } = this.props;
@@ -71,19 +88,75 @@ class StudentProfile extends Component {
         updateUserAction(userState.user);
       });
     }
+
+
   }
 
   handleSubmit(e) {
+    $('#idLoading').show();
+    $('#successMsg').hide();
     e.preventDefault();
-    const { updateUserAction, userState } = this.props;
-    const { elements } = this.formGeneral.current;
+    const { updateUserAction, userState, authorizeUserAction } = this.props;
 
-    Object.keys(userState.user).forEach(key => {
-      if (elements[key]) {
-        userState.user[key] = elements[key].value;
-      }
-      updateUserAction(userState.user);
-    });
+    let user = {
+      _id: e.target.id.value,
+      password: "",
+      firstName: e.target.firstName.value.trim()!==""?e.target.firstName.value:e.target.firstName.placeholder,
+      lastName: e.target.lastName.value.trim()!==""?e.target.lastName.value:e.target.lastName.placeholder,
+      address: e.target.address.value.trim()!==""?e.target.address.value:e.target.address.placeholder,
+      phone: e.target.phone.value.trim()!==""?e.target.phone.value:e.target.phone.placeholder,
+      bio: e.target.bio.value.trim()!==""?e.target.bio.value:e.target.bio.placeholder,
+      imageURL: userState.user.imageURL
+    };
+    const image = this.fileUpload.files[0];
+    if(this.fileUpload.files.length>0) {
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        snapshot => {
+          // progress function ...
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          if(progress===100) {
+
+          }
+        },
+        error => {
+          // Error function ...
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(image.name)
+            .getDownloadURL()
+            .then(url => {
+              user.imageURL =url;
+              Promise.resolve(
+                updateUserAction(user)
+              ).then(()=>{
+                authorizeUserAction();
+                $('#idLoading').hide();
+                $('#successMsg').show();
+        
+      
+      
+      
+              });
+            });
+        }
+      );
+    } else {
+      
+      Promise.resolve(
+        updateUserAction(user)
+      ).then(()=>{
+        authorizeUserAction();
+        $('#idLoading').hide();
+        $('#successMsg').show();
+      });
+    }
   }
 
   render() {
@@ -121,7 +194,9 @@ class StudentProfile extends Component {
                   <Row>
                     <Col md={4}>
                       <UserCard
-                        avatar="images/person_1.jpg"
+                       disabled = {!this.state.isEditable}
+                       onClick={()=>{$('#inputImg').click();}}
+                        avatar={user!==null?user.imageURL:''}
                         name={
                           user !== null
                             ? `${user.firstName} ${user.lastName}`
@@ -183,7 +258,7 @@ class StudentProfile extends Component {
                                     bsClass: 'form-control',
                                     name: 'password',
                                     placeholder: 'Enter your password here',
-                                    disabled: !this.state.isChangeable || this.userState.isFetching
+                                    disabled: !this.state.isChangeable
                                   }
                                 ]}
                               />
@@ -197,7 +272,7 @@ class StudentProfile extends Component {
                                     bsClass: 'form-control',
                                     name: 'confirmPassword',
                                     placeholder: 'Enter your password here',
-                                    disabled: !this.state.isChangeable || this.userState.isFetching
+                                    disabled: !this.state.isChangeable
                                   }
                                 ]}
                               />
@@ -206,8 +281,22 @@ class StudentProfile extends Component {
                         }
                       />
                     </Col>
-
                     <Col md={8}>
+                    <div className="d-flex justify-content-center">
+                      <div
+                        id="idLoading"
+                        style={{ display: 'none' }}
+                        className="spinner-border text-success"
+                      />
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      <div
+                        id="successMsg"
+                        style={{ display: 'none', color: 'green', textAlign: 'center' }}
+                      >
+                        Chỉnh sửa thành công!
+            </div>
+                    </div>
                       <CustomCard
                         content={
                           <form
@@ -259,43 +348,43 @@ class StudentProfile extends Component {
                                   name: 'firstName',
                                   type: 'text',
                                   bsClass: 'form-control',
-                                  value: user !== null ? user.firstName : '',
+                                  placeholder: user !== null ? user.firstName : '',
                                   maxLength: '128',
                                   disabled: !this.state.isEditable,
-                                  onChange: this.handleChange || this.userState.isFetching
+                                  onChange: this.handleChange 
                                 },
                                 {
                                   label: 'Last name',
                                   name: 'lastName',
                                   type: 'text',
                                   bsClass: 'form-control',
-                                  value: user !== null ? user.lastName : '',
+                                  placeholder: user !== null ? user.lastName : '',
                                   maxLength: '128',
-                                  disabled: !this.state.isEditable || this.userState.isFetching
+                                  disabled: !this.state.isEditable 
                                 },
                                 {
                                   label: 'Male',
                                   name: 'gender',
+                                  checked: user!==null&&user.gender==='male',
+                                  value: 'male',
                                   type: 'radio',
                                   bsClass: 'form-check',
-                                  checked:
-                                    user !== null && user.gender === 'male',
-                                  style: { marginTop: '10%' },
-                                  disabled: !this.state.isEditable || this.userState.isFetching
+                                  disabled: !this.state.isEditable 
                                 },
                                 {
                                   label: 'Female',
                                   name: 'gender',
-                                  checked:
-                                    user !== null && user.gender === 'female',
+                                  value: 'female',
+                                  checked: user!==null&&user.gender==='female',
                                   type: 'radio',
                                   bsClass: 'form-check',
                                   style: { margin: '10%' },
-                                  disabled: !this.state.isEditable || this.userState.isFetching
+                                  disabled: !this.state.isEditable
                                 }
                               ]}
                             />
-
+                          <input  style={{display: 'none'}} type="text" name="id" value={user !== null?user._id:''}  />
+                          <input id="inputImg" style={{display: 'none'}} onChange={this.displayImg} ref={ref => (this.fileUpload = ref)} type="file" accept="image/*" name="imageURL" />
                             <FormInputs
                               ncols={['col-md-9', 'col-md-3']}
                               properties={[
@@ -304,7 +393,7 @@ class StudentProfile extends Component {
                                   name: 'address',
                                   type: 'text',
                                   bsClass: 'form-control',
-                                  value: user !== null ? user.address : '',
+                                  placeholder: user !== null ? user.address : '',
                                   maxLength: '255',
                                   disabled: !this.state.isEditable
                                 },
@@ -329,8 +418,7 @@ class StudentProfile extends Component {
                                     name="bio"
                                     componentClass="textarea"
                                     bsClass="form-control"
-                                    value={user !== null ? user.bio : ''}
-                                    placeholder="Here can be your description"
+                                    placeholder={user !== null ? user.bio : ''}
                                     disabled={!this.state.isEditable}
                                   />
                                 </FormGroup>
@@ -339,8 +427,10 @@ class StudentProfile extends Component {
 
                             <div className="clearfix" />
                           </form>
+                          
                         }
                       />
+                      
                     </Col>
                   </Row>
                 </Grid>
@@ -361,7 +451,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUserAction: user => dispatch(updateUser(user))
+    updateUserAction: user => dispatch(updateUser(user)),
+    authorizeUserAction: () =>dispatch(authorizeUser()),
   };
 };
 
