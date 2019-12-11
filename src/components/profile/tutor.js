@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /*!
 
 =========================================================
@@ -27,10 +28,13 @@ import {
 } from "react-bootstrap";
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import $ from 'jquery';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
-
 import { CustomCard } from "../ui-components/Card/Card";
+import { login, authorizeUser, fetchAllTutors, updateUser, updateTutor } from '../../actions/user';
+import {storage}  from "../../Firebase/index";
 
 class TutorProfile extends Component {
 
@@ -44,9 +48,73 @@ class TutorProfile extends Component {
     this.enableChangePassword = this.enableChangePassword.bind(this);
   }
 
-  onUpdateInfor = e => {
-    e.preventDefault();
+  componentDidMount() {
+    const {  getListTutors } = this.props;
+    getListTutors();
+    }
 
+    onUpdateInfor = e => {
+      $('#idLoading').show();
+      $('#successMsg').hide();
+      const { userState } = this.props;
+      e.preventDefault();
+      let user = {
+        gender: e.target.gender.value===true?'male':'female',
+        firstName: e.target.firstName.value,
+        address: e.target.address.value,
+        phone: e.target.phone.value,
+        bio: e.target.bio.value
+      };
+      let imgAvatar;
+      imgAvatar = userState.user.imageURL;
+      const image = this.fileUpload.files[0];
+      console.log(user);
+      if(this.fileUpload.files.length>0) {
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            // progress function ...
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            if(progress===100) {
+              $('#idLoading').hide();
+              $('#successMsg').show();
+            }
+          },
+          error => {
+            // Error function ...
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(image.name)
+              .getDownloadURL()
+              .then(url => {
+                imgAvatar = url;
+
+              });
+          }
+        );
+      }
+
+    }
+
+
+
+  displayImg= e => {
+
+    e.preventDefault();
+    const image = e.target.files[0];
+    // eslint-disable-next-line prefer-const
+    let reader = new FileReader();
+    reader.onload = function (ev) {
+        $('#idImg')
+            .attr('src', ev.target.result);
+    };
+    reader.readAsDataURL(image);
   }
 
   enableEditProfile(){
@@ -71,11 +139,24 @@ class TutorProfile extends Component {
     }
   }
 
-
   render() {
+
     const  {userState} = this.props;
-    const {user} = userState;
-    console.log(user);
+    const {user,allTutors} = userState;
+    let currentTutor = null;
+
+    if(allTutors.length>0) {
+      currentTutor =allTutors.find(el=>el._id===user._id);
+    }
+
+
+    let fullName = '';
+    if(currentTutor!==null) {
+      fullName = currentTutor.firstName + currentTutor.lastName;
+    }
+
+
+
     return (
       <div >
         <div style={{height: '113px'}} />
@@ -90,10 +171,12 @@ class TutorProfile extends Component {
               <Row>
                 <Col md={4}>
                   <UserCard
-                    avatar='images/person_1.jpg'
+                    disabled = {!this.state.isEditable}
+                    onClick={()=>{$('#inputImg').click();}}
+                    avatar={currentTutor!=null?currentTutor.imageURL:''}
                     // eslint-disable-next-line no-nested-ternary
-                    name={ user!=null?user.firstName:''}
-                    userName={user!=null?user.username:''}
+                    name={fullName}
+                    userName={currentTutor!=null?currentTutor.username:''}
                     socials={
                       <div>
                         *****
@@ -103,7 +186,9 @@ class TutorProfile extends Component {
 
                   <CustomCard
                     content={
-                      <form>
+                      <form >
+
+
                       {this.state.isChangeable?
                         (<h4>
                           Password
@@ -173,7 +258,8 @@ class TutorProfile extends Component {
                 <Col md={8}>
                   <CustomCard
                     content={
-                      <form>
+                      <form onSubmit={this.onUpdateInfor}>
+
                       {this.state.isEditable?
                         (<h4>
                           Personal Information
@@ -204,30 +290,34 @@ class TutorProfile extends Component {
                             </Button>
                           </h4>
                         )}
-
+                  <input id="inputImg" style={{display: 'none'}} onChange={this.displayImg} ref={ref => (this.fileUpload = ref)} type="file" accept="image/*" name="imageURL" />
                         <FormInputs
                           ncols={["col-md-8", "col-md-2", "col-md-2"]}
                           properties={[
                             {
                               label: "Title",
                               type: "text",
+                              name: "title",
                               bsClass: "form-control",
-                              placeholder: "Your title",
+                              placeholder: currentTutor!==null?currentTutor.title:'',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "Gender/Male",
-
+                              name: 'gender',
                               type: "checkbox",
                               bsClass: "form-check",
+                              checked:  currentTutor !== null && currentTutor.gender === 'male',
                               style: {marginTop: '10%'},
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "Gender/Female",
+                              name: 'gender',
                               type: "checkbox",
                               bsClass: "form-check",
+                              checked:  currentTutor !== null && currentTutor.gender === 'female',
                               style: {margin: '10%'},
                               disabled: !this.state.isEditable
                             }
@@ -239,16 +329,17 @@ class TutorProfile extends Component {
                             {
                               label: "First name",
                               type: "text",
+                              name: "firstName",
                               bsClass: "form-control",
-                              placeholder: user!=null?user.firstName:'',
-                              maxLength: '128',
+                              value: currentTutor!=null?currentTutor.firstName:'',
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "Last name",
                               type: "text",
+                              name: "lastName",
                               bsClass: "form-control",
-                              placeholder: "Last name",
+                              placeholder: currentTutor!=null?currentTutor.lastName:'',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             }
@@ -262,14 +353,16 @@ class TutorProfile extends Component {
                             {
                               label: "Address",
                               type: "text",
+                              name: "address",
                               bsClass: "form-control",
-                              placeholder: user!=null?user.address:'',
+                              placeholder: currentTutor!=null?currentTutor.address:'',
                               maxLength: '255',
                               disabled: !this.state.isEditable
                             },
                             {
                               label: "PHONE NUMBER",
                               type: "numeric",
+                              name: "phone",
                               bsClass: "form-control",
                               placeholder: user!=null?user.phone:'',
                               maxLength: '11',
@@ -284,9 +377,10 @@ class TutorProfile extends Component {
                               <ControlLabel>About Me</ControlLabel>
                               <FormControl
                                 rows="10"
+                                name="bio"
                                 componentClass="textarea"
                                 bsClass="form-control"
-                                placeholder="Here can be your description"
+                                placeholder={currentTutor!==null?currentTutor.bio:''}
                                 disabled= {!this.state.isEditable}
                               />
                             </FormGroup>
@@ -299,6 +393,21 @@ class TutorProfile extends Component {
                   />
                 </Col>
               </Row>
+              <div className="d-flex justify-content-center">
+          <div
+              id="idLoading"
+              style={{ display: 'none' }}
+              className="spinner-border text-success"
+            />
+          </div>
+          <div className="d-flex justify-content-center">
+          <div
+              id="successMsg"
+              style={{ display: 'none', color: 'green', textAlign: 'center' }}
+            >
+              Chỉnh sửa thành công!
+            </div>
+          </div>
             </Grid>
           </div>
           </div>
@@ -315,7 +424,20 @@ const mapStateToProps = state => {
     userState: state.userState
   };
 };
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      loginAction: login,
+      authorizeUserAction: authorizeUser,
+      getListTutors: fetchAllTutors,
+      onUpdateUser: updateUser,
+      onUpdateTutor: updateTutor
+    },
+    dispatch
+  );
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(TutorProfile);
