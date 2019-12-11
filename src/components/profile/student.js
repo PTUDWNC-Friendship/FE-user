@@ -17,7 +17,7 @@ import $ from 'jquery';
 import { FormInputs } from '../ui-components/FormInputs/FormInputs';
 import { UserCard } from '../ui-components/UserCard/UserCard';
 import { CustomCard } from '../ui-components/Card/Card';
-import { login, authorizeUser, fetchAllTutors, updateUser, updateTutor } from '../../actions/user';
+import {  authorizeUser,  updateUser } from '../../actions/user';
 import {storage}  from "../../Firebase/index";
 
 class StudentProfile extends Component {
@@ -78,7 +78,7 @@ class StudentProfile extends Component {
 
   handleSubmitPassword(e) {
     e.preventDefault();
-    const { updateUserAction, userState, authorizeUserAction } = this.props;
+    const { updateUserAction, userState } = this.props;
     const { elements } = this.formPassword.current;
     if (elements.password.value === elements.confirmPassword.value) {
       Object.keys(userState.user).forEach(key => {
@@ -108,8 +108,6 @@ class StudentProfile extends Component {
       bio: e.target.bio.value.trim()!==""?e.target.bio.value:e.target.bio.placeholder,
       imageURL: userState.user.imageURL
     };
-    let imgAvatar;
-    imgAvatar = userState.user.imageURL;
     const image = this.fileUpload.files[0];
     if(this.fileUpload.files.length>0) {
       const uploadTask = storage.ref(`images/${image.name}`).put(image);

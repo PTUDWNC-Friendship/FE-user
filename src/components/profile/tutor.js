@@ -95,8 +95,7 @@ class TutorProfile extends Component {
         title: e.target.title.value.trim()!==""?e.target.title.value:e.target.title.placeholder,
         price: e.target.price.value.trim()!==""?e.target.price.value:e.target.price.placeholder,
       }
-      let imgAvatar;
-      imgAvatar = userState.user.imageURL;
+
       const image = this.fileUpload.files[0];
       if(this.fileUpload.files.length>0) {
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
