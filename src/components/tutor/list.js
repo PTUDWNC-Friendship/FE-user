@@ -83,7 +83,6 @@ class TutorList extends Component {
         <h>Default</h>
       );
     }
-    console.log(subject[0]);
     return (
       <div >
         <div style={{height: '113px'}} />
