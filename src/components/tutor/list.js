@@ -72,6 +72,14 @@ class TutorList extends Component {
     const  {userState} = this.props;
     const {user} = userState;
     console.log(user);
+
+    const subject = [];
+    for (let i = 0; i < 10; i+=1) {
+      subject.push(
+        <h>Math</h>
+      );
+    }
+    console.log(subject[0]);
     return (
       <div >
         <div style={{height: '113px'}} />
@@ -125,11 +133,8 @@ class TutorList extends Component {
                     title='Teacher'
                     address='VietNam'
                     price='1000'
-                    socials={
-                      <div>
-                        *****
-                      </div>
-                    }
+                    subjects={ subject }
+                    rate='5.0 stars'
                   />
                 </Col>
 

@@ -16,11 +16,20 @@
 
 */
 import React, { Component } from "react";
-import { Image } from 'react-bootstrap';
+import { Image, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export class TutorCard extends Component {
   render() {
+
+    const alerts = [];
+    for (let i = 0; i < this.props.subjects.length; i+=1) {
+      alerts.push(
+        <Alert style={{float:'left', padding: '1.5%', marginLeft: '3%'}}>{this.props.subjects[0]}</Alert>
+      );
+    }
+    console.log(this.props.subjects.length);
+
     return (
       <div className="card card-user">
         <div className="content" style={{width: '100%'}}>
@@ -31,6 +40,7 @@ export class TutorCard extends Component {
               alt="..."
             />
           </div>
+
           <div style={{marginLeft: '50%'}}>
             <Link to='/list-tutors' style={{color: 'green'}}>{this.props.name}<br/></Link>
             <h>{this.props.title}</h>
@@ -38,9 +48,15 @@ export class TutorCard extends Component {
             <p>{this.props.address}</p>
 
           </div>
+          <br/>
+          <hr />
+
+          <div>{alerts}</div>
+
         </div>
-        <hr />
-        <div className="text-center">{this.props.socials}</div>
+
+        <hr/>
+        <div className="text-center">{this.props.rate}</div>
       </div>
     );
   }
