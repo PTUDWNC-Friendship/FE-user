@@ -26,7 +26,6 @@ import {
   Button
 } from "react-bootstrap";
 
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
@@ -219,7 +218,7 @@ class TutorProfile extends Component {
                             },
                             {
                               label: "Gender/Male",
-                              
+
                               type: "checkbox",
                               bsClass: "form-check",
                               style: {marginTop: '10%'},
@@ -254,7 +253,7 @@ class TutorProfile extends Component {
                               disabled: !this.state.isEditable
                             }
                           ]}
-                          
+
                         />
 
                         <FormInputs
@@ -320,4 +319,3 @@ export default connect(
   mapStateToProps,
   null
 )(TutorProfile);
-

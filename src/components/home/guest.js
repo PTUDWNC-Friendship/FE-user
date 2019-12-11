@@ -273,12 +273,12 @@ class Guest extends React.Component {
                           ))
 
                           }
-                          
+
 
                         </div>
 
                         <div className="col-md-12 text-center mt-5">
-                          <Link to="#" className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle"></span> Load More</Link>
+                          <Link to="/list-tutors" className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle"/> More Tutors</Link>
                         </div>
                       </div>
                       <div className="col-md-4 block-16" data-aos="fade-up" data-aos-delay="200">
@@ -296,7 +296,7 @@ class Guest extends React.Component {
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
 
           <div
             className="site-blocks-cover overlay inner-page"

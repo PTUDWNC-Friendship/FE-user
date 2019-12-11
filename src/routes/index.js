@@ -13,6 +13,8 @@ import RegisterTutor from '../components/register/tutor';
 import RolePicking from '../components/login/role';
 
 import TutorProfile from '../components/profile/tutor';
+import TutorList from '../components/tutor/list';
+
 import StudentProfile from '../components/profile/student';
 
 import Logout from '../components/logout/logout';
@@ -42,6 +44,11 @@ const routes = [
         path: "/profile-tutor",
         exact: false,
         main: () => <TutorProfile />
+    },
+    {
+        path: "/list-tutors",
+        exact: false,
+        main: () => <TutorList />
     },
     {
         path: "/login",
