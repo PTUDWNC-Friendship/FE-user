@@ -31,9 +31,10 @@ export class TutorCard extends Component {
     console.log(this.props.subjects.length);
 
     return (
-      <div className="card card-user">
+      <div className="card card-user detailInfo">
         <div className="content" style={{width: '100%'}}>
           <div className='align-items-center' style={{width: '50%', float: 'left'}}>
+            
             <Image
               className="avatar border-gray"
               src={this.props.avatar}
@@ -42,13 +43,13 @@ export class TutorCard extends Component {
           </div>
 
           <div style={{marginLeft: '50%'}}>
-            <Link to='/list-tutors' style={{color: 'green'}}>{this.props.name}<br/></Link>
+            <Link to='/' style={{color: 'green'}}>{this.props.name}<br/></Link>
             <p>{this.props.title}</p>
             <p><strong>${this.props.price}</strong> per hour</p>
             <p>{this.props.address}</p>
 
           </div>
-          
+
           <hr />
 
           <div>{alerts}</div>
