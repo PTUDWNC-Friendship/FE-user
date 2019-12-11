@@ -31,7 +31,6 @@ class StudentProfile extends Component {
     this.enableChangePassword = this.enableChangePassword.bind(this);
     this.handleSubmitPassword = this.handleSubmitPassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handChange = this.handleChange.bind(this);
 
     this.formPassword = React.createRef();
     this.formGeneral = React.createRef();
@@ -243,7 +242,7 @@ class StudentProfile extends Component {
                               </h4>
                             )}
 
-                            <div id="password" className="collapse">
+                            <div id="password" className="collapse mt-4">
                               <FormInputs
                                 ncols={['col-md-12']}
                                 properties={[

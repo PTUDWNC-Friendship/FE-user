@@ -17,7 +17,9 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import { login, authorizeUser } from '../../actions/user';
+import { login, authorizeUser, loginGoogle } from '../../actions/user';
+import queryString from 'query-string';
+import { SERVER_URL } from '../../helpers/constant';
 import './style.css';
 
 function Copyright() {
@@ -28,7 +30,6 @@ function Copyright() {
         Friendship
       </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
@@ -80,6 +81,14 @@ class Login extends React.Component {
       if (userState.user.role === 'student') {
         history.push('/home-student');
       }
+    }
+  }
+
+  componentDidMount() {
+    const query = queryString.parse(this.props.location.search);
+    if (query.token) {
+      this.props.loginGoogleAction(query);
+      this.props.history.push("/");
     }
   }
 
@@ -204,7 +213,7 @@ class Login extends React.Component {
                   }
                   textButton="&nbsp;&nbsp;Sign In with Facebook"
                 />
-                <a href="javascript;">
+                <a href={`${SERVER_URL}/user/google`}>
                   <button type="button" className="btnGoogle">
                     <i
                       className="fa fa-google-plus"
@@ -249,7 +258,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loginAction: (username, password) => dispatch(login(username, password)),
-    authorizeUserAction: () => dispatch(authorizeUser)
+    authorizeUserAction: () => dispatch(authorizeUser),
+    loginGoogleAction: user => dispatch(loginGoogle(user))
   };
 };
 
