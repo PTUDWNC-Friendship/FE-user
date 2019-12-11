@@ -43,7 +43,7 @@ export class TutorCard extends Component {
           />
           </div>
 
-          <div style={{marginLeft: '50%'}}>
+          <div className='text-left' style={{marginLeft: '50%'}}>
             <Link to='/' style={{color: 'green'}}>{this.props.name}<br/></Link>
             <p>{this.props.title}</p>
             <p><strong>${this.props.price}</strong> per hour</p>

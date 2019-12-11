@@ -163,7 +163,7 @@ class TutorList extends Component {
                         avatar={element.imageURL!==null?element.imageURL:"images/person_2.jpg"}
                         // eslint-disable-next-line no-nested-ternary
                         name={`${element.firstName} ${element.lastName}`}
-                        title={(element.title!==null)?element.title:'Teacher'}
+                        title={(element.title!==null)?element.title:'Tutor'}
                         address={element.address!==null?element.address:'Việt Nam'}
                         price={element.price!==null?element.price:'10'}
                         subjects={ element.subjects!==null?element.subjects:subject }
