@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
-import * as types from '../helpers/index';
+import * as types from '../helpers/action-type';
+import { SERVER_URL } from '../helpers/constant';
 
 function requestLogin() {
   return {
@@ -31,7 +32,7 @@ function getAllTutors(allTutors) {
 export function login(username, password) {
   return function(dispatch) {
     dispatch(requestLogin());
-    return fetch(`https://uberfortutor-server-user.herokuapp.com/user/login`, {
+    return fetch(`${SERVER_URL}/user/login`, {
       method: 'POST',
       body: JSON.stringify({
         username,
@@ -60,7 +61,7 @@ export function authorizeUser() {
   const authToken = localStorage.getItem('authToken');
   if (authToken) {
     return function(dispatch) {
-      return fetch(`http://localhost:3000/me`, {
+      return fetch(`${SERVER_URL}/me`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -81,7 +82,7 @@ export function authorizeUser() {
 
 export function fetchAllTutors() {
   return function(dispatch) {
-    return fetch(`http://localhost:3000/user/get-all-tutors`)
+    return fetch(`${SERVER_URL}/user/get-all-tutors`)
       .then(response => response.json() )
       .then(users => {
         dispatch(getAllTutors(users));
@@ -95,7 +96,7 @@ export function fetchAllTutors() {
 export function updateUser(user) {
   return function(dispatch) {
     dispatch(requestLogin());
-    return fetch(`http://localhost:3000/user/update`, {
+    return fetch(`${SERVER_URL}/user/update`, {
       method: 'POST',
       body: JSON.stringify({
         ...user
@@ -106,13 +107,10 @@ export function updateUser(user) {
     })
       .then(response => response.json() )
       .then(data => {
-      console.log("TCL: updateUser -> data", data);
         dispatch(getCurrentUser(data));
         dispatch(receiveLogin());
       })
-      .catch((error) => {
-      console.log("TCL: updateUser -> error", error);
-        
+      .catch((error) => {        
         dispatch(getCurrentUser(null));
       });
   };
@@ -121,7 +119,7 @@ export function updateUser(user) {
 export function updateTutor(tutor) {
   return function(dispatch) {
     dispatch(requestLogin());
-    return fetch(`http://localhost:3000/user/tutor/update`, {
+    return fetch(`${SERVER_URL}/user/tutor/update`, {
       method: 'POST',
       body: JSON.stringify({
         ...tutor
@@ -132,13 +130,10 @@ export function updateTutor(tutor) {
     })
       .then(response => response.json() )
       .then(data => {
-      console.log("TCL: updateUser -> data", data);
         dispatch(getCurrentUser(data));
         dispatch(receiveLogin());
       })
-      .catch((error) => {
-      console.log("TCL: updateUser -> error", error);
-        
+      .catch((error) => {        
         dispatch(getCurrentUser(null));
       });
   };
