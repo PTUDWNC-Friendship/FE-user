@@ -251,15 +251,15 @@ class Guest extends React.Component {
                           {userState.allTutors.map(element=>(
                             <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                               <div className="company-logo blank-logo text-center text-md-left pl-3">
-                                <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto"></img>
+                                <img src={element.imageURL!==null?element.imageURL:"images/person_2.jpg"} alt="" className="img-fluid mx-auto"></img>
                               </div>
                               <div className="job-details h-100">
                                 <div className="p-3 align-self-center">
                                   <h3>{element!==null?element.firstName:''} {element!==null?element.lastName:''}</h3>
                                   <div className="d-block d-lg-flex">
-                                    <div className="mr-3"><span className="icon-suitcase mr-1"></span> Teacher</div>
-                                    <div className="mr-3"><span className="icon-room mr-1"></span>America</div>
-                                    <div><span className="icon-money mr-1"></span>${element!==null?element.price:'0'} per hour</div>
+                                    <div className="mr-3"><span className="icon-suitcase mr-1"></span> {element!==null?element.title:'Teacher'}</div>
+                                    <div className="mr-3"><span className="icon-room mr-1"></span>{element!==null?element.address:'Việt Nam'}</div>
+                                    <div><span className="icon-money mr-1"></span>${element.price!==null?element.price:'10'} per hour</div>
                                   </div>
                                 </div>
                               </div>
