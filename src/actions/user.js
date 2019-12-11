@@ -92,13 +92,13 @@ export function fetchAllTutors() {
   };
 }
 
-export function updateUser(tutor) {
+export function updateUser(user) {
   return function(dispatch) {
     dispatch(requestLogin());
-    return fetch(`http://localhost:3000/user/tutor/update`, {
+    return fetch(`http://localhost:3000/user/update`, {
       method: 'POST',
       body: JSON.stringify({
-        ...tutor
+        ...user
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8'
@@ -121,7 +121,7 @@ export function updateUser(tutor) {
 export function updateTutor(tutor) {
   return function(dispatch) {
     dispatch(requestLogin());
-    return fetch(`http://localhost:3000/user/update`, {
+    return fetch(`http://localhost:3000/user/tutor/update`, {
       method: 'POST',
       body: JSON.stringify({
         ...tutor

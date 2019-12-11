@@ -81,7 +81,7 @@ class Header extends React.Component {
                               <Link to="/">Account</Link>
                               <ul className="dropdown arrow-top">
                                 <li>
-                                  <Link to="/profile-tutor" >
+                                  <Link to={userState.user.role=="tutor"?"/profile-tutor":"/profile-student"} >
                                     Profile
                                   </Link>
                                 </li>

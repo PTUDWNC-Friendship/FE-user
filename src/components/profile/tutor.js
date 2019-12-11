@@ -30,6 +30,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import $ from 'jquery';
+import { withRouter } from 'react-router-dom';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
 import { CustomCard } from "../ui-components/Card/Card";
@@ -56,19 +57,27 @@ class TutorProfile extends Component {
     onUpdateInfor = e => {
       $('#idLoading').show();
       $('#successMsg').hide();
-      const { userState } = this.props;
+      const { userState,onUpdateUser,onUpdateTutor, authorizeUserAction } = this.props;
       e.preventDefault();
       let user = {
-        gender: e.target.gender.value===true?'male':'female',
-        firstName: e.target.firstName.value,
-        address: e.target.address.value,
-        phone: e.target.phone.value,
-        bio: e.target.bio.value
+        _id: e.target.id.value,
+        password: "",
+        gender: e.target.gender.value,
+        firstName: e.target.firstName.value.trim()!==""?e.target.firstName.value:e.target.firstName.placeholder,
+        lastName: e.target.lastName.value.trim()!==""?e.target.lastName.value:e.target.lastName.placeholder,
+        address: e.target.address.value.trim()!==""?e.target.address.value:e.target.address.placeholder,
+        phone: e.target.phone.value.trim()!==""?e.target.phone.value:e.target.phone.placeholder,
+        bio: e.target.bio.value.trim()!==""?e.target.bio.value:e.target.bio.placeholder,
+        imageURL: userState.user.imageURL
       };
+      let tutor = {
+        _id: e.target.id.value,
+        title: e.target.title.value.trim()!==""?e.target.title.value:e.target.title.placeholder,
+        price: e.target.price.value.trim()!==""?e.target.price.value:e.target.price.placeholder,
+      }
       let imgAvatar;
       imgAvatar = userState.user.imageURL;
       const image = this.fileUpload.files[0];
-      console.log(user);
       if(this.fileUpload.files.length>0) {
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
         uploadTask.on(
@@ -93,11 +102,20 @@ class TutorProfile extends Component {
               .child(image.name)
               .getDownloadURL()
               .then(url => {
-                imgAvatar = url;
-
+                user.imageURL = url;
+                onUpdateUser(user);
+                onUpdateTutor(tutor);
+                authorizeUserAction();
               });
           }
         );
+      } else {
+        onUpdateUser(user);
+        onUpdateTutor(tutor);
+        authorizeUserAction();
+        $('#idLoading').hide();
+        $('#successMsg').show();
+        console.log(12);
       }
 
     }
@@ -152,7 +170,7 @@ class TutorProfile extends Component {
 
     let fullName = '';
     if(currentTutor!==null) {
-      fullName = currentTutor.firstName + currentTutor.lastName;
+      fullName = currentTutor.firstName + ' ' + currentTutor.lastName;
     }
 
 
@@ -290,9 +308,10 @@ class TutorProfile extends Component {
                             </Button>
                           </h4>
                         )}
+                  <input  style={{display: 'none'}} type="text" name="id" value={currentTutor !== null?currentTutor._id:''}  />
                   <input id="inputImg" style={{display: 'none'}} onChange={this.displayImg} ref={ref => (this.fileUpload = ref)} type="file" accept="image/*" name="imageURL" />
                         <FormInputs
-                          ncols={["col-md-8", "col-md-2", "col-md-2"]}
+                          ncols={["col-md-4","col-md-4", "col-md-2", "col-md-2"]}
                           properties={[
                             {
                               label: "Title",
@@ -304,9 +323,19 @@ class TutorProfile extends Component {
                               disabled: !this.state.isEditable
                             },
                             {
+                              label: "Price",
+                              type: "text",
+                              name: "price",
+                              bsClass: "form-control",
+                              placeholder: currentTutor!==null?currentTutor.price:'',
+                              maxLength: '128',
+                              disabled: !this.state.isEditable
+                            },
+                            {
                               label: "Gender/Male",
                               name: 'gender',
-                              type: "checkbox",
+                              value: 'male',
+                              type: "radio",
                               bsClass: "form-check",
                               checked:  currentTutor !== null && currentTutor.gender === 'male',
                               style: {marginTop: '10%'},
@@ -315,7 +344,8 @@ class TutorProfile extends Component {
                             {
                               label: "Gender/Female",
                               name: 'gender',
-                              type: "checkbox",
+                              type: "radio",
+                              value: 'female',
                               bsClass: "form-check",
                               checked:  currentTutor !== null && currentTutor.gender === 'female',
                               style: {margin: '10%'},
@@ -331,7 +361,7 @@ class TutorProfile extends Component {
                               type: "text",
                               name: "firstName",
                               bsClass: "form-control",
-                              value: currentTutor!=null?currentTutor.firstName:'',
+                              placeholder: currentTutor!=null?currentTutor.firstName:'',
                               disabled: !this.state.isEditable
                             },
                             {
@@ -440,4 +470,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TutorProfile);
+)(withRouter(TutorProfile));
