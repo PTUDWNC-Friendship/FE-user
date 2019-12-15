@@ -17,8 +17,8 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import { login, authorizeUser, loginGoogle } from '../../actions/user';
 import queryString from 'query-string';
+import { login, authorizeUser, loginGoogle } from '../../actions/user';
 import { SERVER_URL } from '../../helpers/constant';
 import './style.css';
 

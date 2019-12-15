@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React from 'react';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
 import './chat.css';
 
 class Chat extends React.Component {
@@ -8,21 +9,27 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            userName: 'Nguyen Duy Hau',
+          this.state = {
+            userName: '',
             message: '',
             list: [],
           };
+          const { userState } = this.props;
+          console.log(userState);
+          if(userState.user!==null) {
 
+            this.setState({
+              userName: userState.user.firstName + userState.user.lastName
+            });
+          }
         this.messageRef = firebase.database().ref().child('messages');
 
         this.listenMessages();
     }
     
     componentDidUpdate() {
-        
 
-      }
+    }
 
 
       handleChange(event) {
@@ -31,9 +38,10 @@ class Chat extends React.Component {
       
       handleSend() {
         if (this.state.message) {
-
+          const { userState } = this.props;
+          const {user} = userState;
           const newItem = {
-            userName: this.state.userName,
+            userName: `${user.firstName  } ${ user.lastName}`,
             message: this.state.message
           };
 
@@ -58,6 +66,12 @@ class Chat extends React.Component {
       }
 
     render() {
+      const { userState } = this.props;
+      const {user} = userState;
+      let userName = null;
+      if(user!==null) {
+        userName = `${user.firstName  } ${ user.lastName}`;
+      }
 
         return (
             <div className="container " style={{paddingTop: '114px'}}>
@@ -154,25 +168,29 @@ class Chat extends React.Component {
                     <div className="mesgs">
                       <div className="msg_history">
                       { this.state.list.map((item) =>
-
-                        <div className="incoming_msg">
-                        <div className="incoming_msg_img"> 
-                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> 
-                        </div>
-                        <div className="received_msg">
-                        <div className="received_withd_msg">
-                            <p>{item.message}</p> 
-                            <span className="time_date"> 11:01 AM    |    June 9</span></div>
-                        </div>
-                        </div>
-
-                        )} 
-                        <div className="outgoing_msg">
+                      userName===item.userName ? (<div className="incoming_msg">
+                      <div className="incoming_msg_img"> 
+                      <img src={user!==null?user.imageURL:"https://ptetutorials.com/images/user-profile.png"} alt="sunil" /> 
+                      </div>
+                      <div className="received_msg">
+                      <div className="received_withd_msg">
+                          <p>{item.userName}</p>
+                          <p>{item.message}</p> 
+                          <span className="time_date"> 11:01 AM    |    June 9</span></div>
+                      </div>
+                      </div>) : (
+                          <div className="outgoing_msg">         
+                          <div className="outgoing_msg_img"> 
+                           <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> 
+                           </div>                   
                           <div className="sent_msg">
-                            <p>Test which is a new approach to have all
-                              solutions</p>
+                            <p>{item.userName}</p>
+                            <p>{item.message}</p>
                             <span className="time_date"> 11:01 AM    |    June 9</span> </div>
-                        </div>
+                        </div>)
+                        
+                        )} 
+
 
 
                       </div>
@@ -184,9 +202,7 @@ class Chat extends React.Component {
                       </div>
                     </div>
                   </div>
-                  
-                  
-                  <p className="text-center top_spac"> Design by <a target="_blank" href="javascript;">Sunil Rajput</a></p>
+                                  
                   
                 </div>
             </div>
@@ -194,5 +210,13 @@ class Chat extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+  return {
+    userState: state.userState
+  };
+};
+export default connect(
+  mapStateToProps,
+  null
+)(Chat);
 
-export default Chat;

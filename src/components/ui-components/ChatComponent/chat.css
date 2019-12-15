@@ -64,6 +64,12 @@ img{ max-width:100%;}
   display: inline-block;
   width: 6%;
 }
+
+.outgoing_msg_img {
+  float: right;
+  display: inline-block;
+  width: 6%;
+}
 .received_msg {
   display: inline-block;
   padding: 0 0 0 10px;
