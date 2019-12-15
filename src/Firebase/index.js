@@ -2,15 +2,15 @@ import * as firebase from 'firebase';
 import "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAUQM4U9_PdcFCLtpv1ZFWarfIan-YTs0k",
-    authDomain: "carogame-af3ee.firebaseapp.com",
-    databaseURL: "https://carogame-af3ee.firebaseio.com",
-    projectId: "carogame-af3ee",
-    storageBucket: "carogame-af3ee.appspot.com",
-    messagingSenderId: "530407967165",
-    appId: "1:530407967165:web:c9564456728a84e02e6ad4",
-    measurementId: "G-32V7WNK4FX"
-  };
+  apiKey: "AIzaSyBwtMSbMiAxLOcdlGrG2ojWVr3rhAAiXRM",
+  authDomain: "findtutor-756b7.firebaseapp.com",
+  databaseURL: "https://findtutor-756b7.firebaseio.com",
+  projectId: "findtutor-756b7",
+  storageBucket: "findtutor-756b7.appspot.com",
+  messagingSenderId: "688817773049",
+  appId: "1:688817773049:web:5ee3d9551e17274f828528",
+  measurementId: "G-1R21M72H6L"
+};
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   export const auth = firebase.auth();

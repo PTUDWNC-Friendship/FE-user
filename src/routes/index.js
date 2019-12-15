@@ -18,6 +18,7 @@ import TutorList from '../components/tutor/list';
 import StudentProfile from '../components/profile/student';
 
 import Logout from '../components/logout/logout';
+import Chat from '../components/ui-components/ChatComponent/chat';
 
 const routes = [
     {
@@ -74,6 +75,11 @@ const routes = [
         path: "/logout",
         exact: false,
         main: () => <Logout />
+    },
+    {
+        path: "/chat",
+        exact: false,
+        main: () => <Chat />
     },
     {
         path: "",
