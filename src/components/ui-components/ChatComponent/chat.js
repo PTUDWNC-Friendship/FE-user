@@ -149,8 +149,13 @@ class Chat extends React.Component {
         this.handleSend(coWorker);
       }
 
-      changeCoWorker(coWorker) {
+      changeCoWorker(coWorker,index,length) {
        
+        for(let i=0;i<length;i+=1) {
+            $(`#chat${i}`).removeClass('active_chat');
+        }
+
+        $(`#chat${index}`).addClass('active_chat');
         if(coWorker!==null) {
           this.setState({
             coWorker
@@ -182,7 +187,7 @@ class Chat extends React.Component {
     
 
     render() {
-
+      $('#chatForm').scrollTop =  $('#chatForm').scrollHeight;
       const { userState } = this.props;
       const {user, allStudents, allTutors} = userState;
       let coWorker = null;
@@ -257,25 +262,25 @@ class Chat extends React.Component {
                             </div>
                         </div>
                       </div>
-                      <div className="inbox_chat">
+                      <div id="chatForm" className="inbox_chat">
 
                           {listContacts.map((item,index)=>(
                            index===0?(
-                           <Button style={{width: '100%'}} className="chat_list " onClick={()=>this.changeCoWorker(item)}>
+                           <Button style={{width: '100%'}} id={`chat${index}`} className="chat_list active_chat" onClick={()=>this.changeCoWorker(item,index,listContacts.length)}>
                             <div className="chat_people">
                               <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                               <div className="chat_ib">
-                                <h5> {item.userName}<span className="chat_date">Dec 25</span></h5>
+                           <h5> {item.userName}</h5>
                                   <p>{item.message}</p>
                               </div>
                             </div>
                           </Button>):
                           (
-                            <Button style={{width: '100%'}} onClick={()=>this.changeCoWorker(item)}  className="chat_list">
+                            <Button id={`chat${index}`} style={{width: '100%'}} onClick={()=>this.changeCoWorker(item,index,listContacts.length)}  className="chat_list">
                             <div className="chat_people">
                               <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                               <div className="chat_ib">
-                                <h5>{item.userName} <span className="chat_date">Dec 25</span></h5>
+                                <h5>{item.userName} </h5>
                                 <p>{item.message}</p>
                               </div>
                             </div>
