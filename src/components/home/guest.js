@@ -2,12 +2,13 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { login, authorizeUser, fetchAllTutors } from '../../actions/user';
+import { login, authorizeUser, fetchAllTutors, fetchAllStudents } from '../../actions/user';
 
 class Guest extends React.Component {
   componentDidMount() {
-    const { userState, history, getListTutors } = this.props;
+    const { userState, history, getListTutors, getListStudents } = this.props;
     getListTutors();
+    getListStudents();
     if (userState.user !== null) {
       if (userState.user.role === 'student') {
         history.push('/home-student');
@@ -19,6 +20,9 @@ class Guest extends React.Component {
 
   render() {
     const { userState } = this.props;
+    if(userState.allStudents.length>0) {
+      console.log(userState.allStudents);
+    }
     return (
       <div>
         <div className="site-wrap">
@@ -748,7 +752,8 @@ const mapDispatchToProps = dispatch =>
     {
       loginAction: login,
       authorizeUserAction: authorizeUser,
-      getListTutors: fetchAllTutors
+      getListTutors: fetchAllTutors,
+      getListStudents: fetchAllStudents
     },
     dispatch
   );

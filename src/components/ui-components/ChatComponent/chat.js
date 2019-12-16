@@ -2,7 +2,10 @@
 import React from 'react';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import './chat.css';
+import { fetchAllStudents, fetchAllTutors } from '../../../actions/user';
+import { element } from 'prop-types';
 
 class Chat extends React.Component {
 
@@ -13,9 +16,12 @@ class Chat extends React.Component {
             userName: '',
             message: '',
             list: [],
+            allMessages: [],
+            listContacts: [],
           };
-          const { userState } = this.props;
-          console.log(userState);
+          const { userState, getListStudents, getListTutors } = this.props;
+          getListStudents();
+          getListTutors();
           if(userState.user!==null) {
 
             this.setState({
@@ -23,11 +29,11 @@ class Chat extends React.Component {
             });
           }
         this.messageRef = firebase.database().ref().child('messages');
-
         this.listenMessages();
     }
     
-    componentDidUpdate() {
+    componentDidMount() {
+
 
     }
 
@@ -40,13 +46,17 @@ class Chat extends React.Component {
         if (this.state.message) {
           const { userState } = this.props;
           const {user} = userState;
-          const newItem = {
-            userName: `${user.firstName  } ${ user.lastName}`,
-            message: this.state.message
-          };
-
-          this.messageRef.push(newItem);
-          this.setState({ message: '' });
+          if(user!==null) {
+            const newItem = {
+              idSender: user._id,
+              userName: `${user.firstName  } ${ user.lastName}`,
+              message: this.state.message,
+              time: (new Date()).toString(),
+            };
+  
+            this.messageRef.push(newItem);
+            this.setState({ message: '' });
+          }
         }
       }
 
@@ -56,6 +66,14 @@ class Chat extends React.Component {
       }
 
     listenMessages() {
+
+      this.messageRef       
+          .on('value', message => {
+            this.setState({
+              allMessages: Object.values(message.val()),
+              });
+          });
+
         this.messageRef
           .limitToLast(10)
           .on('value', message => {
@@ -64,14 +82,70 @@ class Chat extends React.Component {
               });
           });
       }
+    
+      getMessageLatestUser(idSender) {
+      const sortArray = this.state.allMessages;
+      sortArray.sort(function(a,b){
+        return new Date(b.date + " "+b.time) - new Date(a.date + " "+a.time);           
+        });
+      console.log(sortArray);
+      
+      for(let i = 0 ; i<sortArray.length;i++) {
+        if(!sortArray[i].hasOwnProperty('time')) {
+          sortArray.splice(i,1);
+          i--;
+       
+        }
+      }
+      let latestMsg = {message: '', time: ''};
+
+    // Sua lai thanh for thuong
+      sortArray.forEach(element=>{
+
+        if(idSender===element.idSender) {
+          latestMsg.message = element.message;
+          latestMsg.time = element.time;
+         element.stop=true;
+
+        }
+      })
+      return latestMsg;
+      }
+    
+    
 
     render() {
       const { userState } = this.props;
-      const {user} = userState;
+      const {user, allStudents, allTutors} = userState;
       let userName = null;
+      let listContacts = [];
       if(user!==null) {
         userName = `${user.firstName  } ${ user.lastName}`;
+        if(allStudents.length>0) {
+          // listContacts = user.role==='tutor'?allStudents:allTutors;
+          if(user.role==='tutor') {
+            
+           
+            allStudents.forEach(element => {
+              const latestMsg = this.getMessageLatestUser(element._id);
+              let item = {
+                _id: element._id,
+                userName: element.firstName + ' ' + element.lastName,
+                ...latestMsg
+              }
+             
+              listContacts.push(item);
+
+            });
+          }
+        }
+        if(allTutors.length>0) {
+          if(user.role==='student') {
+          listContacts = user.role==='student'?allTutors:allStudents;
+          }
+        }
       }
+
 
         return (
             <div className="container " style={{paddingTop: '114px'}}>
@@ -93,76 +167,31 @@ class Chat extends React.Component {
                         </div>
                       </div>
                       <div className="inbox_chat">
-                        <div className="chat_list active_chat">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
+
+                          {listContacts.map((item,index)=>(
+                           index===0?(
+                           <div className="chat_list active_chat">
+                            <div className="chat_people">
+                              <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                              <div className="chat_ib">
+                                <h5> {item.userName}<span className="chat_date">Dec 25</span></h5>
+                                  <p>{item.message}</p>
+                              </div>
+                            </div>
+                          </div>):
+                          (
+                            <div className="chat_list">
+                            <div className="chat_people">
+                              <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                              <div className="chat_ib">
+                                <h5>{item.userName} <span className="chat_date">Dec 25</span></h5>
+                                <p>{item.message}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="chat_list">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="chat_list">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"/> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="chat_list">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="chat_list">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="chat_list">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="chat_list">
-                          <div className="chat_people">
-                            <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                            <div className="chat_ib">
-                              <h5>Sunil Rajput <span className="chat_date">Dec 25</span></h5>
-                              <p>Test, which is a new approach to have all solutions 
-                                astrology under one roof.</p>
-                            </div>
-                          </div>
-                        </div>
+                          )
+                          ))}
+                     
                       </div>
                     </div>
                     <div className="mesgs">
@@ -176,7 +205,7 @@ class Chat extends React.Component {
                       <div className="received_withd_msg">
                           <p>{item.userName}</p>
                           <p>{item.message}</p> 
-                          <span className="time_date"> 11:01 AM    |    June 9</span></div>
+                          <span className="time_date">{item.time!==null?item.time:''}</span></div>
                       </div>
                       </div>) : (
                           <div className="outgoing_msg">         
@@ -186,7 +215,7 @@ class Chat extends React.Component {
                           <div className="sent_msg">
                             <p>{item.userName}</p>
                             <p>{item.message}</p>
-                            <span className="time_date"> 11:01 AM    |    June 9</span> </div>
+                      <span className="time_date">{item.time!==null?item.time:''}</span> </div>
                         </div>)
                         
                         )} 
@@ -215,8 +244,18 @@ const mapStateToProps = state => {
     userState: state.userState
   };
 };
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      getListStudents: fetchAllStudents,
+      getListTutors: fetchAllTutors
+    },
+    dispatch
+  );
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Chat);
 

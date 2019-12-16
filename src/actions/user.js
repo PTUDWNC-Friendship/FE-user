@@ -29,6 +29,14 @@ function getAllTutors(allTutors) {
 }
 
 
+function getAllStudents(allStudents) {
+  return {
+    type: types.GET_ALL_STUDENTS,
+    allStudents
+  };
+}
+
+
 export function login(username, password) {
   return function(dispatch) {
     dispatch(requestLogin());
@@ -86,6 +94,19 @@ export function fetchAllTutors() {
       .then(response => response.json() )
       .then(users => {
         dispatch(getAllTutors(users));
+      })
+      .catch((error) => {
+        dispatch(getCurrentUser(null));
+      });
+  };
+}
+
+export function fetchAllStudents() {
+  return function(dispatch) {
+    return fetch(`${SERVER_URL}/user/get-all-students`)
+      .then(response => response.json() )
+      .then(users => {
+        dispatch(getAllStudents(users));
       })
       .catch((error) => {
         dispatch(getCurrentUser(null));

@@ -5,7 +5,8 @@ const initialState = {
     user: null,
     didInvalidate: false,
     isLogin: false,
-    allTutors: []
+    allTutors: [],
+    allStudents: []
 };
 
 const userState = (state = initialState, action) =>{
@@ -27,7 +28,10 @@ const userState = (state = initialState, action) =>{
         case types.GET_ALL_TUTORS:
             return { ...state,
                 allTutors: action.allTutors
-
+            }
+        case types.GET_ALL_STUDENTS:
+            return { ...state,
+                allStudents: action.allStudents    
             }
         default: return state;
     }
