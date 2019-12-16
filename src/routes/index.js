@@ -14,6 +14,7 @@ import RolePicking from '../components/login/role';
 
 import TutorProfile from '../components/profile/tutor';
 import TutorList from '../components/tutor/list';
+import SpecialtyList from '../components/tutor/specialties'
 
 import StudentProfile from '../components/profile/student';
 
@@ -50,6 +51,11 @@ const routes = [
         path: "/list-tutors",
         exact: false,
         main: () => <TutorList />
+    },
+    {
+        path: "/specialties-tutor",
+        exact: false,
+        main: () => <SpecialtyList />
     },
     {
         path: "/login",

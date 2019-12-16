@@ -118,6 +118,13 @@
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>TutorFinder</title>
   </head>
   <body>
@@ -268,7 +275,6 @@
 
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
       <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
       <script src="vendor/select2/dist/js/select2.min.js"></script>
@@ -281,12 +287,39 @@
       </script>
 
 
-
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+      	// Activate tooltip
+      	$('[data-toggle="tooltip"]').tooltip();
+
+      	// Select/Deselect checkboxes
+      	var checkbox = $('table tbody input[type="checkbox"]');
+      	$("#selectAll").click(function(){
+      		if(this.checked){
+      			checkbox.each(function(){
+      				this.checked = true;
+      			});
+      		} else{
+      			checkbox.each(function(){
+      				this.checked = false;
+      			});
+      		}
+      	});
+      	checkbox.click(function(){
+      		if(!this.checked){
+      			$("#selectAll").prop("checked", false);
+      		}
+      	});
+      });
+    </script>
+
 
   </body>
 </html>

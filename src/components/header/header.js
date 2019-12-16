@@ -85,6 +85,13 @@ class Header extends React.Component {
                                     Profile
                                   </Link>
                                 </li>
+                                {userState.user.role === "tutor" ? (
+                                <li>
+                                  <Link to='specialties-tutor'>
+                                    Specialties
+                                  </Link>
+                                </li>
+                                ) : null}
                                 <li>
                                   <Link to="/logout" >
                                     Logout
