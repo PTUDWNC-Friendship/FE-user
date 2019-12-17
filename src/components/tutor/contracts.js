@@ -29,90 +29,6 @@ class ContractList extends Component {
           <div className="container">
             <div className="row align-items-center">
 
-            {/* <!-- Edit Modal HTML --> */}
-              <div id="addSpecialtyModal" className="modal fade">
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <form>
-                      <div className="modal-header">
-                        <h4 className="modal-title">New Specialty</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      </div>
-                      <div className="modal-body">
-                        <div className="form-group">
-                          <h>Subject</h>
-                          <input type="text" className="form-control" required/>
-                        </div>
-                        <div className="form-group">
-                          <h>Category</h>
-                          <select
-                            className="form-control"
-                          >
-                            <option value="math">Math</option>
-                            <option value="literature">Literature</option>
-                            <option value="biology">Biology</option>
-                            <option value="languages">Languages</option>
-                            <option value="geography">Geography</option>
-                            <option value="physics">Physics</option>
-                            <option value="chemistry">Chemistry</option>
-                            <option value="history">History</option>
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <h>Description</h>
-                          <textarea className="form-control" required />
-                        </div>
-                      </div>
-                      <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                        <input type="submit" className="btn btn-success" value="Add"/>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              {/* <!-- Edit Modal HTML --> */}
-              <div id="editSpecialtyModal" className="modal fade">
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <form>
-                      <div className="modal-header">
-                        <h4 className="modal-title">Edit Specialty</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      </div>
-                      <div className="modal-body">
-                        <div className="form-group">
-                          <h>Subject</h>
-                          <input type="text" className="form-control" required/>
-                        </div>
-                        <div className="form-group">
-                          <h>Category</h>
-                          <select
-                            className="form-control"
-                          >
-                            <option value="math">Math</option>
-                            <option value="literature">Literature</option>
-                            <option value="biology">Biology</option>
-                            <option value="languages">Languages</option>
-                            <option value="geography">Geography</option>
-                            <option value="physics">Physics</option>
-                            <option value="chemistry">Chemistry</option>
-                            <option value="history">History</option>
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <h>Description</h>
-                          <textarea className="form-control" required />
-                        </div>
-                      </div>
-                      <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                        <input type="submit" className="btn btn-info" value="Save"/>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <div className="site-section bg-light">
@@ -128,19 +44,35 @@ class ContractList extends Component {
                           <table className="table table-striped table-hover">
                               <thead>
                                 <tr>
-                                  <th>Subject</th>
-                                  <th>Category</th>
-                                  <th>Description</th>
+                                  <th>No.</th>
+                                  <th>Student</th>
+                                  <th>Duration</th>
+                                  <th>Status</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td>World War II</td>
-                                  <td>History</td>
-                                  <td>Learn about how it all started, etc.</td>
+                                  <td>1</td>
+                                  <td>Dinh Hau</td>
+                                  <td>September 5th, 2019 - December 5th, 2019</td>
+                                  <td>
+                                  <span className="text-info p-2 rounded border border-info">
+                                    In Progress
+                                  </span>
+                                  </td>
                                 </tr>
+
+                                
                               </tbody>
                           </table>
+
+
+
+
+
+
+
+
                           <div className="clearfix">
                               <ul className="pagination">
                                   <li className="page-item disabled"><a href="#">Previous</a></li>
