@@ -136,12 +136,16 @@ export function fetchUserById(id) {
                 });
             }
           }
+          console.log("dispatch", user);
+          dispatch(getCurrentTutor(user));
+        } else {
+          dispatch(getCurrentUser(user));
         }
-        dispatch(getCurrentTutor(user));
+        
       })
       .catch((error) => {
         console.log(error);
-        dispatch(getCurrentTutor(null));
+        dispatch(getCurrentUser(null));
       });
   };
 }

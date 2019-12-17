@@ -16,6 +16,13 @@ class SpecialtyList extends Component {
     this.enableChangePassword = this.enableChangePassword.bind(this);
   }
 
+  componentDidMount() {
+    const { user } = this.props.userState;
+    if (user !== null ) {
+      this.props.fetchUserByIdAction(user._id);
+    }
+  }
+
   enableEditProfile() {
     if (!this.state.isEditable) {
       this.setState({ isEditable: true });
@@ -31,18 +38,11 @@ class SpecialtyList extends Component {
       this.setState({ isChangeable: false });
     }
   }
-
-  componentDidMount() {
-    const { user } = this.props.userState;
-    if (user !== null ) {
-      this.props.fetchUserByIdAction(user._id);
-    }
-  }
   
   showContentTable() {
     const thTable = ["name", "category", "description", "Actions"];
     const { tutor } = this.props.userState;
-
+    console.log(tutor);
     return (
       <div className="col-md-12" data-aos="fade">
         <Grid fluid>
@@ -80,9 +80,9 @@ class SpecialtyList extends Component {
                     {tutor !== null ? tutor.subjects.map((value, index) => {
                       return (
                         <tr key={index.toString()}>
-                          <td>value.name</td>
-                          <td>value.category</td>
-                          <td>value.description</td>
+                          <td>{value.name}</td>
+                          <td>{value.category}</td>
+                          <td>{value.description}</td>
                           <td>
                             <a
                               href="#editSpecialtyModal"
@@ -191,7 +191,7 @@ class SpecialtyList extends Component {
                           <input type="text" className="form-control" required/>
                         </div>
                         <div className="form-group">
-                          <h>Category</h>
+                          <h1>Category</h1>
                           <select
                             className="form-control"
                           >
@@ -206,7 +206,7 @@ class SpecialtyList extends Component {
                           </select>
                         </div>
                         <div className="form-group">
-                          <h>Description</h>
+                          <h1>Description</h1>
                           <textarea className="form-control" required />
                         </div>
                       </div>
@@ -229,11 +229,11 @@ class SpecialtyList extends Component {
                       </div>
                       <div className="modal-body">
                         <div className="form-group">
-                          <h>Subject</h>
+                          <h1>Subject</h1>
                           <input type="text" className="form-control" required/>
                         </div>
                         <div className="form-group">
-                          <h>Category</h>
+                          <h1>Category</h1>
                           <select
                             className="form-control"
                           >
