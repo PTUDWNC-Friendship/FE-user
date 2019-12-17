@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { fetchAllContracts } from '../../actions/contract';
+import { fetchUserById } from '../../actions/user';
 
 class SpecialtyList extends Component {
 
@@ -28,8 +30,7 @@ class SpecialtyList extends Component {
         <div className="site-section bg-light">
           <div className="container">
             <div className="row align-items-center">
-
-            {/* <!-- Edit Modal HTML --> */}
+              {/* Modal Add Specialties */}
               <div id="addSpecialtyModal" className="modal fade">
                 <div className="modal-dialog">
                   <div className="modal-content">
@@ -40,11 +41,11 @@ class SpecialtyList extends Component {
                       </div>
                       <div className="modal-body">
                         <div className="form-group">
-                          <h>Subject</h>
+                          <h1>Subject</h1>
                           <input type="text" className="form-control" required/>
                         </div>
                         <div className="form-group">
-                          <h>Category</h>
+                          <h1>Category</h1>
                           <select
                             className="form-control"
                           >
@@ -59,7 +60,7 @@ class SpecialtyList extends Component {
                           </select>
                         </div>
                         <div className="form-group">
-                          <h>Description</h>
+                          <h1>Description</h1>
                           <textarea className="form-control" required />
                         </div>
                       </div>
@@ -82,11 +83,11 @@ class SpecialtyList extends Component {
                       </div>
                       <div className="modal-body">
                         <div className="form-group">
-                          <h>Subject</h>
+                          <h1>Subject</h1>
                           <input type="text" className="form-control" required/>
                         </div>
                         <div className="form-group">
-                          <h>Category</h>
+                          <h1>Category</h1>
                           <select
                             className="form-control"
                           >
@@ -134,58 +135,8 @@ class SpecialtyList extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-12" data-aos="fade">
-                <Grid fluid>
-                  <div className="site-section bg-light">
-                    <div className="container">
-                      <div className="table-wrapper">
-                          <div className="table-title">
-                              <div className="row">
-                                  <div className="col-sm-6">
-                          <h2>Your <b>Specialties</b></h2>
-                        </div>
-                        <div className="col-sm-6">
-                          <a href="#addSpecialtyModal" className="btn btn-success" data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>Add New Specialty</span></a>
-                        </div>
-                              </div>
-                          </div>
-                          <table className="table table-striped table-hover">
-                              <thead>
-                                <tr>
-                                  <th>Subject</th>
-                                  <th>Category</th>
-                                  <th>Description</th>
-                                  <th>Actions</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>World War II</td>
-                                  <td>History</td>
-                                  <td>Learn about how it all started, etc.</td>
-                                  <td>
-                                      <a href="#editSpecialtyModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteSpecialtyModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                          </table>
-                          <div className="clearfix">
-                              <ul className="pagination">
-                                  <li className="page-item disabled"><a href="#">Previous</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">1</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">2</a></li>
-                                  <li className="page-item active"><a href="#" className="page-link">3</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">4</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">5</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">Next</a></li>
-                              </ul>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
-              </div>
+
+              { this.showContentTable() }
             </div>
           </div>
         </div>
@@ -197,13 +148,15 @@ class SpecialtyList extends Component {
 
 const mapStateToProps = state => {
   return {
+    contractState: state.contractState,
     userState: state.userState
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    fetchAllContractsAction: () => dispatch(fetchAllContracts()),
+    fetchUserByIdAction: id => dispatch(fetchUserById(id))
   };
 };
 

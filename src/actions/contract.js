@@ -13,8 +13,8 @@ export function fetchAllContracts() {
   return function(dispatch) {
     return fetch(`${SERVER_URL}/contract/api`)
       .then(response => response.json())
-      .then(tags => {
-        dispatch(getAllContract(tags));
+      .then(contracts => {
+        dispatch(getAllContract(contracts));
       })
       .catch(error => {
         dispatch(getAllContract(null));
