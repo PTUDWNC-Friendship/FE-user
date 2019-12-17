@@ -20,6 +20,7 @@ import StudentProfile from '../components/profile/student';
 
 import Logout from '../components/logout/logout';
 import Chat from '../components/ui-components/ChatComponent/chat';
+import Contract from '../components/contract/contract';
 
 const routes = [
     {
@@ -86,6 +87,11 @@ const routes = [
         path: "/chat",
         exact: false,
         main: () => <Chat />
+    },
+    {
+        path: "/contract",
+        exact: false,
+        main: () => <Contract />
     },
     {
         path: "",
