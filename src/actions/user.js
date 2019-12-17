@@ -132,7 +132,7 @@ export function updateUser(user) {
         dispatch(getCurrentUser(data));
         dispatch(receiveLogin());
       })
-      .catch((error) => {        
+      .catch((error) => {
         dispatch(getCurrentUser(null));
       });
   };
@@ -155,7 +155,7 @@ export function updateTutor(tutor) {
         dispatch(getCurrentUser(data));
         dispatch(receiveLogin());
       })
-      .catch((error) => {        
+      .catch((error) => {
         dispatch(getCurrentUser(null));
       });
   };

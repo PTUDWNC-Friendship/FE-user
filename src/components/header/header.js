@@ -93,6 +93,11 @@ class Header extends React.Component {
                                 </li>
                                 ) : null}
                                 <li>
+                                  <Link to={userState.user.role==="tutor"?"/contracts-tutor":"/contracts-student"} >
+                                    Contracts
+                                  </Link>
+                                </li>
+                                <li>
                                   <Link to="/logout" >
                                     Logout
                                   </Link>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-class SpecialtyList extends Component {
+class ContractList extends Component {
 
 
   render() {
@@ -113,27 +113,6 @@ class SpecialtyList extends Component {
                   </div>
                 </div>
               </div>
-              {/* <!-- Delete Modal HTML --> */}
-              <div id="deleteSpecialtyModal" className="modal fade">
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <form>
-                      <div className="modal-header">
-                        <h4 className="modal-title">Delete Specialty</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      </div>
-                      <div className="modal-body">
-                        <p>Are you sure you want to delete these Records?</p>
-                        <p className="text-warning"><small>This action cannot be undone.</small></p>
-                      </div>
-                      <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                        <input type="submit" className="btn btn-danger" value="Delete"/>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <div className="site-section bg-light">
@@ -142,11 +121,8 @@ class SpecialtyList extends Component {
                           <div className="table-title">
                               <div className="row">
                                   <div className="col-sm-6">
-                          <h2>Your <b>Specialties</b></h2>
-                        </div>
-                        <div className="col-sm-6">
-                          <a href="#addSpecialtyModal" className="btn btn-success" data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>Add New Specialty</span></a>
-                        </div>
+                                    <h2>All <b>Contracts</b></h2>
+                                  </div>
                               </div>
                           </div>
                           <table className="table table-striped table-hover">
@@ -155,7 +131,6 @@ class SpecialtyList extends Component {
                                   <th>Subject</th>
                                   <th>Category</th>
                                   <th>Description</th>
-                                  <th>Actions</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -163,10 +138,6 @@ class SpecialtyList extends Component {
                                   <td>World War II</td>
                                   <td>History</td>
                                   <td>Learn about how it all started, etc.</td>
-                                  <td>
-                                      <a href="#editSpecialtyModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteSpecialtyModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                  </td>
                                 </tr>
                               </tbody>
                           </table>
@@ -207,4 +178,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpecialtyList);
+export default connect(mapStateToProps, mapDispatchToProps)(ContractList);

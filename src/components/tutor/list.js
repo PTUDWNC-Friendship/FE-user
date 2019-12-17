@@ -221,8 +221,7 @@ class TutorList extends Component {
                             Booking
                           </Link>
                             </Col>
-                          </Row>):(<div></div>)
-
+                          </Row>):(<div />)
                           }
 
                         </Grid>

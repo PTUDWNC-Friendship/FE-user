@@ -9,6 +9,7 @@ function getAllSubject(allSubjects) {
   };
 }
 
+
 export function fetchAllSubjects() {
   return function(dispatch) {
     return fetch(`${SERVER_URL}/subject/api`)

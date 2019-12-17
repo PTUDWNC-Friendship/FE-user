@@ -14,8 +14,9 @@ import RolePicking from '../components/login/role';
 
 import TutorProfile from '../components/profile/tutor';
 import TutorList from '../components/tutor/list';
-import SpecialtyList from '../components/tutor/specialties'
-
+import SpecialtyList from '../components/tutor/specialties';
+import StudentList from '../components/tutor/students';
+import ContractList from '../components/tutor/contracts';
 import StudentProfile from '../components/profile/student';
 
 import Logout from '../components/logout/logout';
@@ -54,9 +55,19 @@ const routes = [
         main: () => <TutorList />
     },
     {
+        path: "/tutor-list-students",
+        exact: false,
+        main: () => <StudentList />
+    },
+    {
         path: "/specialties-tutor",
         exact: false,
         main: () => <SpecialtyList />
+    },
+    {
+        path: "/contracts-tutor",
+        exact: false,
+        main: () => <ContractList />
     },
     {
         path: "/login",

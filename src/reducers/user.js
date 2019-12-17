@@ -23,16 +23,16 @@ const userState = (state = initialState, action) =>{
             return { ...state,
                 isFetching: false,
                 isLogin: true,
-                user: action.user,            
+                user: action.user,
             };
         case types.GET_ALL_TUTORS:
             return { ...state,
                 allTutors: action.allTutors
-            }
+            };
         case types.GET_ALL_STUDENTS:
             return { ...state,
-                allStudents: action.allStudents    
-            }
+                allStudents: action.allStudents
+            };
         default: return state;
     }
 };
