@@ -13,11 +13,11 @@ class Contract extends React.Component {
 
     render() {
         return (
-            <div style={{paddingTop: '150px', height: '100vh', backgroundColor: '#d5e6ed', color: 'black'}}>
+            <div style={{paddingTop: '150px', backgroundColor: '#d5e6ed', color: 'black'}}>
 
                 <Grid  >
-                    <div style={{margin: '10px'}}>
-                            <Row style={{paddingBottom: '50px;'}}>
+                    <div>
+                            <Row >
                                 <Col md={6}>
                                 <Row>
                                 <Col md={4} className="d-flex justify-content-start">
@@ -84,6 +84,38 @@ class Contract extends React.Component {
                                     </Row>
                                 </Col>
                             </Row>
+                            <Row>
+                                <p>
+                                <strong>Responsibilities of the Tutor:</strong>
+                                </p>
+                                <p>
+                                a. The teacher shall work to the best of his/her abilities to teach his/her students English as efficiently as possible and within the general goals and guidelines set forth by the school. The teacher will familiarize him/herself with the school’s policies, programs and curricula and attempt to meet the general timetable outlined by school.
+                                </p>
+                                <p>
+                                b. The teacher is responsible for the general atmosphere and conduct, academic and social, in his/her classroom and behavior of students during his/her scheduled class hours, including break time. 
+                                </p>
+                                <p>
+                                c. The teacher shall conduct and dress him/herself in a professional manner. 
+                                </p>
+                                <p>
+                                d. The teacher shall report any specific student difficulties, academic or social, to the school’s management and, with their assistance, communicate with the student’s parents in order to effect an appropriate solution to the problem. 
+                                </p>
+                                <p>
+                                e. The teacher shall attend teachers’ meetings every week. S/he is required to seek and share ideas that may benefit both him/herself as well as the other teachers in the school
+                                </p>
+                                <p>
+                                f. The teacher shall prepare for each class, and correct homework. Student evaluation reports shall be prepared every week. 
+                                </p>
+                                <p>
+                                g. The teacher shall assist the school director or manager in placing newly-arrived students by conscientiously screening any new prospects introduced to the teacher’s class.
+                                </p>
+                                <p>
+                                h. The teacher shall decorate his/her classroom, participate in the creation of teaching aids and help maintain school property.
+                                </p>
+                                <p>
+                                i. If the teacher cannot come to work for some reason, s/he should inform the school, as well as work in advance with the school to find a suitable substitute. The teacher must also inform the substitute of the components to be taught during his/her absence. If these conditions are not met, the teacher will be considered truant and shall be held responsible for any related losses, financial or otherwise
+                                </p>
+                            </Row>
                             <br />
                             <hr className="style1" />
                             <br />
@@ -95,7 +127,7 @@ class Contract extends React.Component {
                                     <Input type="text" placeholder="Enter rent hours" />
                                 </Col>
                             </Row>
-                            <Row className="d-flex justify-content-center mt-5">
+                            <Row className="d-flex justify-content-center mt-4">
                             <Col md={6} >
                                     <TextField
                                         id="date"
@@ -121,19 +153,18 @@ class Contract extends React.Component {
                             </Col>
 
                             </Row>
-                            <Row className="d-flex justify-content-center mt-5">
+                            <Row className="d-flex justify-content-center mt-4">
                             <Col md={6} >
                                 <FormLabel>Created Date:</FormLabel>
                                 </Col>
                                 <Col md={6} style={{color: 'red'}}>
-                                {`${(new Date()).getDate()  }-${ parseInt((new Date()).getMonth()+1) }-${(new Date()).getFullYear()}`}
+                                <strong>{`${(new Date()).getDate()  }-${ parseInt((new Date()).getMonth()+1) }-${(new Date()).getFullYear()}`}</strong>
                                 </Col>
 
                             </Row>
-                            <Row className="d-flex justify-content-end mt-5">
+                            <Row className="d-flex justify-content-end mt-4" style={{paddingBottom: '100px'}}>
                                 <Link to="/" className="btn btn-outline-success py-2 px-4"  >Payment</Link>
                             </Row>
-
                             </div>
                     </Grid>
             </div>
