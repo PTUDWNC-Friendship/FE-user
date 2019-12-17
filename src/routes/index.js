@@ -55,7 +55,7 @@ const routes = [
         main: () => <TutorList />
     },
     {
-        path: "/tutor-list-students",
+        path: "/list-students",
         exact: false,
         main: () => <StudentList />
     },

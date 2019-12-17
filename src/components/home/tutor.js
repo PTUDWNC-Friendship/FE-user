@@ -35,7 +35,7 @@ class Tutor extends React.Component {
                       <div className="rounded border jobs-wrap">
                         <Link
                           to="job-single.html"
-                          className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
+                          className="job-item d-block d-md-flex align-items-center  border-bottom freelance"
                         >
                           <div className="company-logo blank-logo text-center text-md-left pl-3">
                             <img
@@ -48,11 +48,7 @@ class Tutor extends React.Component {
                             <div className="p-3 align-self-center">
                               <h3>Stephanie Croft</h3>
                               <div className="d-block d-lg-flex">
-                                <div style={{marginRight: '20%'}}>
-                                  <span className="icon-suitcase mr-1" />
-                                  10th grade
-                                </div>
-                                <div style={{marginRight: '20%'}}>
+                                <div style={{width: '40%'}}>
                                   <span className="icon-room mr-1" />
                                   America
                                 </div>
@@ -65,8 +61,8 @@ class Tutor extends React.Component {
                           </div>
                           <div className="job-category align-self-center">
                             <div className="p-3">
-                              <span className="text-info p-2 rounded border border-info">
-                                Success
+                              <span className="text-warning p-2 rounded border border-warning">
+                                Tutoring
                               </span>
                             </div>
                           </div>
@@ -75,7 +71,7 @@ class Tutor extends React.Component {
                       </div>
 
                       <div className="col-md-12 text-center mt-5">
-                        <Link to="/" className="btn btn-success rounded py-3 px-5">
+                        <Link to="/list-students" className="btn btn-success rounded py-3 px-5">
                           <span className="icon-plus-circle" /> All Students
                         </Link>
                       </div>
