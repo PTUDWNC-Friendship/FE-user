@@ -1,11 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { withRouter, Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { login, authorizeUser, fetchAllTutors, fetchAllStudents } from '../../actions/user';
 class Student extends React.Component {
 
-
+  componentDidMount() {
+    const { userState, history, getListTutors, getListStudents } = this.props;
+    getListTutors();
+    getListStudents();
+    if (userState.user !== null) {
+      if (userState.user.role === 'tutor') {
+        history.push('/home-tutor');
+      }
+    }
+  }
 
     render() {
+      const { userState } = this.props;
         return (
             <div>
             <div className="site-wrap">
@@ -143,113 +155,51 @@ class Student extends React.Component {
                         <h2 className="mb-5 h3">All Tutors</h2>
                         <div className="rounded border jobs-wrap">
 
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto" />
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Stephanie Croft</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1" />English Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1" />America</div>
-                                  <div><span className="icon-money mr-1" />$15 per hour</div>
-                                </div>
+                        <div className="rounded border jobs-wrap">
+                    {userState.allTutors.map(element => (
+                      <Link
+                        to="/list-tutors"
+                        className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
+                      >
+                        <div className="company-logo blank-logo text-center text-md-left pl-3">
+                          <img
+                            src={element !== null ? element.imageURL : ''}
+                            alt=""
+                            className="img-fluid mx-auto"
+                          />
+                        </div>
+                        <div className="job-details h-100">
+                          <div className="p-3 align-self-center">
+                            <h3>
+                              {element !== null ? element.firstName : ''}
+                              {element !== null ? element.lastName : ''}
+                            </h3>
+                            <div className="d-block d-lg-flex">
+                              <div className="mr-3">
+                                <span className="icon-suitcase mr-1" /> Tutor
+                              </div>
+                              <div className="mr-3">
+                                <span className="icon-room mr-1" />
+                                { element !== null ? element.address : '' }
+                              </div>
+                              <div>
+                                <span className="icon-money mr-1" />$
+                                {element !== null ? element.price : '0'} per
+                                hour
                               </div>
                             </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-info p-2 rounded border border-info">100% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_1.jpg" alt="" className="img-fluid mx-auto" />
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Tina Galloway</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1" />Math Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1" />Viet Nam</div>
-                                  <div><span className="icon-money mr-1" />$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-warning p-2 rounded border border-warning">85% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center freelance">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_3.jpg" alt="" className="img-fluid mx-auto" />
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Johnathon Estes</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1" />Biology Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1" />Canada</div>
-                                  <div><span className="icon-money mr-1" />$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-warning p-2 rounded border border-warning">77% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center fulltime">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/person_4.jpg" alt="" className="img-fluid mx-auto" />
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Derrick Walls</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1" />Physics Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1" />America</div>
-                                  <div><span className="icon-money mr-1" />$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-info p-2 rounded border border-info">90% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
-                          <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center partime">
-                            <div className="company-logo blank-logo text-center text-md-left pl-3">
-                              <img src="images/company_logo_blank.png" alt="" className="img-fluid mx-auto" />
-                            </div>
-                            <div className="job-details h-100">
-                              <div className="p-3 align-self-center">
-                                <h3>Frank Ridley</h3>
-                                <div className="d-block d-lg-flex">
-                                  <div className="mr-3"><span className="icon-suitcase mr-1" />History Teacher</div>
-                                  <div className="mr-3"><span className="icon-room mr-1" />America</div>
-                                  <div><span className="icon-money mr-1" />$15 per hour</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="job-category align-self-center">
-                              <div className="p-3">
-                                <span className="text-danger p-2 rounded border border-danger">50% Trusted</span>
-                              </div>
-                            </div>
-                          </Link>
-
+                          </div>
+                        </div>
+                        <div className="job-category align-self-center">
+                          <div className="p-3">
+                            <span className="text-info p-2 rounded border border-info">
+                              100% Trusted
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
 
                         </div>
 
@@ -327,7 +277,7 @@ class Student extends React.Component {
 
                     <div className="nonloop-block-15 owl-carousel">
 
-
+                      
                         <div className="media-with-text">
                           <div className="image-border-sm mb-4">
                             <Link to="/" className="image-play">
@@ -343,18 +293,6 @@ class Student extends React.Component {
                         <div className="media-with-text">
                           <div className="img-border-sm mb-4">
                             <Link to="/" className="image-play">
-                              <img src="images/person_2.jpg" alt="" className="img-fluid" />
-                            </Link>
-                          </div>
-                          <h2 className="heading mb-0 h5"><Link to="/" className="text-success">Stephanie Croft</Link></h2>
-                          <div className="mr-3"><span className="icon-suitcase mr-1" />English Teacher</div>
-                          <div className="mr-3"><span className="icon-room mr-1" />America</div>
-                          <div><span className="icon-money mr-1" />$15 per hour</div>
-                        </div>
-
-                        <div className="media-with-text">
-                          <div className="img-border-sm mb-4">
-                            <Link to="/" className="image-play">
                               <img src="images/person_3.jpg" alt="" className="img-fluid" />
                             </Link>
                           </div>
@@ -364,60 +302,31 @@ class Student extends React.Component {
                           <div><span className="icon-money mr-1" />$15 per hour</div>
                         </div>
 
-                        <div className="media-with-text">
-                          <div className="img-border-sm mb-4">
-                            <Link to="/" className="image-play">
-                              <img src="images/person_1.jpg" alt="" className="img-fluid" />
-                            </Link>
-                          </div>
-                          <h2 className="heading mb-0 h5"><Link to="/" className="text-success">Tina Galloway</Link></h2>
-                          <div className="mr-3"><span className="icon-suitcase mr-1" />Math Teacher</div>
-                          <div className="mr-3"><span className="icon-room mr-1" />Viet Nam</div>
-                          <div><span className="icon-money mr-1" />$15 per hour</div>
-                        </div>
+                        {/* {userState.allTutors.map(element=>(
 
-                        <div className="media-with-text">
-                          <div className="img-border-sm mb-4">
-                            <Link to="/" className="image-play">
-                              <img src="images/person_2.jpg" alt="" className="img-fluid" />
-                            </Link>
-                          </div>
-                          <h2 className="heading mb-0 h5"><Link to="/" className="text-success">Stephanie Croft</Link></h2>
-                          <div className="mr-3"><span className="icon-suitcase mr-1" />English Teacher</div>
-                          <div className="mr-3"><span className="icon-room mr-1" />America</div>
-                          <div><span className="icon-money mr-1" />$15 per hour</div>
-                        </div>
+                                                  <div className="media-with-text">
+                                                  <div className="image-border-sm mb-4">
+                                                    <Link to="/" className="image-play">
+                                                      <img src="images/person_1.jpg" alt="" className="img-fluid" />
+                                                    </Link>
+                                                  </div>
+                                                  <h2 className="heading mb-0 h5"><Link to="/" className="text-success">{element.firstName+ ' ' + element.lastName}</Link></h2>
+                                                  <div className="mr-3"><span className="icon-suitcase mr-1" />Math Teacher</div>
+                                                  <div className="mr-3"><span className="icon-room mr-1" />Viet Nam</div>
+                                                  <div><span className="icon-money mr-1" />$15 per hour</div>
+                                                </div>
 
-                        <div className="media-with-text">
-                          <div className="img-border-sm mb-4">
-                            <Link to="/" className="image-play">
-                              <img src="images/person_3.jpg" alt="" className="img-fluid" />
-                            </Link>
-                          </div>
-                          <h2 className="heading mb-0 h5"><Link to="/" className="text-success">Johnathon Estes</Link></h2>
-                          <div className="mr-3"><span className="icon-suitcase mr-1" />Biology Teacher</div>
-                          <div className="mr-3"><span className="icon-room mr-1" />Canada</div>
-                          <div><span className="icon-money mr-1" />$15 per hour</div>
-                        </div>
+                        ))}   */}
 
-                        <div className="media-with-text">
-                          <div className="img-border-sm mb-4">
-                            <Link to="/" className="image-play">
-                              <img src="images/person_1.jpg" alt="" className="img-fluid" />
-                            </Link>
-                          </div>
-                          <h2 className="heading mb-0 h5"><Link to="/" className="text-success">Tina Galloway</Link></h2>
-                          <div className="mr-3"><span className="icon-suitcase mr-1" />Math Teacher</div>
-                          <div className="mr-3"><span className="icon-room mr-1" />Viet Nam</div>
-                          <div><span className="icon-money mr-1" />$15 per hour</div>
-                        </div>
+
+
                     </div>
                   </div>
                 </div>
 
 
 
-                <div className="site-section site-block-feature bg-light">
+                {/* <div className="site-section site-block-feature bg-light">
                   <div className="container">
 
                     <div className="text-center mb-5 section-heading">
@@ -453,7 +362,7 @@ class Student extends React.Component {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
               </div>
             </div>
@@ -461,5 +370,22 @@ class Student extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+  return {
+    userState: state.userState
+  };
+};
 
-export default Student;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      loginAction: login,
+      authorizeUserAction: authorizeUser,
+      getListTutors: fetchAllTutors,
+      getListStudents: fetchAllStudents
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Student));
+

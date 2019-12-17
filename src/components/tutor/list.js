@@ -17,7 +17,7 @@
 */
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-
+import {  Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TutorCard } from '../ui-components/TutorCard/TutorCard';
@@ -207,6 +207,24 @@ class TutorList extends Component {
                             }
                             rate="5.0 stars"
                           />
+                          {userState.user.role==='student'?(
+                            <Row>
+                            <Col md={6}>
+                            <Link to="/" className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
+                            {' '}
+                            Detail
+                          </Link>
+                            </Col>
+                            <Col md={6}>
+                            <Link to="/" className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
+                            {' '}
+                            Booking
+                          </Link>
+                            </Col>
+                          </Row>):(<div></div>)
+
+                          }
+
                         </Grid>
                       </Col>
                     ))}
