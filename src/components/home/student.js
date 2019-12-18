@@ -62,10 +62,8 @@ class Student extends React.Component {
                     </div>
                   </div>
                 </div>
-
-
+                
                 <Category />
-
 
                 <div className="site-section bg-light">
                   <div className="container">

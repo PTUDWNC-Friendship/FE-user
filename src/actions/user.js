@@ -128,20 +128,16 @@ export function fetchUserById(id) {
       .then(user => {
         if (user.role === 'tutor') {
           if (user.subjects !== null) {
-            for (let i = 0; i < user.subjects.length; i += 1) {
-              fetch(`${SERVER_URL}/subject/api/${user.subjects[i]}`)
-                .then(response => response.json())
-                .then(subject => {
-                  user.subjects[i] = subject;
-                });
-            }
+            fetch(`${SERVER_URL}/user/tutor/${id}/subjects`)
+              .then(response => response.json())
+              .then(subjects => {
+                user.subjects = subjects;
+                dispatch(getCurrentTutor(user));
+              });
           }
-          console.log("dispatch", user);
-          dispatch(getCurrentTutor(user));
         } else {
           dispatch(getCurrentUser(user));
         }
-        
       })
       .catch((error) => {
         console.log(error);

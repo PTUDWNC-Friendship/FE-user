@@ -6,9 +6,7 @@ import { fetchAllContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
 
 class SpecialtyList extends Component {
-
-
-   componentDidMount() {
+   componentDidUpdate() {
      const { user } = this.props.userState;
      if (user !== null ) {
        this.props.fetchUserByIdAction(user._id);
@@ -19,7 +17,6 @@ class SpecialtyList extends Component {
      const thTable = ["name", "category", "description", "Actions"];
      const { tutor } = this.props.userState;
 
-     console.log(tutor);
      return (
        <div className="col-md-12" data-aos="fade">
          <Grid fluid>
