@@ -123,10 +123,12 @@ class Login extends React.Component {
     });
   };
 
+  responseFacebook = response => {
+    console.log(response);
+  };
+  
   render() {
-    const responseFacebook = response => {
-      console.log(response);
-    };
+    
 
     const { classes } = this.props;
     return (
@@ -203,7 +205,7 @@ class Login extends React.Component {
                   autoLoad={false}
                   appId="2538620279701791"
                   fields="name,email,picture"
-                  callback={responseFacebook}
+                  callback={this.responseFacebook}
                   cssClass="btnFacebook"
                   icon={
                     <i
