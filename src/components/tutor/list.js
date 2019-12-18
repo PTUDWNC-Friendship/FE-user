@@ -17,13 +17,13 @@
 */
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-import {  Link } from 'react-router-dom';
+import {  withRouter  } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TutorCard } from '../ui-components/TutorCard/TutorCard';
 import { InfoModal } from '../ui-components/InfoModal/InfoModal';
 import { fetchAllTutors } from '../../actions/user';
-
+import {setTutor, setStudent} from '../../actions/contract';
 class TutorList extends Component {
   constructor(props) {
     super(props);
@@ -40,6 +40,7 @@ class TutorList extends Component {
     const { getListTutors } = this.props;
     getListTutors();
   }
+
 
   onUpdateInfor = e => {
     e.preventDefault();
@@ -65,6 +66,17 @@ class TutorList extends Component {
     this.setState({
       element
     });
+  }
+
+  setContract(tutor, student) {
+   const {onSetStudentContract, onSetTutorContract, history } = this.props;
+   Promise.resolve(
+    onSetStudentContract(student),
+    onSetTutorContract(tutor)
+   ).then(()=>{
+      history.push('/contract');
+   })
+
   }
 
   render() {
@@ -210,16 +222,16 @@ class TutorList extends Component {
                           {userState.user.role==='student'?(
                             <Row>
                             <Col md={6}>
-                            <Link to="/" className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
+                            <Button className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
                             {' '}
                             Detail
-                          </Link>
+                            </Button>
                             </Col>
                             <Col md={6}>
-                            <Link to="/" className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
+                            <Button onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
                             {' '}
                             Booking
-                          </Link>
+                          </Button>
                             </Col>
                           </Row>):(<div />)
                           }
@@ -245,11 +257,16 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getListTutors: fetchAllTutors
+{
+  return {
+    onSetTutorContract: (tutor) => {
+      dispatch(setTutor(tutor))
     },
-    dispatch
-  );
+    onSetStudentContract: (student) => {
+      dispatch(setStudent(student))
+    },
+    getListTutors: bindActionCreators(fetchAllTutors,dispatch)
+  }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TutorList);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TutorList));

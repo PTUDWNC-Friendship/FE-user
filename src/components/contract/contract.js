@@ -3,6 +3,9 @@ import React from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import {  Link } from 'react-router-dom';
 import { Input, FormLabel, TextField } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {setTutor, setStudent} from '../../actions/contract';
 import './contract.css';
 
 
@@ -12,6 +15,13 @@ import './contract.css';
 class Contract extends React.Component {
 
     render() {
+
+        const {contractState} = this.props;
+        if(contractState.student!==null)
+        {
+            console.log(contractState.student);
+        }
+
         return (
             <div style={{paddingTop: '150px', backgroundColor: '#d5e6ed', color: 'black'}}>
 
@@ -24,7 +34,7 @@ class Contract extends React.Component {
                                     <FormLabel> Your Name:</FormLabel>
                                 </Col>
                                 <Col md={8} className="d-flex justify-content-start">
-                                <FormLabel style={{color: 'red'}}> Nguyễn Duy Hậu</FormLabel>
+                                <FormLabel style={{color: 'red'}}> {contractState.student!==null?contractState.student.firstNamr+' ' + contractState.student.lastName:''}</FormLabel>
                                 </Col>
                                 </Row>
 
@@ -172,4 +182,23 @@ class Contract extends React.Component {
     }
 }
 
-export default Contract;
+const mapStateToProps = state => {
+    return {
+        contractState: state.contractState
+    };
+  };
+  
+  const mapDispatchToProps = dispatch =>
+  {
+    return {
+      onSetTutorContract: (tutor) => {
+        dispatch(setTutor(tutor))
+      },
+      onSetStudentContract: (student) => {
+        dispatch(setStudent(student))
+      }
+    }
+  
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contract);
