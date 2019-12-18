@@ -41,10 +41,9 @@ class ContractList extends Component {
                                   </div>
                               </div>
                           </div>
-                          <table className="table table-striped table-hover">
+                          <table className="contracts table table-striped table-hover">
                               <thead>
                                 <tr>
-                                  <th>No.</th>
                                   <th>Student</th>
                                   <th>Duration</th>
                                   <th>Status</th>
@@ -52,7 +51,6 @@ class ContractList extends Component {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td>1</td>
                                   <td>Dinh Hau</td>
                                   <td>September 5th, 2019 - December 5th, 2019</td>
                                   <td>
@@ -62,7 +60,7 @@ class ContractList extends Component {
                                   </td>
                                 </tr>
 
-                                
+
                               </tbody>
                           </table>
 

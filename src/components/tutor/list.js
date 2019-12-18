@@ -24,6 +24,7 @@ import { TutorCard } from '../ui-components/TutorCard/TutorCard';
 import { InfoModal } from '../ui-components/InfoModal/InfoModal';
 import { fetchAllTutors } from '../../actions/user';
 import {setTutor, setStudent} from '../../actions/contract';
+
 class TutorList extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +47,23 @@ class TutorList extends Component {
     e.preventDefault();
   };
 
+
+  setContract(tutor, student) {
+   const {onSetStudentContract, onSetTutorContract, history } = this.props;
+   Promise.resolve(
+    onSetStudentContract(student),
+    onSetTutorContract(tutor)
+   ).then(()=>{
+      history.push('/contract');
+   });
+  }
+
+  passingProps(element) {
+    this.setState({
+      element
+    });
+  }
+
   enableEditProfile() {
     if (!this.state.isEditable) {
       this.setState({ isEditable: true });
@@ -62,26 +80,9 @@ class TutorList extends Component {
     }
   }
 
-  passingProps(element) {
-    this.setState({
-      element
-    });
-  }
-
-  setContract(tutor, student) {
-   const {onSetStudentContract, onSetTutorContract, history } = this.props;
-   Promise.resolve(
-    onSetStudentContract(student),
-    onSetTutorContract(tutor)
-   ).then(()=>{
-      history.push('/contract');
-   })
-
-  }
-
   render() {
     const { userState } = this.props;
-
+    console.log(userState);
     const subject = [];
     subject.push(<h>Default</h>);
 
@@ -219,22 +220,26 @@ class TutorList extends Component {
                             }
                             rate="5.0 stars"
                           />
-                          {userState.user.role==='student'?(
-                            <Row>
-                            <Col md={6}>
-                            <Button className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
-                            {' '}
-                            Detail
+                          {userState.user !== null ? (
+                          <div>
+                            {userState.user.role==='student'?(
+                              <Row>
+                              <Col md={6}>
+                              <Button className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
+                              {' '}
+                              Detail
+                              </Button>
+                              </Col>
+                              <Col md={6}>
+                              <Button onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
+                              {' '}
+                              Booking
                             </Button>
-                            </Col>
-                            <Col md={6}>
-                            <Button onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
-                            {' '}
-                            Booking
-                          </Button>
-                            </Col>
-                          </Row>):(<div />)
-                          }
+                              </Col>
+                            </Row>
+                          ) : null}
+                          </div>
+                        ): null}
 
                         </Grid>
                       </Col>
@@ -260,13 +265,13 @@ const mapDispatchToProps = dispatch =>
 {
   return {
     onSetTutorContract: (tutor) => {
-      dispatch(setTutor(tutor))
+      dispatch(setTutor(tutor));
     },
     onSetStudentContract: (student) => {
-      dispatch(setStudent(student))
+      dispatch(setStudent(student));
     },
     getListTutors: bindActionCreators(fetchAllTutors,dispatch)
-  }
+  };
+};
 
-}
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TutorList));
