@@ -6,10 +6,10 @@ class ListTutor extends React.Component {
     super(props);
     this.state = {
       // eslint-disable-next-line react/no-unused-state
-      indexLastUser: 2,
+      indexLastUser: 0,
       indexFirstUser: 0,
       currentPage: 1,
-      userPerPage: 2,
+      userPerPage: 5,
       tutors: []
     };
 
@@ -20,7 +20,7 @@ class ListTutor extends React.Component {
     if(oldProps.allTutors !== this.props.allTutors) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-            tutors: this.props.allTutors.slice(0, 2)
+            tutors: this.props.allTutors.slice(0, 5)
         });
     }
   }
