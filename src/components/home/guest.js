@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { withRouter, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { login, authorizeUser, fetchAllTutors, fetchAllStudents } from '../../actions/user';
+import ListTutor from './list-tutors';
 
 class Guest extends React.Component {
   componentDidMount() {
@@ -247,67 +249,7 @@ class Guest extends React.Component {
           <div className="site-section bg-light">
             <div className="container">
               <div className="row">
-                <div
-                  className="col-md-8 mb-5 mb-md-0"
-                  data-aos="fade-up"
-                  data-aos-delay="100"
-                >
-                  <h2 className="mb-5 h3">All Tutors</h2>
-                  <div className="rounded border jobs-wrap">
-                    {userState.allTutors.map(element => (
-                      <Link
-                        to="/list-tutors"
-                        className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
-                      >
-                        <div className="company-logo blank-logo text-center text-md-left pl-3">
-                          <img
-                            src={element !== null ? element.imageURL : ''}
-                            alt=""
-                            className="img-fluid mx-auto"
-                          />
-                        </div>
-                        <div className="job-details h-100">
-                          <div className="p-3 align-self-center">
-                            <h3>
-                              {element !== null ? element.firstName : ''}
-                              {element !== null ? element.lastName : ''}
-                            </h3>
-                            <div className="d-block d-lg-flex">
-                              <div className="mr-3">
-                                <span className="icon-suitcase mr-1" /> Tutor
-                              </div>
-                              <div className="mr-3">
-                                <span className="icon-room mr-1" />
-                                { element !== null ? element.address : '' }
-                              </div>
-                              <div>
-                                <span className="icon-money mr-1" />$
-                                {element !== null ? element.price : '0'} per
-                                hour
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="job-category align-self-center">
-                          <div className="p-3">
-                            <span className="text-info p-2 rounded border border-info">
-                              100% Trusted
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-
-                  <div className="col-md-12 text-center mt-5">
-                    <Link
-                      to="/list-tutors"
-                      className="btn btn-success rounded py-3 px-5"
-                    >
-                      <span className="icon-plus-circle" /> More Tutors
-                    </Link>
-                  </div>
-                </div>
+                <ListTutor allTutors={userState.allTutors} />
                 <div
                   className="col-md-4 block-16"
                   data-aos="fade-up"
@@ -343,7 +285,6 @@ class Guest extends React.Component {
                       to="/register"
                       className="btn btn-outline-warning py-3 px-4"
                     >
-                      {' '}
                       Find Tutors
                     </Link>
                     <p />
