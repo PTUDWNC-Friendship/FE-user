@@ -7,7 +7,8 @@ const initialState = {
   isLogin: false,
   allTutors: [],
   allStudents: [],
-  tutor: null
+  tutor: null,
+  student: null
 };
 
 const userState = (state = initialState, action) => {
