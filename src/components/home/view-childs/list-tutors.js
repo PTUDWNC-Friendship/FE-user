@@ -39,7 +39,7 @@ class ListTutor extends React.Component {
   render() {
     return (
       <div
-        className="col-md-8 mb-5 mb-md-0"
+        className="col-md-12 mb-5 mb-md-0"
         data-aos="fade-up"
         data-aos-delay="100"
       >
@@ -65,7 +65,7 @@ class ListTutor extends React.Component {
                   </h3>
                   <div className="d-block d-lg-flex">
                     <div className="mr-3">
-                      <span className="icon-suitcase mr-1" /> Tutor
+                      <span className="icon-suitcase mr-1" /> {element !== null ? element.title : ''}
                     </div>
                     <div className="mr-3">
                       <span className="icon-room mr-1" />
@@ -81,7 +81,7 @@ class ListTutor extends React.Component {
               <div className="job-category align-self-center">
                 <div className="p-3">
                   <span className="text-info p-2 rounded border border-info">
-                    100% Trusted
+                    5 Stars
                   </span>
                 </div>
               </div>
@@ -91,6 +91,7 @@ class ListTutor extends React.Component {
 
         <div className="col-md-12 text-center mt-5">
           <button
+            type='button'
             onClick={this.loadMorePage}
             className="btn btn-success rounded py-3 px-5"
           >

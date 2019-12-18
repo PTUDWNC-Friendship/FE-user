@@ -102,21 +102,6 @@ class Guest extends React.Component {
             <div className="container">
               <div className="row">
                 <ListTutor allTutors={userState.allTutors} />
-                <div
-                  className="col-md-4 block-16"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <div className="d-flex mb-0">
-                    <h2 className="mb-5 h3 mb-0">Recent Hired</h2>
-                  </div>
-
-                  <div className="nonloop-block-16 owl-carousel">
-                    <div className="border rounded p-4 bg-white">
-                      <h2 className="h5">You need to login to hire tutors!</h2>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
