@@ -36,12 +36,12 @@ class SubjectList extends Component {
                           <h2 className="mb-5 h3">[Category goes here] Subjects</h2>
                           <div className="rounded border jobs-wrap">
 
-                            <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+                            <Link to="job-single.html" className="job-item d-block d-md-flex align-items-center border-bottom fulltime">
                               <div className="company-logo blank-logo text-center text-md-left pl-3">
                                 <img src="images/person_2.jpg" alt="" className="img-fluid mx-auto" />
                               </div>
                               <div className="job-details h-100">
-                                <div className="p-3 align-self-center">
+                                <div className="p-3 text-left">
                                   <h3>Subject name goes here</h3>
                                   <div className="d-block d-lg-flex">
                                     <div><span/>Description goes here</div>
