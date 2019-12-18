@@ -16,8 +16,14 @@ import TutorProfile from '../components/profile/tutor';
 import TutorList from '../components/tutor/list';
 import SpecialtyList from '../components/tutor/specialties';
 import StudentList from '../components/tutor/students';
-import ContractList from '../components/tutor/contracts';
+import ContractTutor from '../components/tutor/contracts';
 import StudentProfile from '../components/profile/student';
+
+
+import ContractStudent from '../components/student/contracts';
+
+
+import SubjectList from '../components/subject/list';
 
 import Logout from '../components/logout/logout';
 import Chat from '../components/ui-components/ChatComponent/chat';
@@ -67,7 +73,17 @@ const routes = [
     {
         path: "/contracts-tutor",
         exact: false,
-        main: () => <ContractList />
+        main: () => <ContractTutor />
+    },
+    {
+        path: "/contracts-student",
+        exact: false,
+        main: () => <ContractStudent />
+    },
+    {
+        path: "/list-subjects",
+        exact: false,
+        main: () => <SubjectList />
     },
     {
         path: "/login",

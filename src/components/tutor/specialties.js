@@ -42,7 +42,7 @@ class SpecialtyList extends Component {
                     </div>
                   </div>
                 </div>
-                <table className="table table-striped table-hover">
+                <table className="table specialties table-striped table-hover">
                   <thead>
                     <tr>
                       {thTable.map((value, index) => {
@@ -160,12 +160,11 @@ class SpecialtyList extends Component {
                       </div>
                       <div className="modal-body">
                         <div className="form-group">
-                          <h1>Subject</h1>
+                          <h>Subject</h>
                            <input type="text" className="form-control" required/>
                          </div>
                          <div className="form-group">
                            <h>Category</h>
-                           <h1>Category</h1>
                            <select
                              className="form-control"
                            >
@@ -181,7 +180,6 @@ class SpecialtyList extends Component {
                          </div>
                          <div className="form-group">
                            <h>Description</h>
-                           <h1>Description</h1>
                            <textarea className="form-control" required />
                          </div>
                        </div>
