@@ -61,6 +61,11 @@ class Header extends React.Component {
                             style={{ paddingRight: "3%" }}
                           >
                             <li>
+                              <Link to="/list-tutors">
+                                Find Tutors
+                              </Link>
+                            </li>
+                            <li>
                               <Link to="/login">Login</Link>
                             </li>
                             <li>
@@ -77,6 +82,13 @@ class Header extends React.Component {
                             className="site-menu js-clone-nav d-none d-lg-block"
                             style={{ paddingRight: "5%" }}
                           >
+                            {userState.user.role === "student" ? (
+                              <li>
+                                <Link to="/list-tutors">
+                                  Find Tutors
+                                </Link>
+                              </li>
+                            ) : null}
                             <li className="has-children">
                               <Link to="/">Account</Link>
                               <ul className="dropdown arrow-top">
