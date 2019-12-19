@@ -38,12 +38,16 @@ class SubjectList extends Component {
 
     if(oldProps.subjectState.allSubjects !== this.props.subjectState.allSubjects) {
       const query = queryString.parse(this.props.location.search);
-      const { categoryFilter, nameFilter } = query;
-      console.log('TCL: componentDidUpdate -> query', query);
-      console.log(categoryFilter);
+      let { categoryFilter, nameFilter, search } = query;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         subjects: this.props.subjectState.allSubjects
+        .filter(element => {
+          if (!search) { 
+            return true;
+          }
+          return element.category.toLowerCase().search(search.toLowerCase()) !== -1 || element.name.toLowerCase().search(search.toLowerCase()) !== -1;
+        })
         .filter(element => {
           if (!categoryFilter) {
             return true;
@@ -63,12 +67,18 @@ class SubjectList extends Component {
 
   loadMorePage() {
     const query = queryString.parse(this.props.location.search);
-    const { categoryFilter, nameFilter } = query;
-    console.log("TCL: loadMorePage -> query", query);
+    const { categoryFilter, nameFilter, search } = query;
+
     this.setState(prevState => ({
       indexLast: (prevState.currentPage + 1) * prevState.dataPerPage,
       currentPage: prevState.currentPage + 1,
       subjects: this.props.subjectState.allSubjects
+        .filter(element => {
+          if (!search) { 
+            return true;
+          }
+          return element.category.toLowerCase().search(search.toLowerCase()) !== -1 || element.name.toLowerCase().search(search.toLowerCase()) !== -1;
+        })
         .filter(element => {
           if (!categoryFilter) {
             return true;
