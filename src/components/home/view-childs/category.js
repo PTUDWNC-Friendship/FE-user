@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 class Category extends React.Component {
   render() {
@@ -17,7 +17,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <Link to="/list-tutors" className="h-100 feature-item">
+              <NavLink to="/list-subjects?categoryFilter=Math" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img
                     width="90"
@@ -28,14 +28,14 @@ class Category extends React.Component {
                 </span>
                 <h2> </h2>
                 <span className="counting">Math</span>
-              </Link>
+              </NavLink>
             </div>
             <div
               className="col-sm-6 col-md-4 col-lg-3 mb-3"
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=Literature" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img width="90" height="90" alt="" src="images/study.svg" />
                 </span>
@@ -48,7 +48,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="300"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=Biology" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img width="90" height="90" alt="" src="images/dna.svg" />
                 </span>
@@ -61,7 +61,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=Languages" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img
                     width="90"
@@ -79,7 +79,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="500"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=Geography" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img width="90" height="90" alt="" src="images/global.svg" />
                 </span>
@@ -92,7 +92,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="600"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=Physics" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img width="90" height="90" alt="" src="images/atom.svg" />
                 </span>
@@ -105,7 +105,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="700"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=Chemistry" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img
                     width="90"
@@ -123,7 +123,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="800"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-subjects?categoryFilter=History" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img width="90" height="90" alt="" src="images/history.svg" />
                 </span>

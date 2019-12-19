@@ -24,11 +24,8 @@ class SubjectList extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.subjectState.allSubjects);
     if (!this.state.isFetching && this.props.subjectState.allSubjects.length===0) {
       this.props.fetchAllSubjectsAction();
-      console.log(this.props.subjectState.allSubjects);
-      
     }
     if (!this.state.isFetching && this.props.subjectState.allSubjects.length > 0) {
       this.setState({
@@ -43,21 +40,22 @@ class SubjectList extends Component {
       const query = queryString.parse(this.props.location.search);
       const { categoryFilter, nameFilter } = query;
       console.log('TCL: componentDidUpdate -> query', query);
-
+      console.log(categoryFilter);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         subjects: this.props.subjectState.allSubjects
-          .filter(element => {
-            if (categoryFilter === '' || categoryFilter === null) {
-              return true;
-            }
-            if (nameFilter === '' || nameFilter === null) {
-              return true;
-            }
-            return (
-              element.category === categoryFilter || element.name === nameFilter
-            );
-          })
+        .filter(element => {
+          if (!categoryFilter) {
+            return true;
+          }
+          return element.category === categoryFilter && categoryFilter;
+        })
+        .filter(element => {
+          if (!nameFilter) {
+            return true;
+          }
+          return element.name === nameFilter && nameFilter;
+        })
           .slice(0, 5)
       });
     }    
@@ -70,21 +68,24 @@ class SubjectList extends Component {
     this.setState(prevState => ({
       indexLast: (prevState.currentPage + 1) * prevState.dataPerPage,
       currentPage: prevState.currentPage + 1,
-      subjects: this.props.subjectState.allSubjects.filter(element => {
-        if (categoryFilter === "" || categoryFilter === null) {
-          return true;
-        } 
-        if (nameFilter === "" || nameFilter === null) {
-          return true;
-        }
-        return element.category === categoryFilter || element.name === nameFilter;
-      }).slice(
-        prevState.indexFirst,
-        (prevState.currentPage + 1) * prevState.dataPerPage
-      )
+      subjects: this.props.subjectState.allSubjects
+        .filter(element => {
+          if (!categoryFilter) {
+            return true;
+          }
+          return element.category === categoryFilter && categoryFilter;
+        })
+        .filter(element => {
+          if (!nameFilter) {
+            return true;
+          }
+          return element.name === nameFilter && nameFilter;
+        })
+        .slice(
+          prevState.indexFirst,
+          (prevState.currentPage + 1) * prevState.dataPerPage
+        )
     }));
-
-    console.log(this.state.subjects);
   }
 
   render() {
