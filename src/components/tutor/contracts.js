@@ -2,17 +2,47 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { fetchAllContracts } from '../../actions/contract';
+import { fetchUserById } from '../../actions/user';
 
 class ContractList extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      fetching: false
+    };
+
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props.userState;
+
+    if (user !== null && !this.state.fetching ) {
+      this.props.fetchUserByIdAction(user._id);
+      this.props.fetchAllContractsAction();
+    }
+
+    const { allContracts } = this.props.contractState;
+    if (allContracts !== null && !this.state.fetching)
+    {
+      this.setState({
+        fetching: true
+      });
+      console.log(this.state.fetching);
+    }
+  }
 
 
   render() {
 
-    const subject = [];
-    subject.push(<h>Default</h>);
 
-    const { userState } = this.props;
+    const { userState, contractState } = this.props;
+
+
     console.log(userState.user);
+    console.log(contractState.allContracts);
 
     return (
       <div>
@@ -66,11 +96,6 @@ class ContractList extends Component {
 
 
 
-
-
-
-
-
                           <div className="clearfix">
                               <ul className="pagination">
                                   <li className="page-item disabled"><a href="#">Previous</a></li>
@@ -98,13 +123,16 @@ class ContractList extends Component {
 
 const mapStateToProps = state => {
   return {
+    contractState: state.contractState,
+    loading: state.loading,
     userState: state.userState
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    fetchAllContractsAction: () => dispatch(fetchAllContracts()),
+    fetchUserByIdAction: id => dispatch(fetchUserById(id))
   };
 };
 

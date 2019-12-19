@@ -62,70 +62,16 @@ class Student extends React.Component {
                     </div>
                   </div>
                 </div>
-                
+
                 <Category />
 
                 <div className="site-section bg-light">
                   <div className="container">
                     <div className="row">
-                      
+
                       <ListTutor allTutors={userState.allTutors} />
-                        
-                      <div className="col-md-4 block-16" data-aos="fade-up" data-aos-delay="200">
-                        <div className="d-flex mb-0">
-                          <h2 className="mb-5 h3 mb-0">Recent Hired</h2>
-                          <div className="ml-auto mt-1"><Link to="/" className="owl-custom-prev text-success">Prev</Link> / <Link to="/" className="owl-custom-next text-success">Next</Link></div>
-                        </div>
 
-                        <div className="nonloop-block-16 owl-carousel">
-
-                          <div className="border rounded p-4 bg-white">
-                            <h2 className="h5">Dr. Randall Guzman</h2>
-                            <p><span className="text-info p-2 rounded border border-info">90% Trusted</span></p>
-                            <p>
-                              <span className="d-block"><span className="icon-suitcase" />  Math Teacher</span>
-                              <span className="d-block"><span className="icon-room" />  America</span>
-                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
-                            </p>
-                            <p className="mb-0">I am a good tutor</p>
-                          </div>
-
-                          <div className="border rounded p-4 bg-white">
-                            <h2 className="h5">Prof. Emilee Mayer</h2>
-                            <p><span className="text-info p-2 rounded border border-info">90% Trusted</span></p>
-                            <p>
-                              <span className="d-block"><span className="icon-suitcase" />  Chemistry Teacher</span>
-                              <span className="d-block"><span className="icon-room" />  America</span>
-                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
-                            </p>
-                            <p className="mb-0">I am a good tutor</p>
-                          </div>
-
-                          <div className="border rounded p-4 bg-white">
-                            <h2 className="h5">Prof. Brayden Hines</h2>
-                            <p><span className="text-info p-2 rounded border border-info">90% Trusted</span></p>
-                            <p>
-                              <span className="d-block"><span className="icon-suitcase" />  Literature Teacher</span>
-                              <span className="d-block"><span className="icon-room" />  Canada</span>
-                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
-                            </p>
-                            <p className="mb-0">I am a good tutor</p>
-                          </div>
-
-                          <div className="border rounded p-4 bg-white">
-                            <h2 className="h5">Dr. Petra Mays</h2>
-                            <p><span className="text-info p-2 rounded border border-info">90% Trusted</span></p>
-                            <p>
-                              <span className="d-block"><span className="icon-suitcase" />  Spanish Teacher</span>
-                              <span className="d-block"><span className="icon-room" />  Spain</span>
-                              <span className="d-block"><span className="icon-money mr-1" /> $30 per hour</span>
-                            </p>
-                            <p className="mb-0">I am a good tutor</p>
-                          </div>
-
-                        </div>
-
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -142,7 +88,7 @@ class Student extends React.Component {
 
                     <div className="nonloop-block-15 owl-carousel">
 
-                      
+
                         <div className="media-with-text">
                           <div className="image-border-sm mb-4">
                             <Link to="/" className="image-play">
@@ -253,4 +199,3 @@ const mapDispatchToProps = dispatch =>
   );
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Student));
-

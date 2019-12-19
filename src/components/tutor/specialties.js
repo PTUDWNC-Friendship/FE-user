@@ -2,21 +2,36 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchAllContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
 
 class SpecialtyList extends Component {
-   componentDidUpdate() {
-     const { user } = this.props.userState;
-     if (user !== null ) {
-       this.props.fetchUserByIdAction(user._id);
-     }
-   }
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      fetching: false
+    };
+
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props.userState;
+
+    if (user !== null && !this.state.fetching ) {
+      this.props.fetchUserByIdAction(user._id);
+    }
+    else
+    {
+      this.setState({
+        fetching: true
+      });
+      console.log(this.state.fetching);
+    }
+  }
 
    showContentTable() {
      const thTable = ["name", "category", "description", "Actions"];
      const { tutor } = this.props.userState;
-
      return (
        <div className="col-md-12" data-aos="fade">
          <Grid fluid>
@@ -136,6 +151,7 @@ class SpecialtyList extends Component {
   };
 
   render() {
+
     return (
       <div>
         <div style={{ height: '113px' }} />
@@ -266,15 +282,14 @@ class SpecialtyList extends Component {
     );
   }
 }
+
 const mapStateTopProps = state => {
   return {
-    contractState: state.contractState,
     userState: state.userState
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllContractsAction: () => dispatch(fetchAllContracts()),
     fetchUserByIdAction: id => dispatch(fetchUserById(id))
   };
 };
