@@ -1,11 +1,11 @@
 
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-import {  Link } from 'react-router-dom';
 import { Input, FormLabel, TextField, MenuItem, Select, FormControl } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import $ from 'jquery';
+import swal from 'sweetalert';
 import {setTutor, setStudent} from '../../actions/contract';
 import './contract.css';
 import { SERVER_URL } from '../../helpers/constant';
@@ -24,16 +24,18 @@ class Contract extends React.Component {
 
 
     }
+    
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount() {
 
         const {contractState} = this.props;
         if(contractState.tutor!==null) {
-            fetch(`${SERVER_URL}/user/tutor/`+contractState.tutor._id +`/subjects`)
+            fetch(`${SERVER_URL}/user/tutor/${contractState.tutor._id }/subjects`)
             .then(response => response.json() )
             .then(data => {
                 this.setState({
                     allSubjectOfTutor: data
-                })
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -43,28 +45,48 @@ class Contract extends React.Component {
     }
     
 
-    onCreateContract() {
-        const {contractState} = this.props;
+    onCreateContract(tutor,student) {
+
+        if($('#hoursNumber').val()===''||$("[name='subject']")[0].value==='') {
+            swal("Error!", "Something's wrong. Please check your input!", "error");
+        } else {
+
+            const contract = {
+                _idStudent: student._id,
+                _idTutor: tutor._id,
+                _idSubject:  $("[name='subject']")[0].value,
+                startDate: $('#startDate').val(),
+                endDate: $('#endDate').val(),
+                createdDate: (new Date()),
+                hoursNumber: $('#hoursNumber').val(),
+                totalPrice: tutor.price!==null?parseInt( $('#hoursNumber').val(),10)*tutor.price:parseInt( $('#hoursNumber').val(),10)*10,
+                revenue: tutor.price!==null?parseInt( $('#hoursNumber').val(),10)*tutor.price*0.2:parseInt( $('#hoursNumber').val(),10)*10*0.2,
+                status: "processing"
+    
+            };
+    
+            fetch(`${SERVER_URL}/contract/insert`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    ...contract
+                }),
+                headers: {
+                  'Content-type': 'application/json; charset=UTF-8'
+                }
+              })
+                .then(response => response.json() )
+                .then(data => {
+                    swal("Sucessfully!", "Register studying with tutor successfully!", "success").then(()=>{
+                        const { history } = this.props;
+                        history.push('/list-tutors');
+                    });
+                })
+                .catch((error) => {
+    
+                });
+        }
 
 
-        fetch(`${SERVER_URL}/contract/insert`, {
-            method: 'POST',
-            body: JSON.stringify({
-                _idStudent: contractState.student._id,
-                _idTutor: contractState.tutor._id,
-
-            }),
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8'
-            }
-          })
-            .then(response => response.json() )
-            .then(data => {
-
-            })
-            .catch((error) => {
-
-            });
     }
 
 
@@ -82,7 +104,7 @@ class Contract extends React.Component {
                                     <FormLabel> Your Name:</FormLabel>
                                 </Col>
                                 <Col md={8} className="d-flex justify-content-start">
-                                <FormLabel style={{color: 'red'}}> {contractState.student!==null?contractState.student.firstName+' ' + contractState.student.lastName:''}</FormLabel>
+                                <FormLabel style={{color: 'red'}}> {contractState.student!==null?`${contractState.student.firstName} ${  contractState.student.lastName}`:''}</FormLabel>
                                 </Col>
                                 </Row>
 
@@ -111,7 +133,7 @@ class Contract extends React.Component {
                                         <FormLabel> Tutor's Name:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'red'}}>{contractState.tutor!==null?contractState.tutor.firstName+' '+contractState.tutor.lastName:''}</FormLabel>
+                                    <FormLabel style={{color: 'red'}}>{contractState.tutor!==null?`${contractState.tutor.firstName} ${contractState.tutor.lastName}`:'Undefined'}</FormLabel>
                                     </Col>
                                     </Row>
 
@@ -137,7 +159,7 @@ class Contract extends React.Component {
                                         <FormLabel> Price:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'blue'}}><strong style={{color: 'red'}}>{contractState.tutor!==null?contractState.tutor.price:''}</strong></FormLabel>
+                                    <FormLabel style={{color: 'blue'}}><strong style={{color: 'red'}}>{contractState.tutor.price!==null?`$${contractState.tutor.price}/h`:'$10/h'}</strong></FormLabel>
                                     </Col>
                                     </Row>
                                 </Col>
@@ -185,13 +207,13 @@ class Contract extends React.Component {
                                 <FormControl style={{minWidth: 180}}> 
                                 <Select
                                     name = "subject"
-                                    id="demo-simple-select"
+                                    id="subjectID"
                                     placeholder="Select subject"    
 
                                     >
                                     {
                                         this.state.allSubjectOfTutor.length>0?this.state.allSubjectOfTutor.map(item=>(
-                                        <MenuItem value={item._id}>{item.name} 123</MenuItem>
+                                        <MenuItem value={item._id}>{item.name}</MenuItem>
                                         )):null
                                     }
                                     </Select>
@@ -205,7 +227,7 @@ class Contract extends React.Component {
                                 </Col>
                                 <Col md={6} >
                                     <FormControl style={{minWidth: 180}}> 
-                                    <Input type="text" placeholder="Enter rent hours" />
+                                    <Input type="text" id="hoursNumber" placeholder="Enter rent hours" />
                                     </FormControl>
                                 </Col>
                             </Row>
@@ -213,7 +235,7 @@ class Contract extends React.Component {
                             <Col md={6} >
                             <FormControl style={{minWidth: 180}}> 
                                     <TextField
-                                        id="date"
+                                        id="startDate"
                                         label="Start Date"
                                         type="date"
                                         defaultValue="2019-12-26"
@@ -226,7 +248,7 @@ class Contract extends React.Component {
                             <Col md={6}>
                             <FormControl style={{minWidth: 180}}> 
                                     <TextField
-                                        id="date"
+                                        id="endDate"
                                         label="End Date"
                                         type="date"
                                         defaultValue="2019-12-26"
@@ -248,7 +270,7 @@ class Contract extends React.Component {
 
                             </Row>
                             <Row className="d-flex justify-content-end mt-4" style={{paddingBottom: '100px'}}>
-                                <Button onClick={()=>this.onCreateContract()} className="btn btn-outline-success py-2 px-4"  >Payment</Button>
+                                <Button onClick={()=>this.onCreateContract(contractState.tutor,contractState.student)} className="btn btn-outline-success py-2 px-4"  >Payment</Button>
                             </Row>
                             </div>
                     </Grid>
@@ -267,13 +289,13 @@ const mapStateToProps = state => {
   {
     return {
       onSetTutorContract: (tutor) => {
-        dispatch(setTutor(tutor))
+        dispatch(setTutor(tutor));
       },
       onSetStudentContract: (student) => {
-        dispatch(setStudent(student))
+        dispatch(setStudent(student));
       }
-    }
+    };
   
-  }
+  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contract);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Contract));
