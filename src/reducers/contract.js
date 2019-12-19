@@ -2,6 +2,7 @@ import * as types from '../helpers/action-type';
 
 const initialState = {
   allContracts: [],
+  detailContract: null,
   tutor: null,
   student: null
 };
@@ -14,6 +15,8 @@ const contractState = (state = initialState, action) => {
       return { ...state, tutor: action.tutor };
     case types.SET_STUDENT_CONTRACT:
       return { ...state, student: action.student };
+    case types.SET_DETAIL_CONTRACT:
+      return{ ...state, detailContract: action.detailContract};
     default:
       return state;
   }

@@ -16,14 +16,16 @@
 
 */
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Alert } from 'react-bootstrap';
 import {  withRouter  } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import $ from 'jquery';
 import { TutorCard } from '../ui-components/TutorCard/TutorCard';
 import { InfoModal } from '../ui-components/InfoModal/InfoModal';
 import { fetchAllTutors } from '../../actions/user';
 import {setTutor, setStudent} from '../../actions/contract';
+
 
 class TutorList extends Component {
   constructor(props) {
@@ -59,9 +61,31 @@ class TutorList extends Component {
   }
 
   passingProps(element) {
-    this.setState({
-      element
-    });
+    if(element!==null) {
+
+      const alerts = [];
+      $('#subjectModal').empty();
+      if(element.subjects!==null) {
+        for (let i = 0; i < element.subjects.length; i+=1) {
+
+          $('#subjectModal').append( `<div class="alert alert-info" style={{float:'left', padding: '15%', marginLeft: '3%'}}>${  element.subjects[i]  }</div>`);
+        }
+      }
+      console.log(element.rate);
+      $("#imgModal").attr("src",element.imageURL);
+      $('#titleModal').text(element.title!==null?`${element.title} `:'tutor');
+      $('#priceModal').text(element.price!==null?`$${element.price} `:'$10');
+      $('#nameModal').text(`${element.firstName} ${element.lastName}`);
+      $('#addressModal').text(element.address!==null?`${element.address} `:'Việt Nam');
+      $('#bioModal').text(element.bio);
+      $('#rateModal').text(element.rate!==null&&element.hasOwnProperty('rate')?element.rate:'5.0 stars');
+
+      $('#modalButton').click();
+    }
+  }
+
+  detailInfor() {
+    $('#tutorCard').click();
   }
 
   enableEditProfile() {
@@ -82,7 +106,6 @@ class TutorList extends Component {
 
   render() {
     const { userState } = this.props;
-    console.log(userState);
     const subject = [];
     subject.push(<h>Default</h>);
 
@@ -99,45 +122,8 @@ class TutorList extends Component {
         />
         <div className="site-section bg-light">
           <div className="container">
-            <div className="row align-items-center">
-              {this.state.element !== null ? (
-                <InfoModal
-                  avatar={
-                    this.state.element.imageURL !== null
-                      ? this.state.element.imageURL
-                      : 'images/person_2.jpg'
-                  }
-                  // eslint-disable-next-line no-nested-ternary
-                  name={`${this.state.element.firstName} ${this.state.element.lastName}`}
-                  title={
-                    this.state.element.title !== null
-                      ? this.state.element.title
-                      : 'Teacher'
-                  }
-                  address={
-                    this.state.element.address !== null
-                      ? this.state.element.address
-                      : 'Việt Nam'
-                  }
-                  price={
-                    this.state.element.price !== null
-                      ? this.state.element.price
-                      : '10'
-                  }
-                  subjects={
-                    this.state.element.subjects !== null
-                      ? this.state.element.subjects
-                      : subject
-                  }
-                  bio={
-                    this.state.element.bio !== null
-                      ? this.state.element.bio
-                      : 'There is no bio of this tutor!'
-                  }
-                  rate="5.0 stars"
-                />
-              ) : null}
-
+            <div className="row align-items-center">              
+                <InfoModal />        
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <Row style={{ marginBottom: '3%' }}>
@@ -183,17 +169,16 @@ class TutorList extends Component {
                       </select>
                     </Col>
                   </Row>
-
+                  <Button id="modalButton" style={{display: 'none'}} data-toggle="modal" data-target="#myModal">modal</Button>
                   <Row>
                     {userState.allTutors.map(element => (
                       <Col md={4}>
                         <Grid
                           className="btn btn-light"
-                          data-toggle="modal"
-                          data-target="#myModal"
                           style={{ padding: '0px' }}
-                          onClick={() => this.passingProps(element)}
+                         
                         >
+                          <Grid id="tutorCard"  onClick={() => this.passingProps(element)}>
                           <TutorCard
                             avatar={
                               element.imageURL !== null
@@ -220,18 +205,19 @@ class TutorList extends Component {
                             }
                             rate="5.0 stars"
                           />
+                          </Grid>
                           {userState.user !== null ? (
                           <div>
                             {userState.user.role==='student'?(
                               <Row>
                               <Col md={6}>
-                              <Button className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
+                              <Button  onClick={()=>this.detailInfor()}  className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
                               {' '}
                               Detail
                               </Button>
                               </Col>
                               <Col md={6}>
-                              <Button onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
+                              <Button type="button" onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
                               {' '}
                               Booking
                             </Button>
@@ -241,6 +227,7 @@ class TutorList extends Component {
                           </div>
                         ): null}
 
+                          
                         </Grid>
                       </Col>
                     ))}

@@ -1,17 +1,11 @@
 
 import React, { Component } from "react";
-import { Image, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
 
 
 export class InfoModal extends Component {
   render() {
-    const alerts = [];
-    for (let i = 0; i < this.props.subjects.length; i+=1) {
-      alerts.push(
-        <Alert style={{float:'left', padding: '1.5%', marginLeft: '3%'}}>{this.props.subjects[0]}</Alert>
-      );
-    }
+
 
     return (
       <div className="card card-user" style={{marginBottom: '3%'}}>
@@ -32,30 +26,34 @@ export class InfoModal extends Component {
                         <div className="content" style={{width: '100%'}}>
                           <div className='align-items-center' style={{width: '50%', float: 'left'}}>
                           <Image
+                            id="imgModal"
                             className="avatar border-gray"
-                            src={this.props.avatar}
+                            src=''
                             alt="..."
                           />
                           </div>
 
                           <div style={{marginLeft: '50%'}}>
-                            <strong style={{color: 'green'}}>{this.props.name}<br/></strong>
-                            <p>{this.props.title}</p>
-                            <p><strong>${this.props.price}</strong> per hour</p>
-                            <p>{this.props.address}</p>
+                            <strong id="nameModal" style={{color: 'green'}}><br/></strong>
+                            <p id="titleModal"/>
+                            <p><strong id="priceModal"/> per hour</p>
+                            <div>
+                            <p id="addressModal"/>
+                            </div>
 
                           </div>
-
-                          <p>{this.props.bio}</p>
+                          <div>
+                          <p id="bioModal"/>
+                          </div>
 
                           <hr />
 
-                          <small>{alerts}</small>
+                           <small id="subjectModal"/>
 
                         </div>
 
                         <hr/>
-                        <div className="text-center">{this.props.rate}</div>
+                        <div id="rateModal" className="text-center" /> 
                       </div>
                       </div>
 

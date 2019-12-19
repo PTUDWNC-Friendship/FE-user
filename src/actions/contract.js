@@ -36,7 +36,12 @@ export function setStudent(student) {
   };
 }
 
-
+export function setDetailContract(detailContract) {
+  return {
+    type: types.SET_DETAIL_CONTRACT,
+    detailContract
+  };
+}
 
 
 

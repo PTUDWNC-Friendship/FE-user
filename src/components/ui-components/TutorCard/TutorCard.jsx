@@ -33,7 +33,7 @@ export class TutorCard extends Component {
     console.log(this.props.subjects.length);
 
     return (
-      <div className="card card-user" style={{marginBottom: '3%'}}>
+      <div  className="card card-user" style={{marginBottom: '3%'}}>
         <div className="content" style={{width: '100%'}}>
           <div className='align-items-center' style={{width: '50%', float: 'left'}}>
           <Image
