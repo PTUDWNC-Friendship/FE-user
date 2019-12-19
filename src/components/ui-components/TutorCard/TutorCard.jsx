@@ -33,7 +33,7 @@ export class TutorCard extends Component {
     console.log(this.props.subjects.length);
 
     return (
-      <div  className="card card-user" style={{marginBottom: '3%'}}>
+      <div  className="card card-user"  style={{marginBottom: '3%',  minHeight: '400px'}}>
         <div className="content" style={{width: '100%'}}>
           <div className='align-items-center' style={{width: '50%', float: 'left'}}>
           <Image
@@ -43,7 +43,7 @@ export class TutorCard extends Component {
           />
           </div>
 
-          <div className='text-left' style={{marginLeft: '50%'}}>
+          <div className='text-left' style={{marginLeft: '50%', minHeight: '150px'}}>
             <Link to='/' style={{color: 'green'}}>{this.props.name}<br/></Link>
             <p>{this.props.title}</p>
             <p><strong>${this.props.price}</strong> per hour</p>
@@ -51,12 +51,12 @@ export class TutorCard extends Component {
 
           </div>
 
-          <hr />
-
-          <small>{alerts}</small>
 
         </div>
-
+        <hr />
+        <div style={{ minHeight: '200px'}}>
+        <small>{alerts}</small>
+        </div>
         <hr/>
         <div className="text-center">{this.props.rate}</div>
       </div>

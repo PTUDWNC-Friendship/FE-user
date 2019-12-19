@@ -175,10 +175,10 @@ class TutorList extends Component {
                       <Col md={4}>
                         <Grid
                           className="btn btn-light"
-                          style={{ padding: '0px' }}
+                          style={{ padding: '0px'}}
                          
                         >
-                          <Grid id="tutorCard"  onClick={() => this.passingProps(element)}>
+                          <Grid id="tutorCard" onClick={() => this.passingProps(element)}>
                           <TutorCard
                             avatar={
                               element.imageURL !== null
