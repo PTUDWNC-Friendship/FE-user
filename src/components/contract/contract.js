@@ -159,7 +159,7 @@ class Contract extends React.Component {
                                         <FormLabel> Price:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'blue'}}><strong style={{color: 'red'}}>{contractState.tutor!==null?`$${contractState.tutor.price}/h`:'$10/h'}</strong></FormLabel>
+                                    <FormLabel style={{color: 'blue'}}><strong style={{color: 'red'}}>{contractState.tutor!==null&&contractState.tutor.hasOwnProperty('tutor')?`$${contractState.tutor.price}/h`:'$10/h'}</strong></FormLabel>
                                     </Col>
                                     </Row>
                                 </Col>
