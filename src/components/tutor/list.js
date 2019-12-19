@@ -211,13 +211,13 @@ class TutorList extends Component {
                             {userState.user.role==='student'?(
                               <Row>
                               <Col md={6}>
-                              <Button  onClick={()=>this.detailInfor()}  className="btn btn-outline-danger py-3 px-4" style={{width: '100%'}}>
+                              <Button  onClick={()=>this.detailInfor()}  className="btn btn-outline-danger py-3 px-4" style={{width: '83%'}}>
                               {' '}
                               Detail
                               </Button>
                               </Col>
                               <Col md={6}>
-                              <Button type="button" onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '100%'}}>
+                              <Button type="button" onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '83%'}}>
                               {' '}
                               Booking
                             </Button>
