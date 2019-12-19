@@ -17,7 +17,7 @@ class Category extends React.Component {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <Link to="/" className="h-100 feature-item">
+              <Link to="/list-tutors" className="h-100 feature-item">
                 <span className="d-block icon mb-3">
                   <img
                     width="90"

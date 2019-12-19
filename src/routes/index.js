@@ -83,7 +83,7 @@ const routes = [
     {
         path: "/list-subjects",
         exact: false,
-        main: () => <SubjectList />
+        main: ({location}) => <SubjectList location={location}/>
     },
     {
         path: "/login",
