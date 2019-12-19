@@ -2,29 +2,77 @@
 import React from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import {  Link } from 'react-router-dom';
-import { Input, FormLabel, TextField } from '@material-ui/core';
+import { Input, FormLabel, TextField, MenuItem, Select, FormControl } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import $ from 'jquery';
 import {setTutor, setStudent} from '../../actions/contract';
 import './contract.css';
-
+import { SERVER_URL } from '../../helpers/constant';
 
 
 
 
 class Contract extends React.Component {
 
-    render() {
+    constructor(props) {
+        super(props);
+
+          this.state = {
+            allSubjectOfTutor: [],
+          };
+
+
+    }
+    componentWillMount() {
 
         const {contractState} = this.props;
-        if(contractState.student!==null)
-        {
-            console.log(contractState.student);
+        if(contractState.tutor!==null) {
+            fetch(`${SERVER_URL}/user/tutor/`+contractState.tutor._id +`/subjects`)
+            .then(response => response.json() )
+            .then(data => {
+                this.setState({
+                    allSubjectOfTutor: data
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         }
+
+    }
+    
+
+    onCreateContract() {
+        const {contractState} = this.props;
+
+
+        fetch(`${SERVER_URL}/contract/insert`, {
+            method: 'POST',
+            body: JSON.stringify({
+                _idStudent: contractState.student._id,
+                _idTutor: contractState.tutor._id,
+
+            }),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8'
+            }
+          })
+            .then(response => response.json() )
+            .then(data => {
+
+            })
+            .catch((error) => {
+
+            });
+    }
+
+
+    render() {
+        const {contractState} = this.props;
 
         return (
             <div style={{paddingTop: '150px', backgroundColor: '#d5e6ed', color: 'black'}}>
-
                 <Grid  >
                     <div>
                             <Row >
@@ -34,7 +82,7 @@ class Contract extends React.Component {
                                     <FormLabel> Your Name:</FormLabel>
                                 </Col>
                                 <Col md={8} className="d-flex justify-content-start">
-                                <FormLabel style={{color: 'red'}}> {contractState.student!==null?contractState.student.firstNamr+' ' + contractState.student.lastName:''}</FormLabel>
+                                <FormLabel style={{color: 'red'}}> {contractState.student!==null?contractState.student.firstName+' ' + contractState.student.lastName:''}</FormLabel>
                                 </Col>
                                 </Row>
 
@@ -43,7 +91,7 @@ class Contract extends React.Component {
                                     <FormLabel> Gender:</FormLabel>
                                 </Col>
                                 <Col md={8} className="d-flex justify-content-start">
-                                <FormLabel style={{color: 'blue'}}> Male</FormLabel>
+                                <FormLabel style={{color: 'blue'}}>{contractState.student!==null?contractState.student.gender:'options'} </FormLabel>
                                 </Col>
                                 </Row>
 
@@ -52,7 +100,7 @@ class Contract extends React.Component {
                                     <FormLabel> Adress:</FormLabel>
                                 </Col>
                                 <Col md={8} className="d-flex justify-content-start">
-                                <FormLabel style={{color: 'blue'}}> 100/53 Dương Bá Trạc</FormLabel>
+                                <FormLabel style={{color: 'blue'}}>{contractState.student!==null?contractState.student.address:'Viet Nam'}</FormLabel>
                                 </Col>
                                 </Row>
                                 </Col>
@@ -63,7 +111,7 @@ class Contract extends React.Component {
                                         <FormLabel> Tutor's Name:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'red'}}> Nguyễn Duy Hậu Super</FormLabel>
+                                    <FormLabel style={{color: 'red'}}>{contractState.tutor!==null?contractState.tutor.firstName+' '+contractState.tutor.lastName:''}</FormLabel>
                                     </Col>
                                     </Row>
 
@@ -72,7 +120,7 @@ class Contract extends React.Component {
                                         <FormLabel> Gender:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'blue'}}> Male</FormLabel>
+                                    <FormLabel style={{color: 'blue'}}> {contractState.tutor!==null?contractState.tutor.gender:'options'}</FormLabel>
                                     </Col>
                                     </Row>
 
@@ -81,7 +129,7 @@ class Contract extends React.Component {
                                         <FormLabel> Adress:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'blue'}}> 100/53 Dương Bá Trạc</FormLabel>
+                                    <FormLabel style={{color: 'blue'}}>{contractState.tutor!==null?contractState.tutor.address:'Viet Nam'}</FormLabel>
                                     </Col>
                                     </Row>
                                     <Row className="mt-2">
@@ -89,7 +137,7 @@ class Contract extends React.Component {
                                         <FormLabel> Price:</FormLabel>
                                     </Col>
                                     <Col md={8} className="d-flex justify-content-start">
-                                    <FormLabel style={{color: 'blue'}}><strong style={{color: 'red'}}>$2000/h</strong></FormLabel>
+                                    <FormLabel style={{color: 'blue'}}><strong style={{color: 'red'}}>{contractState.tutor!==null?contractState.tutor.price:''}</strong></FormLabel>
                                     </Col>
                                     </Row>
                                 </Col>
@@ -131,14 +179,39 @@ class Contract extends React.Component {
                             <br />
                             <Row className="d-flex justify-content-center mt-2">
                                 <Col md={6} >
+                                <FormLabel>Select Subject:</FormLabel>
+                                </Col>
+                                <Col md={6} >
+                                <FormControl style={{minWidth: 180}}> 
+                                <Select
+                                    name = "subject"
+                                    id="demo-simple-select"
+                                    placeholder="Select subject"    
+
+                                    >
+                                    {
+                                        this.state.allSubjectOfTutor.length>0?this.state.allSubjectOfTutor.map(item=>(
+                                        <MenuItem value={item._id}>{item.name} 123</MenuItem>
+                                        )):null
+                                    }
+                                    </Select>
+                                </FormControl>
+                                </Col>
+                            </Row>
+                            
+                            <Row className="d-flex justify-content-center mt-4">
+                                <Col md={6} >
                                 <FormLabel>Rent Hours:</FormLabel>
                                 </Col>
                                 <Col md={6} >
+                                    <FormControl style={{minWidth: 180}}> 
                                     <Input type="text" placeholder="Enter rent hours" />
+                                    </FormControl>
                                 </Col>
                             </Row>
                             <Row className="d-flex justify-content-center mt-4">
                             <Col md={6} >
+                            <FormControl style={{minWidth: 180}}> 
                                     <TextField
                                         id="date"
                                         label="Start Date"
@@ -148,9 +221,10 @@ class Contract extends React.Component {
                                         shrink: true,
                                         }}
                                     />
+                                    </FormControl>
                             </Col>
                             <Col md={6}>
-
+                            <FormControl style={{minWidth: 180}}> 
                                     <TextField
                                         id="date"
                                         label="End Date"
@@ -160,6 +234,7 @@ class Contract extends React.Component {
                                         shrink: true,
                                         }}
                                     />
+                                    </FormControl>
                             </Col>
 
                             </Row>
@@ -173,7 +248,7 @@ class Contract extends React.Component {
 
                             </Row>
                             <Row className="d-flex justify-content-end mt-4" style={{paddingBottom: '100px'}}>
-                                <Link to="/" className="btn btn-outline-success py-2 px-4"  >Payment</Link>
+                                <Button onClick={()=>this.onCreateContract()} className="btn btn-outline-success py-2 px-4"  >Payment</Button>
                             </Row>
                             </div>
                     </Grid>
