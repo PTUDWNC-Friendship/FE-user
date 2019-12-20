@@ -32,8 +32,7 @@ class TutorList extends Component {
     super(props);
     this.state = {
       isEditable: false,
-      isChangeable: false,
-      element: null
+      isChangeable: false
     };
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
@@ -122,8 +121,8 @@ class TutorList extends Component {
         />
         <div className="site-section bg-light">
           <div className="container">
-            <div className="row align-items-center">              
-                <InfoModal />        
+            <div className="row align-items-center">
+                <InfoModal />
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <Row style={{ marginBottom: '3%' }}>
@@ -176,7 +175,7 @@ class TutorList extends Component {
                         <Grid
                           className="btn btn-light"
                           style={{ padding: '0px'}}
-                         
+
                         >
                           <Grid id="tutorCard" onClick={() => this.passingProps(element)}>
                           <TutorCard
@@ -227,7 +226,7 @@ class TutorList extends Component {
                           </div>
                         ): null}
 
-                          
+
                         </Grid>
                       </Col>
                     ))}

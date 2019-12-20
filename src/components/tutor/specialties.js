@@ -6,7 +6,7 @@ import { fetchUserById } from '../../actions/user';
 
 class SpecialtyList extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       fetching: false
@@ -25,7 +25,6 @@ class SpecialtyList extends Component {
       this.setState({
         fetching: true
       });
-      console.log(this.state.fetching);
     }
   }
 
