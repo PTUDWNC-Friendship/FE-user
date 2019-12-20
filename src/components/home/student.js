@@ -3,14 +3,13 @@ import { withRouter, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { login, authorizeUser, fetchAllTutors, fetchAllStudents } from '../../actions/user';
-import ListTutor from './view-childs/list-tutors';
+import TutorList from './view-childs/list-tutors';
 import Category from './view-childs/category';
+
 class Student extends React.Component {
 
   componentDidMount() {
-    const { userState, history, getListTutors, getListStudents } = this.props;
-    getListTutors();
-    getListStudents();
+    const { userState, history } = this.props;
     if (userState.user !== null) {
       if (userState.user.role === 'tutor') {
         history.push('/home-tutor');
@@ -19,7 +18,6 @@ class Student extends React.Component {
   }
 
     render() {
-      const { userState } = this.props;
         return (
             <div>
             <div className="site-wrap">
@@ -64,18 +62,7 @@ class Student extends React.Component {
                 </div>
 
                 <Category />
-
-                <div className="site-section bg-light">
-                  <div className="container">
-                    <div className="row">
-
-                      <ListTutor allTutors={userState.allTutors} />
-
-                      
-                    </div>
-                  </div>
-                </div>
-
+                <TutorList />     
 
                 <div className="site-section block-15">
                   <div className="container">

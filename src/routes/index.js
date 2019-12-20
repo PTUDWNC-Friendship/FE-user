@@ -26,6 +26,7 @@ import SubjectList from '../components/subject/list';
 import Logout from '../components/logout/logout';
 import Chat from '../components/ui-components/ChatComponent/chat';
 import Contract from '../components/contract/contract';
+import SearchContainer from '../search/container';
 
 const routes = [
   {
@@ -122,6 +123,11 @@ const routes = [
     path: '/contract',
     exact: false,
     main: () => <Contract />
+  },
+  {
+    path: '/search',
+    exact: false,
+    main: ({location}) => <SearchContainer location={location} />
   },
   {
     path: '',
