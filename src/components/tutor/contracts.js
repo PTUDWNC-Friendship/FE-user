@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
-import { Grid } from 'react-bootstrap';
+import { Grid, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchAllContracts } from '../../actions/contract';
+import { fetchTutorContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
 
 class ContractList extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       fetching: false
@@ -21,28 +21,24 @@ class ContractList extends Component {
 
     if (user !== null && !this.state.fetching ) {
       this.props.fetchUserByIdAction(user._id);
-      this.props.fetchAllContractsAction();
+      this.props.fetchTutorContractsAction(user._id);
     }
 
     const { allContracts } = this.props.contractState;
-    if (allContracts !== null && !this.state.fetching)
+    if (allContracts.length !== 0 && !this.state.fetching)
     {
       this.setState({
         fetching: true
       });
-      console.log(this.state.fetching);
+      console.log(allContracts);
     }
   }
 
 
   render() {
 
-
-    const { userState, contractState } = this.props;
-
-
-    console.log(userState.user);
-    console.log(contractState.allContracts);
+    const thTable = ["Student", "Duration", "Status"];
+    const { allContracts } = this.props.contractState;
 
     return (
       <div>
@@ -74,23 +70,30 @@ class ContractList extends Component {
                           <table className="contracts table table-striped table-hover">
                               <thead>
                                 <tr>
-                                  <th>Student</th>
-                                  <th>Duration</th>
-                                  <th>Status</th>
+                                  {thTable.map((value, index) => {
+                                    return <th key={index.toString()}>{value}</th>;
+                                  })}
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>Dinh Hau</td>
-                                  <td>September 5th, 2019 - December 5th, 2019</td>
-                                  <td>
-                                  <span className="text-info p-2 rounded border border-info">
-                                    In Progress
-                                  </span>
-                                  </td>
-                                </tr>
-
-
+                                {allContracts !== null ? allContracts.map((value, index) => {
+                                  return (
+                                    <tr key={index.toString()}>
+                                      <td>{`${value.student.firstName} ${value.student.lastName}`}</td>
+                                      <td>
+                                      <b>FROM </b>
+                                      {value.startDate} <br />
+                                      <b> TO </b>
+                                      {value.endDate}</td>
+                                      <td>
+                                      <span className="text-info p-2 rounded border border-info">
+                                        {value.status}
+                                      </span>
+                                      <Button className="fa fa-eye ml-5 p-0" />
+                                      </td>
+                                    </tr>
+                                  );
+                                }) : null}
                               </tbody>
                           </table>
 
@@ -131,7 +134,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllContractsAction: () => dispatch(fetchAllContracts()),
+    fetchTutorContractsAction: id => dispatch(fetchTutorContracts(id)),
     fetchUserByIdAction: id => dispatch(fetchUserById(id))
   };
 };
