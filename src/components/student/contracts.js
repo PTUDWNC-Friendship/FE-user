@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import $ from 'jquery';
 import { fetchStudentContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
 
@@ -170,7 +171,7 @@ class StudentContractList extends Component {
          
             <div className="modal-content">
             <div className="modal-header">
-                <h4 className="modal-title">Evaluate for tutor</h4>
+                            <h4 className="modal-title">Evaluate for tutor</h4>
             </div>
             <div className="modal-body ">
                 <div className="d-flex justify-content-center">
@@ -179,6 +180,7 @@ class StudentContractList extends Component {
                 <Box component="fieldset" mb={3} borderColor="transparent">
                         <Typography component="legend"></Typography>
                             <Rating
+                                id="ratingContract"
                                 name="simple-controlled"
                                 value={this.state.ratingValue}
                                 onChange={(e)=>this.setRatingValue(e)}
@@ -188,8 +190,9 @@ class StudentContractList extends Component {
                 </div>
                 <div className="d-flex justify-content-center">
                     <TextField
+
                     style={{width: '100%'}}
-                    id="filled-multiline-static"
+                    id="messageContract"
                     label="Multiline"
                     multiline
                     rows="4"
