@@ -39,7 +39,7 @@ class Guest extends React.Component {
           <Search />
 
           <Category />
-                <TutorList />
+          <TutorList />
           <div
             className="site-blocks-cover overlay inner-page"
             style={{ backgroundImage: "url('images/tutor-1.jpg')" }}
@@ -417,7 +417,6 @@ class Guest extends React.Component {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-md-2">
                   <div className="col-md-12">
                     <h3 className="footer-heading mb-4 text-white">
@@ -440,7 +439,8 @@ class Guest extends React.Component {
                       </Link>
                     </p>
                   </div>
-                </div>d
+                </div>
+                d
               </div>
               <div className="row pt-5 mt-5 text-center">
                 <div className="col-md-12" />

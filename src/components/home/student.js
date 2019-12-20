@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { login, authorizeUser, fetchAllTutors, fetchAllStudents } from '../../actions/user';
 import TutorList from './view-childs/list-tutors';
 import Category from './view-childs/category';
+import Search from './view-childs/search';
 
 class Student extends React.Component {
 
@@ -25,42 +26,7 @@ class Student extends React.Component {
 
                 <div style={{height: "113px"}} />
 
-                <div className="site-blocks-cover overlay" data-aos="fade" data-stellar-background-ratio="0.5" style={{backgroundImage: "url('images/tutor-1.jpg')"}}>
-                  <div className="container">
-                    <div className="row align-items-center">
-                      <div className="col-12" data-aos="fade">
-                        <h1>Find Tutor</h1>
-                        <form action="#">
-                          <div className="row mb-3">
-                            <div className="col-md-9">
-                              <div className="row">
-                                <div className="col-md-6 mb-3 mb-md-0">
-                                  <input type="text" className="mr-3 form-control border-0 px-4" placeholder="subject, tutor name or tutor title " />
-                                </div>
-                                <div className="col-md-6 mb-3 mb-md-0">
-                                  <div className="input-wrap">
-                                    <span className="icon icon-room" />
-                                  <input type="text" className="form-control form-control-block search-input  border-0 px-4" id="autocomplete" placeholder="city, province or region" onFocus="geolocate()" />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-3">
-                              <input type="submit" className="btn btn-search btn-success btn-block" value="Search" />
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <p className="small">or browse by subject category down below</p>
-                            </div>
-                          </div>
-
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+                <Search />
                 <Category />
                 <TutorList />     
 
