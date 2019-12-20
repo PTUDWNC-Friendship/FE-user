@@ -31,19 +31,16 @@ const routes = [
   {
     path: '/',
     exact: true,
-    render: null,
     main: () => <Guest />
   },
   {
     path: '/home-student',
     exact: false,
-    render: null,
     main: () => <Student />
   },
   {
     path: '/home-tutor',
     exact: false,
-    render: null,
     main: () => <Tutor />
   },
   {
@@ -55,19 +52,16 @@ const routes = [
   {
     path: '/profile-tutor',
     exact: false,
-    render: null,
     main: () => <TutorProfile />
   },
   {
     path: '/list-tutors',
     exact: false,
-    render: null,
     main: () => <TutorList />
   },
   {
     path: '/list-students',
     exact: false,
-    render: null,
     main: () => <StudentList />
   },
   {
@@ -85,25 +79,21 @@ const routes = [
   {
     path: '/contracts-student',
     exact: false,
-    render: null,
     main: () => <ContractStudent />
   },
   {
     path: '/list-subjects',
     exact: false,
-    render: ({ location }) => <SubjectList location={location} />,
-    main: null
+    main: ({ location }) => <SubjectList location={location} />
   },
   {
     path: '/login',
     exact: false,
-    render: null,
     main: () => <Login />
   },
   {
     path: '/register',
     exact: false,
-    render: null,
     main: () => <Register />
   },
   {
@@ -115,7 +105,6 @@ const routes = [
   {
     path: '/roles',
     exact: false,
-    render: null,
     main: () => <RolePicking />
   },
   {
@@ -127,19 +116,16 @@ const routes = [
   {
     path: '/chat',
     exact: false,
-    render: null,
     main: () => <Chat />
   },
   {
     path: '/contract',
     exact: false,
-    render: null,
     main: () => <Contract />
   },
   {
     path: '',
     exact: false,
-    render: null,
     main: () => <NotFound />
   }
 ];

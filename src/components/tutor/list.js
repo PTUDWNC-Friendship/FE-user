@@ -39,8 +39,7 @@ class TutorList extends Component {
   }
 
   componentDidMount() {
-    const { getListTutors } = this.props;
-    getListTutors();
+    this.props.getListTutors();
   }
 
 
@@ -70,7 +69,7 @@ class TutorList extends Component {
           $('#subjectModal').append( `<div class="alert alert-info" style={{float:'left', padding: '15%', marginLeft: '3%'}}>${  element.subjects[i]  }</div>`);
         }
       }
-      console.log(element.rate);
+
       $("#imgModal").attr("src",element.imageURL);
       $('#titleModal').text(element.title!==null?`${element.title} `:'tutor');
       $('#priceModal').text(element.price!==null?`$${element.price} `:'$10');

@@ -17,7 +17,6 @@ function App() {
               key={index.toString()}
               path={route.path}
               exact={route.exact}
-              render={route.render}
               component={route.main}
             />
           );
