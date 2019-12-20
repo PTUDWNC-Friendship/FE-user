@@ -8,9 +8,14 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import CancelIcon from '@material-ui/icons/Cancel';
 import $ from 'jquery';
+import swal from 'sweetalert';
 import { fetchStudentContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
+import {SERVER_URL} from '../../helpers/constant';
 
 
 class StudentContractList extends Component {
@@ -20,7 +25,10 @@ class StudentContractList extends Component {
 
     this.state = {
       fetching: false,
-      ratingValue: 0
+      ratingValue: 0,
+      // eslint-disable-next-line react/no-unused-state
+      idFeedback: null,
+      contract: null,
     };
 
   }
@@ -54,6 +62,7 @@ class StudentContractList extends Component {
     const { allStudentContracts } = this.props.contractState;
     if (allStudentContracts.length !== 0 && !this.state.fetching)
     {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         fetching: true
       });
@@ -70,6 +79,61 @@ class StudentContractList extends Component {
     }
   }
 
+
+  onSetValueContract(value) {
+      this.setState({
+        contract: value
+      });
+      // eslint-disable-next-line no-prototype-builtins
+      if(value.hasOwnProperty('feedback')) {
+        $('#messageContract').val(value.feedback.comment);
+        this.setState({
+            idFeedback: value._idFeedback,
+            ratingValue:  parseInt(value.feedback.rate,10),
+          });
+      } else {
+        this.setState({
+            idFeedback: null,
+            ratingValue: null
+        });
+      }
+  }
+
+
+  onChangeSatus(value) {
+
+    let contract = {
+        ...value
+    };
+    contract.status = "Finished";
+    delete contract.tutor;
+    delete contract.feedback;
+    fetch(`${SERVER_URL}/contract/update`, {
+        method: 'POST',
+        body: JSON.stringify({
+            ...contract
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })
+        .then(response => response.json() )
+        .then(data => {
+            const { user } = this.props.userState;
+
+            if (user !== null ) {
+              this.props.fetchStudentContractsAction(user._id);
+            }
+            swal("Sucessfully!", "Change status of contract successful!", "success").then(()=>{
+                $('#closeModal').click();
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+  }
+
   setRatingValue(event) {
     event.preventDefault();
       this.setState({
@@ -77,9 +141,127 @@ class StudentContractList extends Component {
       });
   }
 
+  submitEvaluate() {
+
+    const feedback = {
+        _id: this.state.idFeedback!==null?this.state.idFeedback:null,
+        comment:    $('#messageContract').val(),
+        rate:   this.state.ratingValue
+    };
+
+  
+    if(feedback._id===null) {
+        fetch(`${SERVER_URL}/feedback/insert`, {
+            method: 'POST',
+            body: JSON.stringify({
+                ...feedback
+            }),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8'
+            }
+          })
+            .then(response => response.json() )
+            .then(data => {
+
+                const contract = {
+                    ...this.state.contract,
+                    _idFeedback: data._id
+                };
+                delete contract.tutor;
+                delete contract.feedback;
+                fetch(`${SERVER_URL}/contract/update`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        ...contract
+                    }),
+                    headers: {
+                      'Content-type': 'application/json; charset=UTF-8'
+                    }
+                  })
+                    .then(response => response.json() )
+                    .then(data => {
+                        const { user } = this.props.userState;
+
+                        if (user !== null ) {
+                          this.props.fetchStudentContractsAction(user._id);
+                        }
+                        swal("Sucessfully!", "Evaluate for tutor successfully!", "success").then(()=>{
+                            $('#closeModal').click();
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    } else {
+        fetch(`${SERVER_URL}/feedback/update`, {
+            method: 'POST',
+            body: JSON.stringify({
+                ...feedback
+            }),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8'
+            }
+          })
+            .then(response => response.json() )
+            .then(data => {
+                const { user } = this.props.userState;
+
+                if (user !== null ) {
+                  this.props.fetchStudentContractsAction(user._id);
+                }
+                swal("Sucessfully!", "Evaluate for tutor successfully!", "success").then(()=>{
+                    $('#closeModal').click();
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+
+  }
+
+  submitReport() {
+    let contract = {
+        ...this.state.contract
+    };
+    contract.message = $('#reportMsgContract').val();
+    contract.status = "Canceled";
+    delete contract.tutor;
+    delete contract.feedback;
+    fetch(`${SERVER_URL}/contract/update`, {
+        method: 'POST',
+        body: JSON.stringify({
+            ...contract
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })
+        .then(response => response.json() )
+        .then(data => {
+            const { user } = this.props.userState;
+
+            if (user !== null ) {
+              this.props.fetchStudentContractsAction(user._id);
+            }
+            swal("Sucessfully!", "Cancel contract successfully!", "success").then(()=>{
+                $('#closeModalReport').click();
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+  }
+
   render() {
 
-    const thTable = ["Tutor", "Duration", "Status", "Evaluate for tutor"];
+    const thTable = ["Tutor", "Duration", "Status","Detail","Change status to finished" ,"Evaluate for tutor", "Canceled contract"];
     const { allStudentContracts } = this.props.contractState;
 
     return (
@@ -94,13 +276,13 @@ class StudentContractList extends Component {
           }}
         />
         <div className="site-section bg-light">
-          <div className="container">
+          <div >
             <div className="row align-items-center">
 
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <div className="site-section bg-light">
-                    <div className="container">
+                    <div >
                       <div className="table-wrapper">
                           <div className="table-title">
                               <div className="row">
@@ -120,24 +302,51 @@ class StudentContractList extends Component {
                               <tbody>
                                 {allStudentContracts !== null ? allStudentContracts.map((value, index) => {
                                   return (
-                                    <tr key={index.toString()}>
+                                    <tr key={index.toString()} >
                                       <td>{`${value.tutor.firstName} ${value.tutor.lastName}`}</td>
                                       <td>
                                       <b>FROM </b>
                                       {value.startDate} <br />
                                       <b> TO </b>
                                       {value.endDate}</td>
-                                      <td>
+                                      <td >
                                       <span className="text-info p-2 rounded border border-info">
                                         {value.status}
                                       </span>
-                                      <Button className="fa fa-eye ml-5 p-0" />
+                                     
                                       </td>
-                                      <td>
-                                      <Fab aria-label="like" data-toggle="modal" data-target="#myModal">
-                                            <FavoriteIcon />
-                                        </Fab>
-                                      </td>
+                                      <td >
+                                      <Fab title="Evaluate for tutor"  aria-label="like" >
+                                             <VisibilityIcon />
+                                          </Fab>
+                                        </td>
+                                      {value.status==='Confirmed'?(
+                                         <td  >
+                                         <Fab title="Change status for contract" onClick={()=>this.onChangeSatus(value)} aria-label="like" >
+                                            <AutorenewIcon/>
+                                         </Fab>
+                                        </td>):<td/>}
+                                      {value.status==='Finished'?(
+                                         <td >
+                                          <Fab title="Evaluate for tutor" onClick={()=>this.onSetValueContract(value)} aria-label="like" data-toggle="modal" data-target="#myModal">
+                                             <FavoriteIcon />
+                                          </Fab>
+                                         </td>
+                                       
+                                      ):(
+                                     <td/>
+                                     )}
+                                    {value.status==='Confirmed'?(
+                                         <td >
+                                          <Fab title="Evaluate for tutor" onClick={()=>this.onSetValueContract(value)} aria-label="like" data-toggle="modal" data-target="#myModalCancel">
+                                             <CancelIcon />
+                                          </Fab>
+                                         </td>
+                                       
+                                      ):(
+                                     <td/>
+                                     )}
+                                     <td/>
                                     </tr>
                                   );
                                 }) : null}
@@ -164,9 +373,9 @@ class StudentContractList extends Component {
           </div>
         </div>
 
-         {/* Modal */}
-        <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered ">
+         {/* Modal Evaluate */}
+        <div id="myModal" className="modal fade" role="dialog">
+        <div className="modal-dialog modal-dialog-centered ">
 
          
             <div className="modal-content">
@@ -178,7 +387,7 @@ class StudentContractList extends Component {
 
       
                 <Box component="fieldset" mb={3} borderColor="transparent">
-                        <Typography component="legend"></Typography>
+                        <Typography component="legend"/>
                             <Rating
                                 id="ratingContract"
                                 name="simple-controlled"
@@ -193,20 +402,55 @@ class StudentContractList extends Component {
 
                     style={{width: '100%'}}
                     id="messageContract"
-                    label="Multiline"
+                    label="Comment"
                     multiline
                     rows="4"
                     variant="filled"
                     />
                 </div>
             </div>
-            <div class="modal-footer d-flex justify-content-center">
+            <div className="modal-footer d-flex justify-content-center">
 
-                    <Button style={{width: '60%'}} className="btn btn-danger" color="secondary">
+                    <Button onClick={()=>this.submitEvaluate()} style={{width: '60%'}} className="btn btn-danger" color="secondary">
                         Dispute
                     </Button>
 
-                <button id="closeModal" style={{display: 'none'}} type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="closeModal" style={{display: 'none'}} type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+
+        </div>
+        </div>
+
+                 {/* Modal Canceled */}
+                 <div id="myModalCancel" className="modal fade" role="dialog">
+        <div className="modal-dialog modal-dialog-centered ">
+
+         
+            <div className="modal-content">
+            <div className="modal-header">
+                            <h4 className="modal-title">Cancel contract</h4>
+            </div>
+            <div className="modal-body ">
+
+                <div className="d-flex justify-content-center">
+                    <TextField
+                    style={{width: '100%'}}
+                    id="reportMsgContract"
+                    label="Reason"
+                    multiline
+                    rows="4"
+                    variant="filled"
+                    />
+                </div>
+            </div>
+            <div className="modal-footer d-flex justify-content-center">
+
+                    <Button onClick={()=>this.submitReport()} style={{width: '60%'}} className="btn btn-primary" color="secondary">
+                        Send
+                    </Button>
+
+                <button id="closeModalReport" style={{display: 'none'}} type="button" className="btn btn-default" data-dismiss="modal">Close</button>
             </div>
             </div>
 
