@@ -16,29 +16,21 @@ class SubjectList extends Component {
       indexLast: 0,
       currentPage: 1,
       dataPerPage: 5,
-      subjects: [],
-      isFetching: false
+      subjects: []
     };
 
     this.loadMorePage = this.loadMorePage.bind(this);
   }
-
+  
   componentDidMount() {
-    if (!this.state.isFetching && this.props.subjectState.allSubjects.length===0) {
-      this.props.fetchAllSubjectsAction();
-    }
-    if (!this.state.isFetching && this.props.subjectState.allSubjects.length > 0) {
-      this.setState({
-        isFetching: true
-      });
-    }
+    this.props.fetchAllSubjectsAction();
   }
   
   componentDidUpdate(oldProps) {
-
+    
     if(oldProps.subjectState.allSubjects !== this.props.subjectState.allSubjects) {
       const query = queryString.parse(this.props.location.search);
-      let { categoryFilter, nameFilter, search } = query;
+      const { categoryFilter, nameFilter, search } = query;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         subjects: this.props.subjectState.allSubjects
@@ -60,10 +52,11 @@ class SubjectList extends Component {
           }
           return element.name === nameFilter && nameFilter;
         })
-          .slice(0, 5)
+        .slice(0, 5)
       });
     }    
   }
+  
 
   loadMorePage() {
     const query = queryString.parse(this.props.location.search);
