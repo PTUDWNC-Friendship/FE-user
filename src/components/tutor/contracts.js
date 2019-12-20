@@ -16,7 +16,7 @@ class ContractList extends Component {
 
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { user } = this.props.userState;
 
     if (user !== null && !this.state.fetching ) {
