@@ -16,6 +16,13 @@ function getTutorContract(allContracts) {
   };
 }
 
+function getStudentContract(allStudentContracts) {
+  return {
+    type: types.GET_ALL_STUDENT_CONTRACTS,
+    allStudentContracts
+  };
+}
+
 export function fetchAllContracts() {
   return function(dispatch) {
     return fetch(`${SERVER_URL}/contract/api`)
@@ -38,6 +45,20 @@ export function fetchTutorContracts(id) {
       })
       .catch(error => {
         dispatch(getTutorContract(null));
+      });
+  };
+}
+
+
+export function fetchStudentContracts(id) {
+  return function(dispatch) {
+    return fetch(`${SERVER_URL}/contract/tutor/${id}`)
+      .then(response => response.json())
+      .then(contracts => {
+        dispatch(getStudentContract(contracts));
+      })
+      .catch(error => {
+        dispatch(getStudentContract(null));
       });
   };
 }

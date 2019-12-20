@@ -1,4 +1,4 @@
-
+import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Grid, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -13,7 +13,6 @@ class ContractList extends Component {
     this.state = {
       fetching: false
     };
-
   }
 
   componentDidMount() {
@@ -30,7 +29,35 @@ class ContractList extends Component {
       this.setState({
         fetching: true
       });
-      console.log(allContracts);
+
+    }
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props.userState;
+
+    if (user !== null && !this.state.fetching ) {
+      this.props.fetchUserByIdAction(user._id);
+      this.props.fetchTutorContractsAction(user._id);
+    }
+
+    const { allContracts } = this.props.contractState;
+    if (allContracts.length !== 0 && !this.state.fetching)
+    {
+      this.setState({
+        fetching: true
+      });
+
+    }
+
+    const { userState } = this.props;
+    if (userState.user !== null) {
+
+      if (userState.user.role === 'student') {
+        this.props.history.push('/home-student');
+      }
+    } else {
+      this.props.history.push('/login');
     }
   }
 
@@ -139,4 +166,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContractList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContractList));

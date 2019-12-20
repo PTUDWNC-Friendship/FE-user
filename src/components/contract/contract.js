@@ -58,9 +58,11 @@ class Contract extends React.Component {
                 startDate: $('#startDate').val(),
                 endDate: $('#endDate').val(),
                 createdDate: (new Date()),
+                policy: null,
                 hoursNumber: $('#hoursNumber').val(),
                 totalPrice: tutor.price!==null?parseInt( $('#hoursNumber').val(),10)*tutor.price:parseInt( $('#hoursNumber').val(),10)*10,
                 revenue: tutor.price!==null?parseInt( $('#hoursNumber').val(),10)*tutor.price*0.2:parseInt( $('#hoursNumber').val(),10)*10*0.2,
+                message: null,
                 status: "processing"
     
             };
