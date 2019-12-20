@@ -56,7 +56,7 @@ class TutorProfile extends Component {
     getListTutors();
     }
 
-    handleSubmitPassword =e => {
+    handleSubmitPassword = e => {
       $('#idLoading').show();
       $('#successMsgPass').hide();
       e.preventDefault();
@@ -302,7 +302,7 @@ class TutorProfile extends Component {
                         id="successMsgPass"
                         style={{ display: 'none', color: 'green', textAlign: 'center' }}
                       >
-              Đổi mật khẩu thành công!
+              Changing password succeeded!
             </div>
                 </Col>
 
@@ -469,7 +469,7 @@ class TutorProfile extends Component {
               id="successMsg"
               style={{ display: 'none', color: 'green', textAlign: 'center' }}
             >
-              Chỉnh sửa thành công!
+              Edit succeeded!
             </div>
           </div>
             </Grid>

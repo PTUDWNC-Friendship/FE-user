@@ -1,8 +1,51 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { fetchUserById } from '../../actions/user';
 
 class Tutor extends React.Component {
+
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        fetching: false
+      };
+    }
+
+    componentDidMount() {
+      const { user } = this.props.userState;
+
+      if (user !== null && !this.state.fetching ) {
+        this.props.fetchUserByIdAction(user._id);
+      }
+
+      if (user !== null && !this.state.fetching)
+      {
+        this.setState({
+          fetching: true
+        });
+      }
+    }
+
+    componentDidUpdate() {
+      const { user } = this.props.userState;
+
+      if (user !== null && !this.state.fetching ) {
+        this.props.fetchUserByIdAction(user._id);
+      }
+
+      if (user !== null && !this.state.fetching)
+      {
+        this.setState({
+          fetching: true
+        });
+      }
+    }
+
     render() {
+      const { tutor } = this.props.userState;
+
         return (
             <div className="site-wrap">
 
@@ -10,7 +53,12 @@ class Tutor extends React.Component {
                   <div className="container">
                     <div className="row align-items-center">
                       <div className="col-12" data-aos="fade">
-                        <h1>Welcome back Prof. Testing,</h1>
+                      {tutor !== null ? (
+                        <h1>Welcome back {tutor.title} {tutor.firstName} {tutor.lastName}</h1>
+                      ) : (
+                        <h1>Welcome back ...</h1>
+                      )}
+
                         <h1>Wish you have a great day!</h1>
                         <div className="col-md-12">
                           <p className="small">Let us know if you have something new.</p>
@@ -123,4 +171,16 @@ class Tutor extends React.Component {
     }
 }
 
-export default Tutor;
+const mapStateToProps = state => {
+  return {
+    userState: state.userState
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUserByIdAction: id => dispatch(fetchUserById(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Tutor));

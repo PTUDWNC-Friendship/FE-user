@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchUserById } from '../../actions/user';
+import { fetchUserById, updateTutor } from '../../actions/user';
+import { insertTutorSubject, editTutorSubject, deleteTutorSubject } from '../../actions/subject';
 
 class SpecialtyList extends Component {
   constructor(props) {
@@ -20,12 +21,30 @@ class SpecialtyList extends Component {
     if (user !== null && !this.state.fetching ) {
       this.props.fetchUserByIdAction(user._id);
     }
-    else
-    {
+    if (this.props.userState.tutor !== null && !this.state.fetching ) {
       this.setState({
         fetching: true
       });
-    }
+    };
+  }
+
+  onInsertTutorSubject = e => {
+    const { tutor } = this.props.userState;
+    const { subject } = this.props.subjectState;
+
+    console.log(subject);
+    
+
+    this.props.insertTutorSubjectAction(e.target.subjectName.value, e.target.subjectCategory.value, e.target.subjectDesc.value);
+
+    // if (subject !== null)
+    // {
+    //   const newTutor = {
+    //     _id: tutor.id,
+    //     subjects: [tutor.subjects, subject._id]}
+    //   }
+    // }
+
   }
 
    showContentTable() {
@@ -168,7 +187,7 @@ class SpecialtyList extends Component {
               <div id="addSpecialtyModal" className="modal fade">
                 <div className="modal-dialog">
                   <div className="modal-content">
-                    <form>
+                    <form onSubmit={this.onInsertTutorSubject}>
                       <div className="modal-header">
                         <h4 className="modal-title">New Specialty</h4>
                         <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -176,26 +195,26 @@ class SpecialtyList extends Component {
                       <div className="modal-body">
                         <div className="form-group">
                           <h>Subject</h>
-                           <input type="text" className="form-control" required/>
+                           <input type="text" name='subjectName' className="form-control" required/>
                          </div>
                          <div className="form-group">
                            <h>Category</h>
                            <select
-                             className="form-control"
+                             className="form-control" name='subjectCategory'
                            >
-                            <option value="math">Math</option>
-                            <option value="literature">Literature</option>
-                            <option value="biology">Biology</option>
-                            <option value="languages">Languages</option>
-                            <option value="geography">Geography</option>
-                            <option value="physics">Physics</option>
-                            <option value="chemistry">Chemistry</option>
-                            <option value="history">History</option>
+                            <option value="Math">Math</option>
+                            <option value="Literature">Literature</option>
+                            <option value="Biology">Biology</option>
+                            <option value="Languages">Languages</option>
+                            <option value="Geography">Geography</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="History">History</option>
                            </select>
                          </div>
                          <div className="form-group">
                            <h>Description</h>
-                           <textarea className="form-control" required />
+                           <textarea className="form-control" name='subjectDesc' required />
                          </div>
                        </div>
                       <div className="modal-footer">
@@ -206,24 +225,25 @@ class SpecialtyList extends Component {
                   </div>
                 </div>
               </div>
+
+
+
               {/* <!-- Edit Modal HTML --> */}
               <div id="editSpecialtyModal" className="modal fade">
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <form>
                       <div className="modal-header">
-                        <h4 className="modal-title">Edit Specialty</h4>
+                        <h4 className="modal-title">Edit specialty</h4>
                         <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                        </div>
                        <div className="modal-body">
                          <div className="form-group">
                            <h>Subject</h>
-                           <h1>Subject</h1>
                            <input type="text" className="form-control" required/>
                          </div>
                          <div className="form-group">
                            <h>Category</h>
-                           <h1>Category</h1>
                            <select
                              className="form-control"
                            >
@@ -250,13 +270,16 @@ class SpecialtyList extends Component {
                   </div>
                 </div>
               </div>
+
+
+
               {/* <!-- Delete Modal HTML --> */}
               <div id="deleteSpecialtyModal" className="modal fade">
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <form>
                       <div className="modal-header">
-                        <h4 className="modal-title">Delete Specialty</h4>
+                        <h4 className="modal-title">Delete specialty</h4>
                         <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
                       <div className="modal-body">
@@ -284,12 +307,14 @@ class SpecialtyList extends Component {
 
 const mapStateTopProps = state => {
   return {
-    userState: state.userState
+    userState: state.userState,
+    subjectState: state.subjectState
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUserByIdAction: id => dispatch(fetchUserById(id))
+    fetchUserByIdAction: id => dispatch(fetchUserById(id)),
+    insertTutorSubjectAction: (name, category, description) => dispatch(insertTutorSubject(name, category, description))
   };
 };
 export default connect(mapStateTopProps, mapDispatchToProps)(SpecialtyList);
