@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
-import { Grid, Button } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchTutorContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
@@ -61,11 +61,80 @@ class ContractList extends Component {
     }
   }
 
-
-  render() {
+  showContentTable()
+  {
 
     const thTable = ["Student", "Duration", "Status"];
     const { allContracts } = this.props.contractState;
+    return (
+      <div className="col-md-12" data-aos="fade">
+        <Grid fluid>
+          <div className="site-section bg-light">
+            <div className="container">
+              <div className="table-wrapper">
+                  <div className="table-title">
+                      <div className="row">
+                          <div className="col-sm-6">
+                            <h2>All <b>Contracts</b></h2>
+                          </div>
+                      </div>
+                  </div>
+                  <table className="contracts table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          {thTable.map((value, index) => {
+                            return <th key={index.toString()}>{value}</th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allContracts !== null ? allContracts.map((value, index) => {
+                          return (
+                            <tr key={index.toString()}>
+                              <td>{`${value.student.firstName} ${value.student.lastName}`}</td>
+                              <td>
+                              <b>FROM </b>
+                              {value.startDate} <br />
+                              <b> TO </b>
+                              {value.endDate}</td>
+                              <td>
+                              <span className="text-info p-2 rounded border border-info">
+                                {value.status}
+                              </span>
+                              <a href='#detailModal' data-toggle='modal' className="fa fa-eye ml-5 p-0"/>
+                              </td>
+                            </tr>
+                          );
+                        }) : null}
+                      </tbody>
+                  </table>
+
+
+
+                  <div className="clearfix">
+                      <ul className="pagination">
+                          <li className="page-item disabled"><a href="#">Previous</a></li>
+                          <li className="page-item"><a href="#" className="page-link">1</a></li>
+                          <li className="page-item"><a href="#" className="page-link">2</a></li>
+                          <li className="page-item active"><a href="#" className="page-link">3</a></li>
+                          <li className="page-item"><a href="#" className="page-link">4</a></li>
+                          <li className="page-item"><a href="#" className="page-link">5</a></li>
+                          <li className="page-item"><a href="#" className="page-link">Next</a></li>
+                      </ul>
+                  </div>
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </Grid>
+      </div>
+    );
+  }
+
+  render() {
 
     return (
       <div>
@@ -82,66 +151,28 @@ class ContractList extends Component {
           <div className="container">
             <div className="row align-items-center">
 
-              <div className="col-md-12" data-aos="fade">
-                <Grid fluid>
-                  <div className="site-section bg-light">
-                    <div className="container">
-                      <div className="table-wrapper">
-                          <div className="table-title">
-                              <div className="row">
-                                  <div className="col-sm-6">
-                                    <h2>All <b>Contracts</b></h2>
-                                  </div>
-                              </div>
-                          </div>
-                          <table className="contracts table table-striped table-hover">
-                              <thead>
-                                <tr>
-                                  {thTable.map((value, index) => {
-                                    return <th key={index.toString()}>{value}</th>;
-                                  })}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {allContracts !== null ? allContracts.map((value, index) => {
-                                  return (
-                                    <tr key={index.toString()}>
-                                      <td>{`${value.student.firstName} ${value.student.lastName}`}</td>
-                                      <td>
-                                      <b>FROM </b>
-                                      {value.startDate} <br />
-                                      <b> TO </b>
-                                      {value.endDate}</td>
-                                      <td>
-                                      <span className="text-info p-2 rounded border border-info">
-                                        {value.status}
-                                      </span>
-                                      <Button className="fa fa-eye ml-5 p-0" />
-                                      </td>
-                                    </tr>
-                                  );
-                                }) : null}
-                              </tbody>
-                          </table>
-
-
-
-                          <div className="clearfix">
-                              <ul className="pagination">
-                                  <li className="page-item disabled"><a href="#">Previous</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">1</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">2</a></li>
-                                  <li className="page-item active"><a href="#" className="page-link">3</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">4</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">5</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">Next</a></li>
-                              </ul>
-                          </div>
+              {/* <!-- Detail Modal HTML --> */}
+              <div id="detailModal" className="modal fade">
+                <div className="modal-dialog modal-dialog-centered container">
+                  <div className="modal-content">
+                    <form>
+                      <div className="modal-header">
+                        <h4 className="modal-title">Contract detail</h4>
+                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
-                    </div>
+                      <div className="modal-body">
+                        Body ne`
+                      </div>
+                      <div className="modal-footer">
+                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                        <input type="submit" className="btn btn-danger" value="OK"/>
+                      </div>
+                    </form>
                   </div>
-                </Grid>
+                </div>
               </div>
+
+              { this.showContentTable() }
             </div>
           </div>
         </div>
@@ -154,7 +185,6 @@ class ContractList extends Component {
 const mapStateToProps = state => {
   return {
     contractState: state.contractState,
-    loading: state.loading,
     userState: state.userState
   };
 };
