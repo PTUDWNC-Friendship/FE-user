@@ -86,7 +86,6 @@ class Login extends React.Component {
 
   componentDidMount() {
     const query = queryString.parse(this.props.location.search);
-
     if (query.token) {
       this.props.loginGoogleAction(query);
       this.props.history.push("/");
