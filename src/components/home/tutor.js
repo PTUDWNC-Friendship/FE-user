@@ -15,7 +15,16 @@ class Tutor extends React.Component {
 
     componentDidMount() {
       const { user } = this.props.userState;
+      const { history } = this.props;
 
+      if (user !== null) {
+        if (user.status === 'notverified') {
+          history.push('/verify');
+        } else if (user.role === 'student') {
+          history.push('/home-student');
+        }
+      }
+    
       if (user !== null && !this.state.fetching ) {
         this.props.fetchUserByIdAction(user._id);
       }

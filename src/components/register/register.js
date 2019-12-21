@@ -21,6 +21,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import $ from "jquery";
 import '../login/style.css';
+import { SERVER_URL } from "../../helpers/constant";
 
 function Copyright() {
   return (
@@ -135,7 +136,7 @@ class Register extends React.Component {
     } else {
       $("#errorMsg").hide();
 
-      fetch(`https://uberfortutor-server-user.herokuapp.com/user/register`, {
+      fetch(`${SERVER_URL}/user/register`, {
         method: "POST",
         body: JSON.stringify({
           username: e.target.username.value,

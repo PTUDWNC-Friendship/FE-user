@@ -59,7 +59,8 @@ export function login(username, password) {
     })
       .then(response => response.json())
       .then(json => {
-        if (json.user !== false) {
+        console.log(json);
+        if (json) {
           localStorage.setItem('authToken', json.token);
           dispatch(getCurrentUser(json));
         }
