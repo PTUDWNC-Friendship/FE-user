@@ -25,6 +25,11 @@ const userState = (state = initialState, action) => {
       return { ...state, allTutors: action.allTutors };
     case types.GET_ALL_STUDENTS:
       return { ...state, allStudents: action.allStudents };
+
+    case types.INSERT_TUTOR_SUBJECT:
+      return state;
+    case types.DELETE_TUTOR_SUBJECT:
+      return state;
     default:
       return state;
   }

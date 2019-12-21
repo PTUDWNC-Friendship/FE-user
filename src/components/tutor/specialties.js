@@ -2,54 +2,130 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchUserById, updateTutor } from '../../actions/user';
-import { insertTutorSubject, editTutorSubject, deleteTutorSubject } from '../../actions/subject';
+import { fetchUserById, insertTutorSubject, deleteTutorSubject } from '../../actions/user';
+import { insertSubject, editSubject, deleteSubject } from '../../actions/subject';
 
 class SpecialtyList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      fetching: false
+      isFetching: false,
+      isInserting: false,
+      isEditing: false,
+      isDeleting: false,
+      selectedElement: null
     };
 
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidUpdate() {
+  componentWillUpdate() {
     const { user } = this.props.userState;
 
-    if (user !== null && !this.state.fetching ) {
+    if (user !== null && !this.state.isFetching ) {
       this.props.fetchUserByIdAction(user._id);
     }
-    if (this.props.userState.tutor !== null && !this.state.fetching ) {
+    if (this.props.userState.tutor !== null && !this.state.isFetching ) {
       this.setState({
-        fetching: true
+        isFetching: true
       });
     };
   }
 
-  onInsertTutorSubject = e => {
+  componentDidUpdate() {
+    const { user } = this.props.userState;
     const { tutor } = this.props.userState;
+    if (user !== null && !this.state.isFetching ) {
+      this.props.fetchUserByIdAction(user._id);
+    }
+
+    if (tutor !== null && !this.state.isFetching ) {
+      this.setState({
+        isFetching: true
+      });
+    };
+
     const { subject } = this.props.subjectState;
+    // Insert Subject
+    if (subject !== null && tutor !== null && !this.state.isInserting)
+    {
+      this.setState({
+        isInserting: true
+      });
+      this.props.insertTutorSubjectAction(tutor._id, subject._id);
+      this.props.fetchUserByIdAction(user._id);
+    }
 
-    console.log(subject);
-    
+    // Edit Subject
+    if (subject !== null && tutor !== null && !this.state.isEditing)
+    {
+      this.setState({
+        isEditing: true
+      });
+      this.props.fetchUserByIdAction(user._id);
+    }
 
-    this.props.insertTutorSubjectAction(e.target.subjectName.value, e.target.subjectCategory.value, e.target.subjectDesc.value);
-
-    // if (subject !== null)
-    // {
-    //   const newTutor = {
-    //     _id: tutor.id,
-    //     subjects: [tutor.subjects, subject._id]}
-    //   }
-    // }
-
+    // Delete Subject
+    if (subject !== null && tutor !== null && !this.state.isDeleting)
+    {
+      this.setState({
+        isDeleting: true
+      });
+      this.props.fetchUserByIdAction(user._id);
+    }
   }
 
-   showContentTable() {
+  onInsertTutorSubject = e => {
+    e.preventDefault();
+
+    this.setState({
+      isInserting: false,
+      isEditing: true,
+      isDeleting: true,
+    });
+    this.props.insertSubjectAction(e.target.subjectName.value, e.target.subjectCategory.value, e.target.subjectDesc.value);
+  }
+
+  onEditTutorSubject = e => {
+    e.preventDefault();
+    this.setState({
+      isInserting: true,
+      isEditing: false,
+      isDeleting: true,
+    });
+    this.props.editSubjectAction(this.state.selectedElement._id, e.target.subjectName.value, e.target.subjectCategory.value, e.target.subjectDesc.value);
+  }
+
+  onDeleteTutorSubject = e => {
+    e.preventDefault();
+    const { tutor } = this.props.userState;
+    this.setState({
+      isInserting: true,
+      isEditing: true,
+      isDeleting: false,
+    });
+    this.props.deleteTutorSubjectAction(tutor._id, this.state.selectedElement._id);
+    this.props.deleteSubjectAction(this.state.selectedElement._id);
+  }
+
+  handleSelectElement(element) {
+    this.setState({
+      selectedElement: element
+    });
+  };
+
+
+  handleChange(e) {
+    this.setState({
+      selectedElement: e.target.value
+    });
+  }
+
+  showContentTable() {
      const thTable = ["name", "category", "description", "Actions"];
      const { tutor } = this.props.userState;
+
      return (
        <div className="col-md-12" data-aos="fade">
          <Grid fluid>
@@ -95,6 +171,7 @@ class SpecialtyList extends Component {
                                href="#editSpecialtyModal"
                               className="edit"
                               data-toggle="modal"
+                              onClick={() => this.handleSelectElement(value)}
                             >
                               <i
                                 className="material-icons"
@@ -108,6 +185,7 @@ class SpecialtyList extends Component {
                               href="#deleteSpecialtyModal"
                               className="delete"
                               data-toggle="modal"
+                              onClick={() => this.handleSelectElement(value)}
                             >
                               <i
                                 className="material-icons"
@@ -170,6 +248,10 @@ class SpecialtyList extends Component {
 
   render() {
 
+    const { selectedElement } = this.state;
+    const categories = ["Math", "Literatue", "Biology",
+                        "Languages", "Geography", "Physics",
+                        "Chemistry", "History"];
     return (
       <div>
         <div style={{ height: '113px' }} />
@@ -229,61 +311,69 @@ class SpecialtyList extends Component {
 
 
               {/* <!-- Edit Modal HTML --> */}
-              <div id="editSpecialtyModal" className="modal fade">
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <form>
-                      <div className="modal-header">
-                        <h4 className="modal-title">Edit specialty</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                       </div>
-                       <div className="modal-body">
-                         <div className="form-group">
-                           <h>Subject</h>
-                           <input type="text" className="form-control" required/>
+              {selectedElement !== null ? (
+                <div id="editSpecialtyModal" className="modal fade">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <form onSubmit={this.onEditTutorSubject}>
+                        <div className="modal-header">
+                          <h4 className="modal-title">Edit specialty</h4>
+                          <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                          </div>
-                         <div className="form-group">
-                           <h>Category</h>
-                           <select
-                             className="form-control"
-                           >
-                            <option value="math">Math</option>
-                            <option value="literature">Literature</option>
-                            <option value="biology">Biology</option>
-                            <option value="languages">Languages</option>
-                            <option value="geography">Geography</option>
-                            <option value="physics">Physics</option>
-                            <option value="chemistry">Chemistry</option>
-                            <option value="history">History</option>
-                          </select>
+                         <div className="modal-body">
+                           <div className="form-group">
+                             <h>Subject</h>
+                             <input type="text" name='subjectName' className="form-control" onChange={this.handleChange}
+                                    value={selectedElement.name} required/>
+                           </div>
+                           <div className="form-group">
+                             <h>Category</h>
+                             <select
+                               className="form-control" name='subjectCategory'
+                             >
+                             {categories.map((value) => {
+                               return (
+
+                                <option value={value} onChange={this.handleChange}
+                                        selected={selectedElement.category === value ? 'selected' : ''}>
+                                  {value}
+                                </option>
+                               );
+                             })
+                           }
+                            </select>
+                          </div>
+                          <div className="form-group">
+                            <h>Description</h>
+                            <textarea className="form-control" name='subjectDesc' value={selectedElement.description}
+                                      onChange={this.handleChange} required />
+                          </div>
                         </div>
-                        <div className="form-group">
-                          <h>Description</h>
-                          <textarea className="form-control" required />
+                        <div className="modal-footer">
+                          <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                          <input type="submit" className="btn btn-info" value="Save"/>
                         </div>
-                      </div>
-                      <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                        <input type="submit" className="btn btn-info" value="Save"/>
-                      </div>
-                    </form>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
+
 
 
 
               {/* <!-- Delete Modal HTML --> */}
-              <div id="deleteSpecialtyModal" className="modal fade">
+              {selectedElement !== null ? (
+                <div id="deleteSpecialtyModal" className="modal fade">
                 <div className="modal-dialog">
                   <div className="modal-content">
-                    <form>
+                    <form onSubmit={this.onDeleteTutorSubject}>
                       <div className="modal-header">
                         <h4 className="modal-title">Delete specialty</h4>
                         <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
                       <div className="modal-body">
-                        <p>Are you sure you want to delete these Records?</p>
+                        <p>Are you sure you want to delete {selectedElement.name}?</p>
                         <p className="text-warning"><small>This action cannot be undone.</small></p>
                       </div>
                       <div className="modal-footer">
@@ -294,7 +384,7 @@ class SpecialtyList extends Component {
                   </div>
                 </div>
               </div>
-
+              ) : null}
 
               { this.showContentTable() }
             </div>
@@ -314,7 +404,13 @@ const mapStateTopProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUserByIdAction: id => dispatch(fetchUserById(id)),
-    insertTutorSubjectAction: (name, category, description) => dispatch(insertTutorSubject(name, category, description))
+    insertSubjectAction: (name, category, description) => dispatch(insertSubject(name, category, description)),
+    insertTutorSubjectAction: (idTutor, idSubject) => dispatch(insertTutorSubject(idTutor, idSubject)),
+
+    editSubjectAction: (_id, name, category, description) => dispatch(editSubject(_id, name, category, description)),
+
+    deleteSubjectAction: _id => dispatch(deleteSubject(_id)),
+    deleteTutorSubjectAction: (idTutor, idSubject) => dispatch(deleteTutorSubject(idTutor, idSubject)),
   };
 };
 export default connect(mapStateTopProps, mapDispatchToProps)(SpecialtyList);
