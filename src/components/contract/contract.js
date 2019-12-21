@@ -20,6 +20,7 @@ class Contract extends React.Component {
 
           this.state = {
             allSubjectOfTutor: [],
+            subjectName: null,
           };
 
 
@@ -35,6 +36,13 @@ class Contract extends React.Component {
             .then(data => {
                 this.setState({
                     allSubjectOfTutor: data
+                });
+                data.forEach(element => {
+                    if(element._id===contractState.detailContract._idSubject) {
+                        this.setState({
+                            subjectName: element.name
+                        });
+                    }
                 });
             })
             .catch((error) => {
@@ -201,7 +209,8 @@ class Contract extends React.Component {
                             <br />
                             <hr className="style1" />
                             <br />
-                            <Row className="d-flex justify-content-center mt-2">
+                            {contractState.detailContract===null?
+                            (<Row className="d-flex justify-content-center mt-2">
                                 <Col md={6} >
                                 <FormLabel>Select Subject:</FormLabel>
                                 </Col>
@@ -221,22 +230,34 @@ class Contract extends React.Component {
                                     </Select>
                                 </FormControl>
                                 </Col>
-                            </Row>
-                            
+                            </Row>):(<Row className="d-flex justify-content-center mt-2">
+                                <Col md={6} >
+                                <FormLabel>Subject:</FormLabel>
+                                </Col>
+                                <Col md={6} >
+                                <FormControl style={{minWidth: 180}}> 
+                                    <FormLabel><strong>{this.state.subjectName}</strong></FormLabel>
+                                </FormControl>
+                                </Col>
+                            </Row>)
+                            }
                             <Row className="d-flex justify-content-center mt-4">
                                 <Col md={6} >
                                 <FormLabel>Rent Hours:</FormLabel>
                                 </Col>
                                 <Col md={6} >
                                     <FormControl style={{minWidth: 180}}> 
-                                    <Input type="text" id="hoursNumber" placeholder="Enter rent hours" />
+                                    {contractState.detailContract===null? <Input type="text" id="hoursNumber" placeholder="Enter rent hours" />:
+                                    <Input type="text" id="hoursNumber" value={contractState.detailContract.hoursNumber} disabled  />}
                                     </FormControl>
                                 </Col>
                             </Row>
                             <Row className="d-flex justify-content-center mt-4">
-                            <Col md={6} >
-                            <FormControl style={{minWidth: 180}}> 
-                                    <TextField
+            
+                                {contractState.detailContract===null?
+                                         <Col md={6}>
+                                         <FormControl style={{minWidth: 180}}>  
+                                <TextField
                                         id="startDate"
                                         label="Start Date"
                                         type="date"
@@ -244,11 +265,17 @@ class Contract extends React.Component {
                                         InputLabelProps={{
                                         shrink: true,
                                         }}
-                                    />
-                                    </FormControl>
-                            </Col>
-                            <Col md={6}>
-                            <FormControl style={{minWidth: 180}}> 
+                                    /> </FormControl></Col> :
+                                    <Col md={6}>
+                                    <FormLabel>End Date:</FormLabel>
+                                    <strong style={{marginLeft: '50px'}}>{contractState.detailContract.startDate}</strong>
+                                    </Col>
+                                }
+                          
+                          
+                            {contractState.detailContract===null? 
+                                  <Col md={6} >
+                                        <FormControl style={{minWidth: 180}}>
                                     <TextField
                                         id="endDate"
                                         label="End Date"
@@ -259,21 +286,52 @@ class Contract extends React.Component {
                                         }}
                                     />
                                     </FormControl>
-                            </Col>
+                                    </Col>  
+                                    :
+                                    <Col md={6}>
+                                    <FormLabel>End Date:</FormLabel>
+                                    <strong style={{marginLeft: '50px'}}>{contractState.detailContract.endDate}</strong>
+                                    </Col>
+                                }
+                           
+                          
 
                             </Row>
-                            <Row className="d-flex justify-content-center mt-4">
-                            <Col md={6} >
+
+
+
+                                {contractState.detailContract===null?
+                                <Row className="d-flex justify-content-center mt-4">
+                                <Col md={6} >
                                 <FormLabel>Created Date:</FormLabel>
                                 </Col>
                                 <Col md={6} style={{color: 'red'}}>
                                 <strong>{`${(new Date()).getDate()  }-${ parseInt((new Date()).getMonth()+1) }-${(new Date()).getFullYear()}`}</strong>
                                 </Col>
+                                </Row>
+                                :
+                                <Row className="mt-4">
+                                <Col md={6} style={{color: 'red'}}>
+                                <FormLabel>Created Date:</FormLabel>
+                                <strong style={{marginLeft: '50px'}}>{contractState.detailContract.createdDate}</strong>
+                                </Col>
+                                {contractState.detailContract!==null?
+                                <Col md={6} style={{color: 'red'}}>
+                                <FormLabel>Total price:</FormLabel>
+                                <strong style={{marginLeft: '50px'}}>${contractState.detailContract.totalPrice}</strong>
+                                </Col>:null}
+                                </Row>
+                               }
 
-                            </Row>
+
+                        
+
+                   
                             <Row className="d-flex justify-content-end mt-4" style={{paddingBottom: '100px'}}>
-                                <Button onClick={()=>this.onCreateContract(contractState.tutor,contractState.student)} className="btn btn-outline-success py-2 px-4"  >Payment</Button>
-                            </Row>
+                               {contractState.detailContract===null?<Button onClick={()=>this.onCreateContract(contractState.tutor,contractState.student)} className="btn btn-outline-success py-2 px-4"  >Payment</Button>:null} 
+                            </Row>                       
+                            
+
                             </div>
                     </Grid>
             </div>

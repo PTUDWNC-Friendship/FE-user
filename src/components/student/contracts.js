@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import {  withRouter  } from 'react-router-dom';
 import { Grid, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
@@ -13,7 +14,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import CancelIcon from '@material-ui/icons/Cancel';
 import $ from 'jquery';
 import swal from 'sweetalert';
-import { fetchStudentContracts } from '../../actions/contract';
+import { fetchStudentContracts, setTutor, setStudent, setDetailContract } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
 import {SERVER_URL} from '../../helpers/constant';
 
@@ -132,6 +133,17 @@ class StudentContractList extends Component {
             console.log(error);
         });
 
+  }
+
+  onDetailContract(value) {
+    const {onSetStudentContract, onSetTutorContract,onSetDetailContract, history,userState } = this.props;
+    Promise.resolve(
+     onSetStudentContract(userState.user),
+     onSetTutorContract(value.tutor),
+     onSetDetailContract(value),
+    ).then(()=>{
+       history.push('/contract');
+    });
   }
 
   setRatingValue(event) {
@@ -259,6 +271,8 @@ class StudentContractList extends Component {
         });
   }
 
+
+
   render() {
 
     const thTable = ["Tutor", "Duration", "Status","Detail","Change status to finished" ,"Evaluate for tutor", "Canceled contract"];
@@ -316,7 +330,7 @@ class StudentContractList extends Component {
                                      
                                       </td>
                                       <td >
-                                      <Fab title="Evaluate for tutor"  aria-label="like" >
+                                      <Fab title="Evaluate for tutor" onClick={()=>this.onDetailContract(value)}   aria-label="like" >
                                              <VisibilityIcon />
                                           </Fab>
                                         </td>
@@ -472,9 +486,18 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onSetTutorContract: (tutor) => {
+      dispatch(setTutor(tutor));
+    },
+    onSetStudentContract: (student) => {
+      dispatch(setStudent(student));
+    },
+    onSetDetailContract: (detailContract) =>{
+      dispatch(setDetailContract(detailContract));
+    },
     fetchStudentContractsAction: id => dispatch(fetchStudentContracts(id)),
     fetchUserByIdAction: id => dispatch(fetchUserById(id))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentContractList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(StudentContractList));

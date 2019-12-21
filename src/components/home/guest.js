@@ -13,9 +13,13 @@ class Guest extends React.Component {
     const { userState, history } = this.props;
 
     if (userState.user !== null) {
-      if (userState.user.role === 'student') {
+      if (userState.user.status === 'notverified') {
+        history.push('/verify');
+      }
+      else if (userState.user.role === 'student') {
         history.push('/home-student');
-      } else if (userState.user.role === 'tutor') {
+      } 
+      else if (userState.user.role === 'tutor') {
         history.push('/home-tutor');
       }
     }
