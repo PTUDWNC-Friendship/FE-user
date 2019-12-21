@@ -27,7 +27,7 @@ import Logout from '../components/logout/logout';
 import Chat from '../components/ui-components/ChatComponent/chat';
 import Contract from '../components/contract/contract';
 import SearchContainer from '../search/container';
-import Verification from '../components/verification/index';
+import Verification from '../components/account/verification';
 
 const routes = [
   {
