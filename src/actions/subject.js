@@ -9,22 +9,24 @@ function getAllSubject(allSubjects) {
   };
 }
 
-function insertSubject(subject) {
+function addSubject(subject) {
   return {
-    type: types.INSERT_TUTOR_SUBJECT,
+    type: types.INSERT_SUBJECT,
     subject
   };
 }
 
-function editSubject() {
+function updateSubject(subject) {
   return {
-    type: types.EDIT_TUTOR_SUBJECT
+    type: types.EDIT_SUBJECT,
+    subject
   };
 }
 
-function deleteSubject() {
+function removeSubject(subject) {
   return {
-    type: types.DELETE_TUTOR_SUBJECT
+    type: types.DELETE_SUBJECT,
+    subject
   };
 }
 
@@ -38,13 +40,14 @@ export function fetchAllSubjects() {
         dispatch(getAllSubject(tags));
       })
       .catch(error => {
+        console.log(error);
         dispatch(getAllSubject(null));
       });
   };
 }
 
 
-export function insertTutorSubject(name, category, description) {
+export function insertSubject(name, category, description) {
   return function(dispatch) {
     // window.alert(name);
     return fetch(`${SERVER_URL}/subject/insert`, {
@@ -60,65 +63,63 @@ export function insertTutorSubject(name, category, description) {
     })
       .then(response => response.json() )
       .then(data => {
-        window.alert("thanh cong");
-
-        dispatch(insertSubject(data));
+        window.alert("Subject added!");
+        dispatch(addSubject(data));
       })
       .catch((error) => {
-        window.alert(error);
-        dispatch(insertSubject(null));
+        console.log(error);
+        dispatch(addSubject(null));
       });
   };
 }
 
-export function editTutorSubject(name, category, description) {
-  return function(dispatch) {
-    console.log(name);
-    console.log(category);
-    console.log(description);
-    // dispatch(requestLogin());
-    // return fetch(`${SERVER_URL}/user/update`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     ...user
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8'
-    //   }
-    // })
-    //   .then(response => response.json() )
-    //   .then(data => {
-    //     dispatch(getCurrentUser(data));
-    //     dispatch(receiveLogin());
-    //   })
-    //   .catch((error) => {
-    //     dispatch(getCurrentUser(null));
-    //   });
-  };
-}
+export function editSubject(_id, name, category, description) {
+    return function(dispatch) {
+      // window.alert(name);
+      return fetch(`${SERVER_URL}/subject/update`, {
+        method: 'POST',
+        body: JSON.stringify({
+          _id,
+          name,
+          category,
+          description
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })
+        .then(response => response.json() )
+        .then(data => {
+          window.alert("Subject updated!");
+          dispatch(updateSubject(data));
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(updateSubject(null));
+        });
+    };
+};
 
-export function deleteTutorSubject(name, category, description) {
+export function deleteSubject(_id) {
   return function(dispatch) {
-    console.log(name);
-    console.log(category);
-    console.log(description);
-    // dispatch(requestLogin());
-    // return fetch(`${SERVER_URL}/user/update`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     ...user
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8'
-    //   }
-    // })
-    //   .then(response => response.json() )
-    //   .then(data => {
-    //     dispatch(getCurrentUser(data));
-    //     dispatch(receiveLogin());
-    //   })
-    //   .catch((error) => {
-    //     dispatch(getCurrentUser(null));
-    //   });
+    // window.alert(name);
+    return fetch(`${SERVER_URL}/subject/delete`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        _id
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json() )
+      .then(data => {
+        window.alert("Subject deleted!");
+        dispatch(removeSubject(data));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(removeSubject(null));
+      });
   };
 }

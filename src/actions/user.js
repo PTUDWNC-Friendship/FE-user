@@ -43,6 +43,19 @@ function getAllStudents(allStudents) {
   };
 }
 
+function addSubject() {
+  return {
+    type: types.INSERT_TUTOR_SUBJECT,
+  };
+}
+
+
+function removeSubject() {
+  return {
+    type: types.DELETE_TUTOR_SUBJECT
+  };
+}
+
 
 export function login(username, password) {
   return function(dispatch) {
@@ -183,13 +196,59 @@ export function updateTutor(tutor) {
         'Content-type': 'application/json; charset=UTF-8'
       }
     })
-      .then(response => response.json() )
+      .then(response => response.json())
       .then(data => {
         dispatch(getCurrentUser(data));
         dispatch(receiveLogin());
       })
       .catch((error) => {
         dispatch(getCurrentUser(null));
+      });
+  };
+}
+
+export function insertTutorSubject(_id, _idSubject) {
+  return function(dispatch) {
+    dispatch(requestLogin());
+    return fetch(`${SERVER_URL}/user/tutor/insert/subject`, {
+      method: 'POST',
+      body: JSON.stringify({
+        _id,
+        _idSubject
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        dispatch(addSubject());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function deleteTutorSubject(_id, _idSubject) {
+  return function(dispatch) {
+    dispatch(requestLogin());
+    return fetch(`${SERVER_URL}/user/tutor/delete/subject`, {
+      method: 'POST',
+      body: JSON.stringify({
+        _id,
+        _idSubject
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        dispatch(removeSubject());
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 }

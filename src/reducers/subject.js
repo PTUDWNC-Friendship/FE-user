@@ -9,12 +9,12 @@ const subjectState = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_ALL_SUBJECTS:
       return { ...state, allSubjects: action.allSubjects };
-    case types.INSERT_TUTOR_SUBJECT:
+    case types.INSERT_SUBJECT:
       return { ...state, subject: action.subject };
-    case types.EDIT_TUTOR_SUBJECT:
-      return state;
-    case types.DELETE_TUTOR_SUBJECT:
-      return state;
+    case types.EDIT_SUBJECT:
+      return { ...state, subject: action.subject };
+    case types.DELETE_SUBJECT:
+      return { ...state, subject: action.subject };
     default:
       return state;
   }
