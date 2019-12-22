@@ -1,10 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authorizeUser }from "../../actions/user";
+import { authorizeUser } from '../../actions/user';
 
 class Header extends React.Component {
-
   componentDidMount() {
     this.props.authorizeUserAction();
   }
@@ -30,13 +29,13 @@ class Header extends React.Component {
                   <div className="col-2">
                     <h2
                       className="mb-0 site-logo"
-                      style={{ paddingLeft: "20%" }}
+                      style={{ paddingLeft: '20%' }}
                     >
                       <Link to="/">
                         Tutor
                         <strong className="font-weight-bold">
                           Finder
-                        </strong>{" "}
+                        </strong>{' '}
                       </Link>
                     </h2>
                   </div>
@@ -55,66 +54,89 @@ class Header extends React.Component {
                           </Link>
                         </div>
 
-                        {(userState.user === null || userState.user.status === 'notverified') ? (
+                        {/* USER NULL ======== */}
+                        {userState.user === null ? (
                           <ul
                             className="site-menu js-clone-nav d-none d-lg-block"
-                            style={{ paddingRight: "3%" }}
+                            style={{ paddingRight: '3%' }}
                           >
                             <li>
-                              <Link to="/list-tutors">
-                                Find Tutors
-                              </Link>
+                              <Link to="/list-tutors">Find Tutors</Link>
                             </li>
                             <li>
                               <Link to="/login">Login</Link>
                             </li>
                             <li>
-                              <Link to="/register">
-                                Register
-                              </Link>
+                              <Link to="/register">Register</Link>
                             </li>
-                            {/* <li>
-                              <Link to="/register-tutor">Register For Tutor</Link>
-                            </li> */}
                           </ul>
-                        ) : (
+                        ) : 
+                        {/* USER LOGED IN ======== */}
+                        (
                           <ul
                             className="site-menu js-clone-nav d-none d-lg-block"
-                            style={{ paddingRight: "5%" }}
+                            style={{ paddingRight: '5%' }}
                           >
-                            {userState.user.role === "student" ? (
+                            {/* FIND TUTOR (STUDENT) ======== */}
+                            {userState.user.role === 'student' ? (
                               <li>
-                                <Link to="/list-tutors">
-                                  Find Tutors
-                                </Link>
+                                <Link to="/list-tutors">Find Tutors</Link>
                               </li>
                             ) : null}
+
+                            {/* ACCOUNT (USER) ======== */}
                             <li className="has-children">
                               <Link to="/">Account</Link>
-                              <ul className="dropdown arrow-top">
-                                <li>
-                                  <Link to={userState.user.role==="tutor"?"/profile-tutor":"/profile-student"} >
-                                    Profile
-                                  </Link>
-                                </li>
-                                {userState.user.role === "tutor" ? (
-                                <li>
-                                  <Link to='specialties-tutor'>
-                                    Specialties
-                                  </Link>
-                                </li>
-                                ) : null}
-                                <li>
-                                  <Link to={userState.user.role==="tutor"?"/contracts-tutor":"/contracts-student"} >
-                                    Contracts
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to="/logout" >
-                                    Logout
-                                  </Link>
-                                </li>
+                              {/* USER WAS VERIFIED & CHOOSED ROLE ======== */}
+                              {userState.user.role &&
+                              userState.user.status !== 'notverified' ? (
+                                <ul className="dropdown arrow-top">
+                                  {/* PROFILE (USER) ======== */}
+                                  <li>
+                                    <Link
+                                      to={
+                                        userState.user.role === 'tutor'
+                                          ? '/profile-tutor'
+                                          : '/profile-student'
+                                      }
+                                    >
+                                      Profile
+                                    </Link>
+                                  </li>
+                                  {/* SPECIALTIES (TUTOR) ======== */}
+                                  {userState.user.role === 'tutor' ? (
+                                    <li>
+                                      <Link to="specialties-tutor">
+                                        Specialties
+                                      </Link>
+                                    </li>
+                                  ) : null}
+                                  {/* CONTRACTS (USER) ======== */}
+                                  <li>
+                                    <Link
+                                      to={
+                                        userState.user.role === 'tutor'
+                                          ? '/contracts-tutor'
+                                          : '/contracts-student'
+                                      }
+                                    >
+                                      Contracts
+                                    </Link>
+                                  </li>
+                                  {/* LOGOUT (USER) ======== */}
+                                  <li>
+                                    <Link to="/logout">Logout</Link>
+                                  </li>
                                 </ul>
+                              ) : 
+                              {/* USER WASN'T CHOOSED ROLE || WASN'T VERIFED ======== */}
+                              (
+                                <ul className="dropdown arrow-top">
+                                  <li>
+                                    <Link to="/logout">Logout</Link>
+                                  </li>
+                                </ul>
+                              )}
                             </li>
                           </ul>
                         )}
@@ -138,7 +160,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    authorizeUserAction:() => dispatch(authorizeUser())
+    authorizeUserAction: () => dispatch(authorizeUser())
   };
 };
 
