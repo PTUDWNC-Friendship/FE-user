@@ -241,7 +241,7 @@ class Register extends React.Component {
                     required
                     fullWidth
                     id="username"
-                    label="Username"
+                    label="Email address"
                     name="username"
                     autoComplete="email"
                   />

@@ -55,7 +55,7 @@ class Header extends React.Component {
                           </Link>
                         </div>
 
-                        {userState.user === null ? (
+                        {(userState.user === null || userState.user.status === 'notverified') ? (
                           <ul
                             className="site-menu js-clone-nav d-none d-lg-block"
                             style={{ paddingRight: "3%" }}
