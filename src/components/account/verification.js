@@ -21,7 +21,8 @@ class Verification extends React.Component {
         const { user } = this.props.userState;
         this.setState({
             isFetching: true
-        })
+        });
+
         return fetch(`${SERVER_URL}/user/verify`, {
           method: 'POST',
           body: JSON.stringify({
@@ -53,14 +54,10 @@ class Verification extends React.Component {
             <div className="container">
               <div className="row align-items-center">
                 <div className="col-md-12 text-center text-white" data-aos="fade">
-
-
-
-
                   <Typography component="h1" variant="h5">
                     Your account is not verified.
                     <br/>
-                    To resend email, please..
+                    To send email, please..
                   </Typography>
                   {(!isFetching && !message) ? (
                     <Button
