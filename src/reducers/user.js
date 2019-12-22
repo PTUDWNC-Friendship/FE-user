@@ -21,10 +21,13 @@ const userState = (state = initialState, action) => {
       return { ...state, isFetching: false, isLogin: true, user: action.user };
     case types.GET_CURRENT_TUTOR:
       return { ...state, tutor: action.tutor };
+
     case types.GET_ALL_TUTORS:
       return { ...state, allTutors: action.allTutors };
     case types.GET_ALL_STUDENTS:
       return { ...state, allStudents: action.allStudents };
+    case types.GET_TUTOR_STUDENTS:
+      return { ...state, tutor: action.tutor };
 
     case types.INSERT_TUTOR_SUBJECT:
       return state;

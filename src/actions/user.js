@@ -28,6 +28,13 @@ function getCurrentTutor(tutor) {
   };
 }
 
+function getTutorStudents(tutor) {
+  return {
+    type: types.GET_TUTOR_STUDENTS,
+    tutor
+  };
+}
+
 function getAllTutors(allTutors) {
   return {
     type: types.GET_ALL_TUTORS,
@@ -154,6 +161,34 @@ export function fetchUserById(id) {
       })
       .catch((error) => {
         console.log(error);
+        dispatch(getCurrentUser(null));
+      });
+  };
+}
+
+export function fetchStudentByTutorId(id) {
+  return function(dispatch) {
+    return fetch(`${SERVER_URL}/user/${id}/students`)
+      .then(response => response.json() )
+      .then(user => {
+        if (user.role === 'student') {
+          if (user.hiredTutors !== null) {
+            fetch(`${SERVER_URL}/user/api/${id}/students`)
+              .then(response => response.json())
+              .then(students => {
+                user.student = students;
+                window.alert('thanh cong')
+                dispatch(getTutorStudents(user));
+              });
+          }
+        } else {
+          window.alert('else')
+          dispatch(getCurrentUser(user));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        window.alert('faield')
         dispatch(getCurrentUser(null));
       });
   };
