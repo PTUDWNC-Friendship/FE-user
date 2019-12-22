@@ -9,16 +9,33 @@ import Category from './view-childs/category';
 import Search from './view-childs/search';
 
 class Guest extends React.Component {
+
   componentDidMount() {
     const { userState, history } = this.props;
-
+    console.log(userState.user);
     if (userState.user !== null) {
       if (userState.user.status === 'notverified') {
         history.push('/verify');
       }
       else if (userState.user.role === 'student') {
         history.push('/home-student');
-      } 
+      }
+      else if (userState.user.role === 'tutor') {
+        history.push('/home-tutor');
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    const { userState, history } = this.props;
+    console.log(userState.user);
+    if (userState.user !== null) {
+      if (userState.user.status === 'notverified') {
+        history.push('/verify');
+      }
+      else if (userState.user.role === 'student') {
+        history.push('/home-student');
+      }
       else if (userState.user.role === 'tutor') {
         history.push('/home-tutor');
       }

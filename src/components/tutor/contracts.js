@@ -50,10 +50,9 @@ class ContractList extends Component {
 
     }
 
-    const { userState } = this.props;
-    if (userState.user !== null) {
+    if (user !== null) {
 
-      if (userState.user.role === 'student') {
+      if (user.role === 'student') {
         this.props.history.push('/home-student');
       }
     } else {

@@ -906,8 +906,12 @@ a {
     z-index: 2; }
   .jobs-wrap .job-item.last {
     border-bottom: none !important; }
+  .jobs-wrap .job-item.ses {
+    border-left: 3px solid #26baee; }
   .jobs-wrap .job-item.fulltime {
     border-left: 3px solid #26baee; }
+  .jobs-wrap .job-item.customtime {
+    border-left: 3px solid #000; }
   .jobs-wrap .job-item.freelance {
     border-left: 3px solid #f8b500; }
   .jobs-wrap .job-item.partime {

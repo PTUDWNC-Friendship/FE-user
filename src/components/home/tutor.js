@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { fetchUserById } from '../../actions/user';
+import { fetchTutorContracts } from '../../actions/contract';
 
 class Tutor extends React.Component {
 
@@ -12,6 +13,8 @@ class Tutor extends React.Component {
         fetching: false
       };
     }
+
+    
 
     componentDidMount() {
       const { user } = this.props.userState;
@@ -24,12 +27,16 @@ class Tutor extends React.Component {
           history.push('/home-student');
         }
       }
-    
+
       if (user !== null && !this.state.fetching ) {
+        this.setState({
+          fetching: true
+        });
         this.props.fetchUserByIdAction(user._id);
       }
 
-      if (user !== null && !this.state.fetching)
+      const { allContracts } = this.props.contractState;
+      if (allContracts.length !== 0 && !this.state.fetching)
       {
         this.setState({
           fetching: true
@@ -41,26 +48,105 @@ class Tutor extends React.Component {
       const { user } = this.props.userState;
 
       if (user !== null && !this.state.fetching ) {
+        this.setState({
+          fetching: true
+        });
         this.props.fetchUserByIdAction(user._id);
       }
 
-      if (user !== null && !this.state.fetching)
+      const { allContracts } = this.props.contractState;
+      if (allContracts.length !== 0 && !this.state.fetching)
       {
         this.setState({
           fetching: true
         });
       }
+      if (user !== null) {
+
+        if (user.role === 'student') {
+          this.props.history.push('/home-student');
+        }
+      } else {
+        this.props.history.push('/login');
+      }
+    }
+
+
+
+    showContentTable()
+    {
+      const { allContracts } = this.props.contractState;
+
+      return (
+        <div className="site-section bg-light">
+          <div className="container">
+            <div className="row">
+              <div
+                className="col-md-12 mb-5 mb-md-0"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <h2 className="mb-5 h3">
+                  Current <strong>Students</strong>
+                </h2>
+                <div className="rounded border jobs-wrap">
+                {allContracts !== null ? (allContracts.map((value, index) => {
+                  if (value.status.toLowerCase() === 'confirmed')
+                  {
+                    return (
+                      <a key={index.toString()}
+                        href="#detailModal" data-toggle='modal'
+                        className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
+                        <div className="company-logo blank-logo text-center text-md-left pl-3">
+                          <img src={value.student.imageURL} alt="" className="img-fluid mx-auto" />
+                        </div>
+                        <div className="job-details h-100">
+                          <div className="p-3 align-self-center">
+                            <h3>{`${value.student.firstName} ${value.student.lastName}`}</h3>
+                            <div className="d-block d-lg-flex">
+                              <div style={{width: '40%'}}><span className="icon-room mr-1" /> {value.student.address}</div>
+                              <div style={{width: '20%'}}><span className="icon-user mr-1" /> {value.student.gender}</div>
+                              <div><span className="icon-phone mr-1" /> {value.student.phone}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="job-category align-self-center">
+                          <div className="p-3">
+                            <span className="text-info p-2 rounded border border-info">
+                              Tutoring
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  }
+                  return null;
+                })
+                ) : null}
+
+                </div>
+
+                <div className="col-md-12 text-center mt-5">
+                  <Link to="/list-students" className="btn btn-success rounded py-3 px-5">
+                    <span className="icon-plus-circle" /> All Students
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
     }
 
     render() {
       const { tutor } = this.props.userState;
-
         return (
             <div className="site-wrap">
 
                 <div className="site-blocks-cover overlay" data-aos="fade" data-stellar-background-ratio="0.5" style={{backgroundImage: "url('images/tutor-1.jpg')"}}>
                   <div className="container">
                     <div className="row align-items-center">
+
                       <div className="col-12" data-aos="fade">
                       {tutor !== null ? (
                         <h1>Welcome back {tutor.title} {tutor.firstName} {tutor.lastName}</h1>
@@ -76,67 +162,27 @@ class Tutor extends React.Component {
                     </div>
                   </div>
                 </div>
-
-
-              <div className="site-section bg-light">
-                <div className="container">
-                  <div className="row">
-                    <div
-                      className="col-md-12 mb-5 mb-md-0"
-                      data-aos="fade-up"
-                      data-aos-delay="100"
-                    >
-                      <h2 className="mb-5 h3">
-                        Current <strong>Students</strong>
-                      </h2>
-                      <div className="rounded border jobs-wrap">
-                        <Link
-                          to="job-single.html"
-                          className="job-item d-block d-md-flex align-items-center  border-bottom freelance"
-                        >
-                          <div className="company-logo blank-logo text-center text-md-left pl-3">
-                            <img
-                              src="images/person_2.jpg"
-                              alt=""
-                              className="img-fluid mx-auto"
-                            />
+                  {/* <!-- Detail Modal HTML --> */}
+                  <div id="detailModal" className="modal fade">
+                    <div className="modal-dialog modal-dialog-centered container">
+                      <div className="modal-content">
+                        <form>
+                          <div className="modal-header">
+                            <h4 className="modal-title">Student detail</h4>
+                            <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                           </div>
-                          <div className="job-details h-100">
-                            <div className="p-3 align-self-center">
-                              <h3>Stephanie Croft</h3>
-                              <div className="d-block d-lg-flex">
-                                <div style={{width: '40%'}}>
-                                  <span className="icon-room mr-1" />
-                                  America
-                                </div>
-                                <div>
-                                  <span className="icon-money mr-1" />
-                                  $15 per hour
-                                </div>
-                              </div>
-                            </div>
+                          <div className="modal-body">
+                            Body ne`
                           </div>
-                          <div className="job-category align-self-center">
-                            <div className="p-3">
-                              <span className="text-warning p-2 rounded border border-warning">
-                                Tutoring
-                              </span>
-                            </div>
+                          <div className="modal-footer">
+                            <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                            <input type="submit" className="btn btn-danger" value="OK"/>
                           </div>
-                        </Link>
-
-                      </div>
-
-                      <div className="col-md-12 text-center mt-5">
-                        <Link to="/list-students" className="btn btn-success rounded py-3 px-5">
-                          <span className="icon-plus-circle" /> All Students
-                        </Link>
+                        </form>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>;
-
+                { this.showContentTable() }
 
                 <div className="site-section block-15">
                   <div className="container">
@@ -182,13 +228,15 @@ class Tutor extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userState: state.userState
+    userState: state.userState,
+    contractState: state.contractState
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUserByIdAction: id => dispatch(fetchUserById(id))
+    fetchUserByIdAction: id => dispatch(fetchUserById(id)),
+    fetchTutorContractsAction: id => dispatch(fetchTutorContracts(id))
   };
 };
 
