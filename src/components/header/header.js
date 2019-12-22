@@ -71,12 +71,8 @@ class Header extends React.Component {
                             </li>
                           </ul>
                         ) : 
-                        {/* USER LOGED IN ======== */}
                         (
-                          <ul
-                            className="site-menu js-clone-nav d-none d-lg-block"
-                            style={{ paddingRight: '5%' }}
-                          >
+                          <ul className="site-menu js-clone-nav d-none d-lg-block" style={{ paddingRight: '5%' }} > {/* USER LOGED IN ======== */}
                             {/* FIND TUTOR (STUDENT) ======== */}
                             {userState.user.role === 'student' ? (
                               <li>
@@ -128,10 +124,9 @@ class Header extends React.Component {
                                     <Link to="/logout">Logout</Link>
                                   </li>
                                 </ul>
-                              ) : 
-                              {/* USER WASN'T CHOOSED ROLE || WASN'T VERIFED ======== */}
+                              ) :                              
                               (
-                                <ul className="dropdown arrow-top">
+                                <ul className="dropdown arrow-top"> {/* USER WASN'T CHOOSED ROLE || WASN'T VERIFED ======== */}
                                   <li>
                                     <Link to="/logout">Logout</Link>
                                   </li>
