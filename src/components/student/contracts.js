@@ -106,7 +106,7 @@ class StudentContractList extends Component {
     let contract = {
         ...value
     };
-    contract.status = "Finished";
+    contract.status = "finished";
     delete contract.tutor;
     delete contract.feedback;
     fetch(`${SERVER_URL}/contract/update`, {
@@ -243,7 +243,7 @@ class StudentContractList extends Component {
         ...this.state.contract
     };
     contract.message = $('#reportMsgContract').val();
-    contract.status = "Canceled";
+    contract.status = "disputed";
     delete contract.tutor;
     delete contract.feedback;
     fetch(`${SERVER_URL}/contract/update`, {
@@ -262,7 +262,7 @@ class StudentContractList extends Component {
             if (user !== null ) {
               this.props.fetchStudentContractsAction(user._id);
             }
-            swal("Sucessfully!", "Cancel contract successfully!", "success").then(()=>{
+            swal("Sucessfully!", "Dispute contract successfully!", "success").then(()=>{
                 $('#closeModalReport').click();
             });
         })
@@ -275,7 +275,7 @@ class StudentContractList extends Component {
 
   render() {
 
-    const thTable = ["Tutor", "Duration", "Status","Detail","Change status to finished" ,"Evaluate for tutor", "Canceled contract"];
+    const thTable = ["Tutor", "Duration", "Status","Detail","Change status to finished" ,"Evaluate for tutor", "Dispute contract"];
     const { allStudentContracts } = this.props.contractState;
 
     return (
@@ -334,13 +334,13 @@ class StudentContractList extends Component {
                                              <VisibilityIcon />
                                           </Fab>
                                         </td>
-                                      {value.status==='Confirmed'?(
+                                      {value.status==='confirmed'?(
                                          <td  >
                                          <Fab title="Change status for contract" onClick={()=>this.onChangeSatus(value)} aria-label="like" >
                                             <AutorenewIcon/>
                                          </Fab>
                                         </td>):<td/>}
-                                      {value.status==='Finished'?(
+                                      {value.status==='finished'?(
                                          <td >
                                           <Fab title="Evaluate for tutor" onClick={()=>this.onSetValueContract(value)} aria-label="like" data-toggle="modal" data-target="#myModal">
                                              <FavoriteIcon />
@@ -350,7 +350,7 @@ class StudentContractList extends Component {
                                       ):(
                                      <td/>
                                      )}
-                                    {value.status==='Confirmed'?(
+                                    {value.status==='confirmed'?(
                                          <td >
                                           <Fab title="Evaluate for tutor" onClick={()=>this.onSetValueContract(value)} aria-label="like" data-toggle="modal" data-target="#myModalCancel">
                                              <CancelIcon />
