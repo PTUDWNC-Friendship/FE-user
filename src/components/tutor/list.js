@@ -29,8 +29,6 @@ class TutorList extends Component {
       dataPerPage: 6,
       tutors: []
     };
-    this.enableEditProfile = this.enableEditProfile.bind(this);
-    this.enableChangePassword = this.enableChangePassword.bind(this);
     this.loadMorePage = this.loadMorePage.bind(this);
     this.onSelectCategory = this.onSelectCategory.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
