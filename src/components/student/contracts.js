@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {  withRouter  } from 'react-router-dom';
+import {  withRouter, Link  } from 'react-router-dom';
 import { Grid, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
@@ -27,11 +27,19 @@ class StudentContractList extends Component {
     this.state = {
       fetching: false,
       ratingValue: 0,
-      // eslint-disable-next-line react/no-unused-state
       idFeedback: null,
       contract: null,
+
+      search: '',
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      dataPerPage: 5,
+      studentContracts: [],
+      totalPage: 0
     };
 
+    this.choosePage = this.choosePage.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +60,7 @@ class StudentContractList extends Component {
 
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(oldProps) {
     const { user } = this.props.userState;
 
     if (user !== null && !this.state.fetching ) {
@@ -69,17 +77,66 @@ class StudentContractList extends Component {
       });
     }
 
-    const { userState } = this.props;
-    if (userState.user !== null) {
-
-      if (userState.user.role === 'tutor') {
+    // Authentication
+    if (user !== null) {
+      if (user.role === 'tutor') {
         this.props.history.push('/home-tutor');
       }
     } else {
       this.props.history.push('/login');
     }
+
+    // Pagination
+    if ( oldProps.contractState.allStudentContracts !== this.props.contractState.allStudentContracts ) {
+      const { search, dataPerPage} = this.state;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        totalPage: Math.floor(this.props.contractState.allStudentContracts.length / this.state.dataPerPage),
+        studentContracts: this.props.contractState.allStudentContracts
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(0, dataPerPage)
+      });
+    }
+
   }
 
+  // eslint-disable-next-line react/sort-comp
+  choosePage(page) {
+    const { search } = this.state;
+    // eslint-disable-next-line react/no-did-update-set-state
+    this.setState(prevState => {
+      const indexFirst = (page - 1) * prevState.dataPerPage;
+      const indexLast = page * prevState.dataPerPage;
+      return {
+        indexFirst,
+        indexLast,
+        currentPage: page,
+        studentContracts: this.props.contractState.allStudentContracts
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(indexFirst, indexLast)
+      };
+    });
+  }
 
   onSetValueContract(value) {
       this.setState({
@@ -103,7 +160,7 @@ class StudentContractList extends Component {
 
   onChangeSatus(value) {
 
-    let contract = {
+    const contract = {
         ...value
     };
     contract.status = "finished";
@@ -241,7 +298,7 @@ class StudentContractList extends Component {
   }
 
   submitReport() {
-    let contract = {
+    const contract = {
         ...this.state.contract
     };
     contract.message = $('#reportMsgContract').val();
@@ -273,12 +330,14 @@ class StudentContractList extends Component {
         });
   }
 
-
-
   render() {
 
     const thTable = ["Tutor", "Duration", "Status","Detail","Change status to finished" ,"Evaluate for tutor", "Dispute contract"];
-    const { allStudentContracts } = this.props.contractState;
+    const { studentContracts, currentPage, totalPage } = this.state;
+    const pageNumbers = [];
+    for (let i = 1; i <= this.state.totalPage; i+=1) {
+      pageNumbers.push(<li className={i === this.state.currentPage ? "page-item active" : "page-item"}><button type="button" onClick={() => this.choosePage(i)} className="page-link">{i}</button></li>);
+    }
 
     return (
       <div>
@@ -316,7 +375,7 @@ class StudentContractList extends Component {
                                 </tr>
                               </thead>
                               <tbody>
-                                {allStudentContracts !== null ? allStudentContracts.map((value, index) => {
+                                {studentContracts !== null ? studentContracts.map((value, index) => {
                                   return (
                                     <tr key={index.toString()} >
                                       <td>{`${value.tutor.firstName} ${value.tutor.lastName}`}</td>
@@ -371,13 +430,9 @@ class StudentContractList extends Component {
 
                           <div className="clearfix">
                               <ul className="pagination">
-                                  <li className="page-item disabled"><a href="#">Previous</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">1</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">2</a></li>
-                                  <li className="page-item active"><a href="#" className="page-link">3</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">4</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">5</a></li>
-                                  <li className="page-item"><a href="#" className="page-link">Next</a></li>
+                                  <li className={currentPage === 1 ? "page-item disabled" : "page-item"}><button type="button" className="page-link" onClick={() => this.choosePage(currentPage - 1)}>Previous</button></li>
+                                  {pageNumbers}
+                                  <li className={currentPage === totalPage ? "page-item disabled" : "page-item"}><button type="button" className="page-link" onClick={() => this.choosePage(currentPage + 1)}>Next</button></li>
                               </ul>
                           </div>
                       </div>
