@@ -165,6 +165,7 @@ class StudentContractList extends Component {
     };
     contract.status = "finished";
     delete contract.tutor;
+    delete contract.student;
     delete contract.feedback;
     fetch(`${SERVER_URL}/contract/update`, {
         method: 'POST',

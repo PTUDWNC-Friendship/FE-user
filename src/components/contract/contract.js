@@ -9,6 +9,7 @@ import swal from 'sweetalert';
 import {setTutor, setStudent} from '../../actions/contract';
 import './contract.css';
 import { SERVER_URL } from '../../helpers/constant';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 
 
@@ -30,6 +31,7 @@ class Contract extends React.Component {
     componentWillMount() {
 
         const {contractState} = this.props;
+
         if(contractState.tutor!==null) {
             fetch(`${SERVER_URL}/user/tutor/${contractState.tutor._id }/subjects`)
             .then(response => response.json() )
@@ -71,7 +73,7 @@ class Contract extends React.Component {
                 totalPrice: tutor.price!==null?parseInt( $('#hoursNumber').val(),10)*tutor.price:parseInt( $('#hoursNumber').val(),10)*10,
                 revenue: tutor.price!==null?parseInt( $('#hoursNumber').val(),10)*tutor.price*0.2:parseInt( $('#hoursNumber').val(),10)*10*0.2,
                 message: null,
-                status: "Processing"
+                status: "processing"
     
             };
     
@@ -98,10 +100,48 @@ class Contract extends React.Component {
 
 
     }
+    onAcceptContract() {
 
+        if(this.props.contractState.detailContract!==null) {
+            console.log(this.props.contractState.detailContract);
+
+            let contract = {
+                ...this.props.contractState.detailContract
+            }
+            delete contract.tutor;
+            delete contract.student;
+            delete contract.feedback;
+
+            contract.status = 'confirmed'; 
+
+            fetch(`${SERVER_URL}/contract/update`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    ...contract
+                }),
+                headers: {
+                  'Content-type': 'application/json; charset=UTF-8'
+                }
+              })
+                .then(response => response.json() )
+                .then(data => {
+
+                    swal("Sucessfully!", "Accept contract successful!", "success").then(()=>{
+                        const { history } = this.props;
+                        history.push('/contracts-tutor');
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+
+    
+    }
 
     render() {
         const {contractState} = this.props;
+
 
         return (
             <div style={{paddingTop: '150px', backgroundColor: '#d5e6ed', color: 'black'}}>
@@ -111,7 +151,7 @@ class Contract extends React.Component {
                                 <Col md={6}>
                                 <Row>
                                 <Col md={4} className="d-flex justify-content-start">
-                                    <FormLabel> Your Name:</FormLabel>
+                                    <FormLabel> Student's Name:</FormLabel>
                                 </Col>
                                 <Col md={8} className="d-flex justify-content-start">
                                 <FormLabel style={{color: 'red'}}> {contractState.student!==null?`${contractState.student.firstName} ${  contractState.student.lastName}`:''}</FormLabel>
@@ -328,7 +368,8 @@ class Contract extends React.Component {
 
                    
                             <Row className="d-flex justify-content-end mt-4" style={{paddingBottom: '100px'}}>
-                               {contractState.detailContract===null?<Button onClick={()=>this.onCreateContract(contractState.tutor,contractState.student)} className="btn btn-outline-success py-2 px-4"  >Payment</Button>:null} 
+                               {contractState.detailContract===null?<Button onClick={()=>this.onCreateContract(contractState.tutor,contractState.student)} className="btn btn-outline-success py-2 px-4"  >Payment</Button>:null}
+                               {contractState.detailContract!==null&&this.props.userState.user.role==='tutor'?contractState.detailContract.status==='processing'?<Button onClick={()=>this.onAcceptContract()} className="btn btn-outline-success py-2 px-4"  >Accept</Button>:null:null}
                             </Row>                       
                             
 
@@ -341,7 +382,8 @@ class Contract extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        contractState: state.contractState
+        contractState: state.contractState,
+        userState: state.userState
     };
   };
   
