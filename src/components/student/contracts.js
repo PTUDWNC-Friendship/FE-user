@@ -157,8 +157,10 @@ class StudentContractList extends Component {
 
     const feedback = {
         _id: this.state.idFeedback!==null?this.state.idFeedback:null,
+        _idStudent: this.props.userState._id,
         comment:    $('#messageContract').val(),
-        rate:   this.state.ratingValue
+        rate:   this.state.ratingValue,
+        
     };
 
   
