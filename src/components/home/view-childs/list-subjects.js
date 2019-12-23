@@ -53,7 +53,7 @@ class SubjectList extends Component {
             }
             return element.name === nameFilter && nameFilter;
           })
-          .slice(0, 5)
+          .slice(0, this.state.dataPerPage)
       });
     }
   }

@@ -1,26 +1,13 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, Alert } from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 import {  withRouter  } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import $ from 'jquery';
+import 'antd/dist/antd.css';
+import queryString from 'query-string';
+import { Slider } from 'antd';
 import { TutorCard } from '../ui-components/TutorCard/TutorCard';
 import { InfoModal } from '../ui-components/InfoModal/InfoModal';
 import { fetchAllTutors } from '../../actions/user';
@@ -30,18 +17,136 @@ class TutorList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      search: null,
+      categoryFilter: null,
+      priceFilter: null,
       isEditable: false,
       isChangeable: false,
-      fetching: false
+      fetching: false,
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      dataPerPage: 6,
+      tutors: []
     };
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
+    this.loadMorePage = this.loadMorePage.bind(this);
+    this.onSelectCategory = this.onSelectCategory.bind(this);
+    this.onChangePrice = this.onChangePrice.bind(this);
   }
 
   componentDidMount() {
     this.props.getListTutors();
   }
 
+  componentDidUpdate(oldProps) {
+    if (oldProps.userState.allTutors !== this.props.userState.allTutors) {
+      // const query = queryString.parse(this.props.location.search);
+      // const {  } = query;
+      const { search, priceFilter, categoryFilter } = this.state;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        tutors: this.props.userState.allTutors
+        .filter(element => {
+          if (!search) {
+            return true;
+          }
+          if (
+            `${element.firstName} ${element.lastName}`
+              .toLowerCase()
+              .search(search.toLowerCase()) !== -1 ||
+            element.title.toLowerCase().search(search.toLowerCase()) !== -1
+          ) {
+            return true;
+          }
+          // eslint-disable-next-line no-restricted-syntax
+          for (const subject of element.subjects) {
+            if (subject.name.toLowerCase().search(search.toLowerCase()) !== -1 ||
+                subject.category.toLowerCase().search(search.toLowerCase()) !== -1) {
+              return true;
+            }
+          }
+          return false;
+        })
+        .filter(element => {
+          if (!categoryFilter) {
+            return true;
+          }
+          // eslint-disable-next-line no-restricted-syntax
+          for (const subject of element.subjects) {
+            if (subject.category === categoryFilter) {
+              return true;
+            }
+          }
+          return false;
+        })
+        .filter(element => {
+          if (!priceFilter) {
+            return true;
+          }
+          return element.price === priceFilter;
+        })
+          .slice(0, this.state.dataPerPage)
+      });
+    }
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  loadMorePage() {
+    // const query = queryString.parse(this.props.location.search);
+    // const {  } = query;
+    const { search, priceFilter, categoryFilter} = this.state;
+
+    this.setState(prevState => ({
+      indexLast: (prevState.currentPage + 1) * prevState.dataPerPage,
+      currentPage: prevState.currentPage + 1,
+      tutors: this.props.userState.allTutors
+        .filter(element => {
+          if (!search) {
+            return true;
+          }
+          if (
+            `${element.firstName} ${element.lastName}`
+              .toLowerCase()
+              .search(search.toLowerCase()) !== -1 ||
+            element.title.toLowerCase().search(search.toLowerCase()) !== -1
+          ) {
+            return true;
+          }
+          // eslint-disable-next-line no-restricted-syntax
+          for (const subject of element.subjects) {
+            if (subject.name.toLowerCase().search(search.toLowerCase()) !== -1 ||
+                subject.category.toLowerCase().search(search.toLowerCase()) !== -1) {
+              return true;
+            }
+          }
+          return false;
+        })
+        .filter(element => {
+          if (!categoryFilter) {
+            return true;
+          }
+          // eslint-disable-next-line no-restricted-syntax
+          for (const subject of element.subjects) {
+            if (subject.category === categoryFilter) {
+              return true;
+            }
+          }
+          return false;
+        })
+        .filter(element => {
+          if (!priceFilter) {
+            return true;
+          }
+          return element.price <= priceFilter[1] && element.price >= priceFilter[0];
+        })
+        .slice(
+          prevState.indexFirst,
+          (prevState.currentPage + 1) * prevState.dataPerPage
+        )
+    }));
+  }
 
   onUpdateInfor = e => {
     e.preventDefault();
@@ -113,11 +218,49 @@ class TutorList extends Component {
     }
   }
 
+  // eslint-disable-next-line react/sort-comp
+  onSelectCategory(e) {
+    const {value} = e.target;
+    this.setState({
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      categoryFilter: value,
+      tutors: this.props.userState.allTutors
+      .filter(element => {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const subject of element.subjects) {
+          if (subject.category === value) {
+            return true;
+          }
+        }
+        return false;
+      })
+    });
+  }
+
+  onChangePrice(value) {
+    this.setState({
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      priceFilter: value,
+      tutors: this.props.userState.allTutors
+        .filter(element => {
+          if (element.price <= value[1] && element.price >= value[0]) {
+            return true;
+          }
+        })
+    });
+  }
+
   render() {
+    const categories = ["Math", "Literature", "Biology", "Languages", "Geography", "Physics", "Chemistry", "History" ];
+    const { tutors } = this.state;
     const { userState } = this.props;
     const subject = [];
     subject.push(<h>Default</h>);
-    console.log(userState);
+
     return (
       <div>
         <div style={{ height: '113px' }} />
@@ -132,117 +275,135 @@ class TutorList extends Component {
         <div className="site-section bg-light">
           <div className="container">
             <div className="row align-items-center">
-                <InfoModal />
+              <InfoModal />
               <div className="col-md-12" data-aos="fade">
                 <Grid fluid>
                   <Row style={{ marginBottom: '3%' }}>
                     <Col md={1}>Filters: </Col>
 
                     <Col md={3}>
-                      <select
-                        className="js-example-basic-single"
-                        name="state"
-                        style={{ minWidth: '200px' }}
-                      >
-                        <option value="ANY">Any country</option>
-                        <option value="VN">Viet Nam</option>
-                        <option value="US">USA</option>
-                      </select>
+                      <Slider
+                        range
+                        step={10}
+                        defaultValue={[20, 50]}
+                        onChange={this.onChangePrice}
+                        // onAfterChange={onAfterChange}
+                      />
                     </Col>
 
                     <Col md={3}>
                       <select
                         className="js-example-basic-single"
-                        name="state"
+                        name="category"
+                        onChange={this.onSelectCategory}
                         style={{ minWidth: '200px' }}
                       >
-                        <option value="ANY">Any hourly rate</option>
-                        <option value="10ph">$10/hr and below</option>
-                        <option value="20">$10/hr - $30/hr</option>
-                        <option value="20">$30/hr - $60/hr</option>
-                        <option value="20">$60/hr and above</option>
-                      </select>
-                    </Col>
-
-                    <Col md={3}>
-                      <select
-                        className="js-example-basic-single"
-                        name="state"
-                        style={{ minWidth: '200px' }}
-                      >
-                        <option value="ANY">Any subject</option>
-                        <option value="math">Math</option>
-                        <option value="phy">Physic</option>
-                        <option value="che">Chemistry</option>
-                        <option value="his">History</option>
+                        {categories.map((value, index) => {
+                          return (
+                            <option key={index.toString()} value={value}>
+                              {value}
+                            </option>
+                          );
+                        })}
                       </select>
                     </Col>
                   </Row>
-                  <Button id="modalButton" style={{display: 'none'}} data-toggle="modal" data-target="#myModal">modal</Button>
+                  <Button
+                    id="modalButton"
+                    style={{ display: 'none' }}
+                    data-toggle="modal"
+                    data-target="#myModal"
+                  >
+                    modal
+                  </Button>
                   <Row>
-                    {userState.allTutors.map(element => (
-
+                    {tutors.map(element => (
                       <Col md={4}>
                         <Grid
                           className="btn btn-light"
-                          style={{ padding: '0px', marginTop: '5%'}}
-
+                          style={{ padding: '0px', marginTop: '5%' }}
                         >
-                          <Grid id="tutorCard" onClick={() => this.passingProps(element)}>
-                          <TutorCard
-                            avatar={
-                              element.imageURL !== null
-                                ? element.imageURL
-                                : 'images/person_2.jpg'
-                            }
-                            // eslint-disable-next-line no-nested-ternary
-                            name={`${element.firstName} ${element.lastName}`}
-                            title={
-                              element.title !== null ? element.title : 'Tutor'
-                            }
-                            address={
-                              element.address !== null
-                                ? element.address
-                                : 'Việt Nam'
-                            }
-                            price={
-                              element.price !== null ? element.price : '10'
-                            }
-                            subjects={
-                              element.subjects !== null
-                                ? element.subjects
-                                : subject
-                            }
-                            rate={
-                              element.rate !== null ? element.rate : 'Have not been rated'
-                            }
-                          />
+                          <Grid
+                            id="tutorCard"
+                            onClick={() => this.passingProps(element)}
+                          >
+                            <TutorCard
+                              avatar={
+                                element.imageURL !== null
+                                  ? element.imageURL
+                                  : 'images/person_2.jpg'
+                              }
+                              // eslint-disable-next-line no-nested-ternary
+                              name={`${element.firstName} ${element.lastName}`}
+                              title={
+                                element.title !== null ? element.title : 'Tutor'
+                              }
+                              address={
+                                element.address !== null
+                                  ? element.address
+                                  : 'Việt Nam'
+                              }
+                              price={
+                                element.price !== null ? element.price : '10'
+                              }
+                              subjects={
+                                element.subjects !== null
+                                  ? element.subjects
+                                  : subject
+                              }
+                              rate={
+                                element.rate !== null
+                                  ? element.rate
+                                  : 'Have not been rated'
+                              }
+                            />
                           </Grid>
                           {userState.user !== null ? (
-                          <div>
-                            {userState.user.role==='student'?(
-                              <Row>
-                              <Col md={6}>
-                              <Button  onClick={()=>this.detailInfor()}  className="btn btn-outline-danger py-3 px-4" style={{width: '83%'}}>
-                              {' '}
-                              Detail
-                              </Button>
-                              </Col>
-                              <Col md={6}>
-                              <Button type="button" onClick={()=>this.setContract(element, userState.user)}  className="btn btn-outline-success py-3 px-4" style={{width: '83%'}}>
-                              {' '}
-                              Booking
-                            </Button>
-                              </Col>
-                            </Row>
+                            <div>
+                              {userState.user.role === 'student' ? (
+                                <Row>
+                                  <Col md={6}>
+                                    <Button
+                                      onClick={() => this.detailInfor()}
+                                      className="btn btn-outline-danger py-3 px-4"
+                                      style={{ width: '83%' }}
+                                    >
+                                      Detail
+                                    </Button>
+                                  </Col>
+                                  <Col md={6}>
+                                    <Button
+                                      type="button"
+                                      onClick={() =>
+                                        this.setContract(
+                                          element,
+                                          userState.user
+                                        )
+                                      }
+                                      className="btn btn-outline-success py-3 px-4"
+                                      style={{ width: '83%' }}
+                                    >
+                                      Booking
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              ) : null}
+                            </div>
                           ) : null}
-                          </div>
-                        ): null}
-
-
                         </Grid>
                       </Col>
                     ))}
+                  </Row>
+                  <Row>
+                    <div className="col-md-12 text-center mt-5">
+                      <button
+                        onClick={this.loadMorePage}
+                        className="btn btn-success rounded py-3 px-5"
+                        type="button"
+                      >
+                        <span className="icon-plus-circle" /> Load More
+                      </button>
+                    </div>
                   </Row>
                 </Grid>
               </div>
