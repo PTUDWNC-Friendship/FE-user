@@ -91,7 +91,7 @@ class StudentContractList extends Component {
       const { search, dataPerPage} = this.state;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        totalPage: Math.floor(this.props.contractState.allStudentContracts.length / this.state.dataPerPage),
+        totalPage: Math.round(this.props.contractState.allStudentContracts.length / this.state.dataPerPage),
         studentContracts: this.props.contractState.allStudentContracts
           .filter(element => {
             if (!search) {
