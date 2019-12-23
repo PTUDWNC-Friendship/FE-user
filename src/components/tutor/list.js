@@ -26,13 +26,13 @@ import { InfoModal } from '../ui-components/InfoModal/InfoModal';
 import { fetchAllTutors } from '../../actions/user';
 import {setTutor, setStudent} from '../../actions/contract';
 
-
 class TutorList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isEditable: false,
-      isChangeable: false
+      isChangeable: false,
+      fetching: false
     };
     this.enableEditProfile = this.enableEditProfile.bind(this);
     this.enableChangePassword = this.enableChangePassword.bind(this);
@@ -60,24 +60,23 @@ class TutorList extends Component {
 
   passingProps(element) {
     if(element!==null) {
-
-      const alerts = [];
-      $('#subjectModal').empty();
-      if(element.subjects!==null) {
-        for (let i = 0; i < element.subjects.length; i+=1) {
-
-          $('#subjectModal').append( `<div class="alert alert-info" style={{float:'left', padding: '15%', marginLeft: '3%'}}>${  element.subjects[i]  }</div>`);
-        }
-      }
-
       $("#imgModal").attr("src",element.imageURL);
       $('#titleModal').text(element.title!==null?`${element.title} `:'tutor');
       $('#priceModal').text(element.price!==null?`$${element.price} `:'$10');
       $('#nameModal').text(`${element.firstName} ${element.lastName}`);
       $('#addressModal').text(element.address!==null?`${element.address} `:'Việt Nam');
       $('#bioModal').text(element.bio);
-      $('#rateModal').text(element.rate!==null&&element.hasOwnProperty('rate')?element.rate:'5.0 stars');
+      $('#subjectModal').empty();
+      if(element.subjects !== null) {
+        for (let i = 0; i < element.subjects.length; i+=1) {
 
+          $('#subjectModal').append( `<Alert style={{float:'left', padding: '5%', marginLeft: '3%'}}>${  element.subjects[i].name  }</Alert>`);
+        }
+      }
+      if (element.rate !== null)
+      {
+        $('#rateModal').append(`<Rating name="read-only" value='${element.rate}' readOnly max={10} />`);
+      }
       $('#modalButton').click();
     }
   }
@@ -106,7 +105,7 @@ class TutorList extends Component {
     const { userState } = this.props;
     const subject = [];
     subject.push(<h>Default</h>);
-
+    console.log(userState);
     return (
       <div>
         <div style={{ height: '113px' }} />
@@ -170,10 +169,11 @@ class TutorList extends Component {
                   <Button id="modalButton" style={{display: 'none'}} data-toggle="modal" data-target="#myModal">modal</Button>
                   <Row>
                     {userState.allTutors.map(element => (
+
                       <Col md={4}>
                         <Grid
                           className="btn btn-light"
-                          style={{ padding: '0px'}}
+                          style={{ padding: '0px', marginTop: '5%'}}
 
                         >
                           <Grid id="tutorCard" onClick={() => this.passingProps(element)}>
@@ -201,7 +201,9 @@ class TutorList extends Component {
                                 ? element.subjects
                                 : subject
                             }
-                            rate="5.0 stars"
+                            rate={
+                              element.rate !== null ? element.rate : 'Have not been rated'
+                            }
                           />
                           </Grid>
                           {userState.user !== null ? (
@@ -249,6 +251,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
 {
   return {
+
     onSetTutorContract: (tutor) => {
       dispatch(setTutor(tutor));
     },

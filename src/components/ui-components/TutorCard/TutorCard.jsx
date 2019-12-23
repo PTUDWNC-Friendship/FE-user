@@ -18,20 +18,20 @@
 import React, { Component } from "react";
 import { Image, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
-
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
 export class TutorCard extends Component {
+
+
   render() {
 
     const alerts = [];
     for (let i = 0; i < this.props.subjects.length; i+=1) {
       alerts.push(
-        <Alert style={{float:'left', padding: '1.5%', marginLeft: '3%'}}>{this.props.subjects[0]}</Alert>
+        <Alert style={{float:'left', padding: '1%', marginLeft: '3%'}}>{this.props.subjects[i].name}</Alert>
       );
     }
-    console.log(this.props.subjects.length);
-
     return (
       <div  className="card card-user"  style={{marginBottom: '3%'}}>
         <div className="content" style={{width: '100%'}}>
@@ -43,7 +43,7 @@ export class TutorCard extends Component {
           />
           </div>
 
-          <div className='text-left' style={{marginLeft: '50%', minHeight: '150px'}}>
+          <div className='text-left' style={{marginLeft: '50%', minHeight: '150px', wordBreak: 'break-all', whiteSpace: 'normal'}}>
             <Link to='/' style={{color: 'green'}}>{this.props.name}<br/></Link>
             <p>{this.props.title}</p>
             <p><strong>${this.props.price}</strong> per hour</p>
@@ -54,11 +54,17 @@ export class TutorCard extends Component {
 
         </div>
         <hr />
-        <div style={{ minHeight: '200px'}}>
+        <div style={{ minHeight: '100px'}}>
         <small>{alerts}</small>
         </div>
         <hr/>
-        <div className="text-center">{this.props.rate}</div>
+
+
+        <Box component="fieldset" borderColor="transparent">
+          <Rating name="read-only" value={this.props.rate} readOnly max={10} />
+        </Box>
+
+
       </div>
     );
   }

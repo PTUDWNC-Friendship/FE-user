@@ -70,13 +70,18 @@ class Header extends React.Component {
                               <Link to="/register">Register</Link>
                             </li>
                           </ul>
-                        ) : 
+                        ) :
                         (
                           <ul className="site-menu js-clone-nav d-none d-lg-block" style={{ paddingRight: '5%' }} > {/* USER LOGED IN ======== */}
                             {/* FIND TUTOR (STUDENT) ======== */}
                             {userState.user.role === 'student' ? (
                               <li>
                                 <Link to="/list-tutors">Find Tutors</Link>
+                              </li>
+                            ) : null}
+                            {userState.user.role === 'tutor' ? (
+                              <li>
+                                <Link to="/list-students">My Students</Link>
                               </li>
                             ) : null}
 
@@ -124,7 +129,7 @@ class Header extends React.Component {
                                     <Link to="/logout">Logout</Link>
                                   </li>
                                 </ul>
-                              ) :                              
+                              ) :
                               (
                                 <ul className="dropdown arrow-top"> {/* USER WASN'T CHOOSED ROLE || WASN'T VERIFED ======== */}
                                   <li>

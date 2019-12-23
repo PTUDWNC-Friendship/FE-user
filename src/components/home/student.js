@@ -121,43 +121,6 @@ class Student extends React.Component {
             </div>
           </div>
 
-          {/* <div className="site-section site-block-feature bg-light">
-                  <div className="container">
-
-                    <div className="text-center mb-5 section-heading">
-                      <h2>How does it work?</h2>
-                    </div>
-
-                    <div className="d-block d-md-flex border-bottom">
-                      <div className="text-center p-4 item border-right" data-aos="fade">
-                        <span className="flaticon-worker display-3 mb-3 d-block text-success" />
-                        <h2 className="h4">Will Be Updated</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                        <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
-                      </div>
-                      <div className="text-center p-4 item" data-aos="fade">
-                        <span className="flaticon-wrench display-3 mb-3 d-block text-success" />
-                        <h2 className="h4">Will Be Updated</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                        <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
-                      </div>
-                    </div>
-                    <div className="d-block d-md-flex">
-                      <div className="text-center p-4 item border-right" data-aos="fade">
-                        <span className="flaticon-stethoscope display-3 mb-3 d-block text-success" />
-                        <h2 className="h4">Will Be Updated</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                        <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
-                      </div>
-                      <div className="text-center p-4 item" data-aos="fade">
-                        <span className="flaticon-calculator display-3 mb-3 d-block text-success" />
-                        <h2 className="h4">Will Be Updated</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati reprehenderit explicabo quos fugit vitae dolorum.</p>
-                        <p><Link to="/" className="text-success">Read More <span className="icon-arrow-right small" /></Link></p>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
         </div>
       </div>
     );

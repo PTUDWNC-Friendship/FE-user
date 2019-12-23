@@ -1,11 +1,10 @@
 
 import React, { Component } from "react";
-import { Image, Alert } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 
-import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 
-export class InfoModal extends Component {
+export class StudentCard extends Component {
   render() {
 
 
@@ -57,7 +56,6 @@ export class InfoModal extends Component {
 
                         <hr/>
 
-                        <Box id="rateModal" component="fieldset" borderColor="transparent" />
                       </div>
                       </div>
 
@@ -75,4 +73,4 @@ export class InfoModal extends Component {
   }
 }
 
-export default InfoModal;
+export default StudentCard;

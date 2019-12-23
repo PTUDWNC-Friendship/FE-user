@@ -1,7 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
+
+import { Alert } from 'react-bootstrap';
+
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 import { fetchAllTutors } from '../../../actions/user';
+import { InfoModal } from '../../ui-components/InfoModal/InfoModal';
+
 
 class TutorList extends React.Component {
   constructor(props) {
@@ -30,10 +38,10 @@ class TutorList extends React.Component {
       this.setState({
         tutors: this.props.userState.allTutors
           .filter(element => {
-            if (!search) { 
+            if (!search) {
               return true;
             }
-            return `${element.firstName} ${element.lastName}`.toLowerCase().search(search.toLowerCase()) !== -1 || 
+            return `${element.firstName} ${element.lastName}`.toLowerCase().search(search.toLowerCase()) !== -1 ||
                   element.title.toLowerCase().search(search.toLowerCase()) !== -1;
           })
           .slice(0, 5)
@@ -66,10 +74,35 @@ class TutorList extends React.Component {
     }));
   }
 
+  passingProps(element) {
+    if(element!==null) {
+      $("#imgModal").attr("src",element.imageURL);
+      $('#titleModal').text(element.title!==null?`${element.title} `:'tutor');
+      $('#priceModal').text(element.price!==null?`$${element.price} `:'$10');
+      $('#nameModal').text(`${element.firstName} ${element.lastName}`);
+      $('#addressModal').text(element.address!==null?`${element.address} `:'Việt Nam');
+      $('#bioModal').text(element.bio);
+      $('#subjectModal').empty();
+      if(element.subjects !== null) {
+        for (let i = 0; i < element.subjects.length; i+=1) {
+
+          $('#subjectModal').append( `<div className="alert alert-info float-left" style={{float:'left', padding: '15%', marginLeft: '3%'}}>${ element.subjects[i].name }</div>`);
+        }
+      }
+      if (element.rate !== null)
+      {
+        $('#rateModal').append(`<Rating name="read-only" value='${element.rate}' readOnly max={10} />`);
+      }
+
+      $('#modalButton').click();
+    }
+  }
+
   render() {
     return (
       <div className="site-section bg-light">
         <div className="container">
+        <InfoModal />
           <div className="row">
             <div
               className="col-md-12 mb-5 mb-md-0"
@@ -80,8 +113,8 @@ class TutorList extends React.Component {
               <div className="rounded border jobs-wrap">
                 {this.state.tutors.map((element, index) => (
                   <Link
+                    id="modalButton" data-toggle="modal" data-target="#myModal" onClick={() => this.passingProps(element)}
                     key={index.toString()}
-                    to="/list-tutors"
                     className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
                   >
                     <div className="company-logo blank-logo text-center text-md-left pl-3">

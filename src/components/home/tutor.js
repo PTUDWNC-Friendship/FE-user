@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import { fetchUserById } from '../../actions/user';
 import { fetchTutorContracts } from '../../actions/contract';
 
@@ -13,8 +14,6 @@ class Tutor extends React.Component {
         fetching: false
       };
     }
-
-    
 
     componentDidMount() {
       const { user } = this.props.userState;
@@ -71,6 +70,9 @@ class Tutor extends React.Component {
       }
     }
 
+    detailInfor() {
+      $('#tutorCard').click();
+    }
 
 
     showContentTable()
@@ -162,6 +164,7 @@ class Tutor extends React.Component {
                     </div>
                   </div>
                 </div>
+
                   {/* <!-- Detail Modal HTML --> */}
                   <div id="detailModal" className="modal fade">
                     <div className="modal-dialog modal-dialog-centered container">
