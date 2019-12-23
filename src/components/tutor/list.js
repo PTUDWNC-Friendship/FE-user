@@ -60,6 +60,7 @@ class TutorList extends Component {
 
   passingProps(element) {
     if(element!==null) {
+      $('#rateModal').empty();
       $("#imgModal").attr("src",element.imageURL);
       $('#titleModal').text(element.title!==null?`${element.title} `:'tutor');
       $('#priceModal').text(element.price!==null?`$${element.price} `:'$10');
@@ -75,7 +76,18 @@ class TutorList extends Component {
       }
       if (element.rate !== null)
       {
-        $('#rateModal').append(`<Rating name="read-only" value='${element.rate}' readOnly max={10} />`);
+        
+        let star = '<fieldset class="MuiBox-root MuiBox-root-30"> <span class="MuiRating-root MuiRating-readOnly" role="img" aria-label="3 Stars"> ' ;
+        for(let count = 0 ;count<10;count+=1) {
+          if(count<element.rate) {
+            star += '<span class="MuiRating-icon MuiRating-iconFilled"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span>';
+          } else {
+            star += '<span class="MuiRating-icon MuiRating-iconEmpty"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span>';
+          }
+        }
+        star += '</span></fieldset>';
+        $('#rateModal').append(star);
+        star ='';
       }
       $('#modalButton').click();
     }
