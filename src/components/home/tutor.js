@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import { fetchUserById } from '../../actions/user';
 import { fetchTutorContracts } from '../../actions/contract';
+import StudentList from './view-childs/list-students';
 
 class Tutor extends React.Component {
 
@@ -185,7 +186,8 @@ class Tutor extends React.Component {
                       </div>
                     </div>
                   </div>
-                { this.showContentTable() }
+
+                <StudentList />
 
                 <div className="site-section block-15">
                   <div className="container">

@@ -58,9 +58,9 @@ class Guest extends React.Component {
           <div style={{ height: '113px' }} />
 
           <Search />
-
           <Category />
           <TutorList />
+          
           <div
             className="site-blocks-cover overlay inner-page"
             style={{ backgroundImage: "url('images/tutor-1.jpg')" }}
