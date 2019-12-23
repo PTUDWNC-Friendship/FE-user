@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 import { fetchTutorContracts } from '../../actions/contract';
+import { StudentCard } from '../ui-components/StudentCard/StudentCard';
 
 class StudentList extends Component {
 
@@ -55,6 +57,19 @@ class StudentList extends Component {
     }
   }
 
+  passingProps(element) {
+    if(element!==null) {
+      $("#imgModal").attr("src",element.imageURL);
+      $('#genderModal').text(element.gender!==null?`Gender: ${element.gender} `:'Gender: Other');
+      $('#phoneModal').text(element.phone!==null?`Contact: ${element.phone} `:'Phone number: Non-available');
+      $('#nameModal').text(`${element.firstName} ${element.lastName}`);
+      $('#addressModal').text(element.address!==null?`Address: ${element.address} `:'Address: Non-available');
+      $('#bioModal').text(element.bio);
+
+      $('#modalButton').click();
+    }
+  }
+
   showContentTable() {
     const subject = [];
     subject.push(<h>Default</h>);
@@ -63,9 +78,11 @@ class StudentList extends Component {
 
     return (
       <div className="col-md-12" data-aos="fade">
+
         <Grid fluid>
 
           <div className="site-section bg-light">
+
             <div className="container">
               <div className="row">
                 <div className="col-md-12 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="100">
@@ -75,7 +92,7 @@ class StudentList extends Component {
                     {allContracts !== null ? (allContracts.map((value, index) => {
                       return (
                         <a key={index.toString()}
-                          href="#detailModal" data-toggle='modal'
+                          href="#detailModal" id="modalButton" data-toggle='modal' data-target="#myModal" onClick={() => this.passingProps(value.student)}
                           className="job-item d-block d-md-flex align-items-center  border-bottom customtime">
                           <div className="company-logo blank-logo text-center text-md-left pl-3">
                             <img src={value.student.imageURL} alt="" className="img-fluid mx-auto" />
@@ -110,6 +127,11 @@ class StudentList extends Component {
                               {value.status.toLowerCase() === 'canceled' ? (
                                 <span className="text-danger p-2 rounded border border-danger">
                                   Canceled
+                                </span>
+                              ) : null}
+                              {value.status.toLowerCase() === 'disputed' ? (
+                                <span className="text-danger p-2 rounded border border-danger">
+                                  Disputed
                                 </span>
                               ) : null}
                             </div>
@@ -149,27 +171,7 @@ class StudentList extends Component {
         <div className="site-section bg-light">
           <div className="container">
             <div className="row align-items-center">
-
-              {/* <!-- Detail Modal HTML --> */}
-              <div id="detailModal" className="modal fade">
-                <div className="modal-dialog modal-dialog-centered container">
-                  <div className="modal-content">
-                    <form>
-                      <div className="modal-header">
-                        <h4 className="modal-title">Student detail</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      </div>
-                      <div className="modal-body">
-                        Body ne`
-                      </div>
-                      <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                        <input type="submit" className="btn btn-danger" value="OK"/>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+            <StudentCard/>
 
               { this.showContentTable() }
             </div>

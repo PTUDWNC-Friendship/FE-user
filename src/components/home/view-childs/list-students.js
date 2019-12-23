@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 import { fetchTutorContracts } from '../../../actions/contract';
+
 
 class StudentList extends Component {
   constructor(props) {
@@ -72,6 +74,19 @@ class StudentList extends Component {
     }));
   }
 
+  passingProps(element) {
+    if(element!==null) {
+      $("#imgModal").attr("src",element.imageURL);
+      $('#genderModal').text(element.gender!==null?`Gender: ${element.gender} `:'Gender: Other');
+      $('#phoneModal').text(element.phone!==null?`Contact: ${element.phone} `:'Phone number: Non-available');
+      $('#nameModal').text(`${element.firstName} ${element.lastName}`);
+      $('#addressModal').text(element.address!==null?`Address: ${element.address} `:'Address: Non-available');
+      $('#bioModal').text(element.bio);
+
+      $('#modalButton').click();
+    }
+  }
+
   render() {
     const { currentStudents } = this.state;
     return (
@@ -92,7 +107,7 @@ class StudentList extends Component {
                 {
                   return (
                     <a key={index.toString()}
-                      href="#detailModal" data-toggle='modal'
+                      href="#detailModal" id="modalButton" data-toggle='modal' data-target="#myModal" onClick={() => this.passingProps(value.student)}
                       className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
                       <div className="company-logo blank-logo text-center text-md-left pl-3">
                         <img src={value.student.imageURL} alt="" className="img-fluid mx-auto" />

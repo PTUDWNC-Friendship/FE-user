@@ -27,18 +27,9 @@ import { fetchAllTutors } from '../../actions/user';
 import {setTutor, setStudent} from '../../actions/contract';
 
 class TutorList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditable: false,
-      isChangeable: false,
-      fetching: false
-    };
-    this.enableEditProfile = this.enableEditProfile.bind(this);
-    this.enableChangePassword = this.enableChangePassword.bind(this);
-  }
 
   componentDidMount() {
+
     this.props.getListTutors();
   }
 
@@ -85,21 +76,6 @@ class TutorList extends Component {
     $('#tutorCard').click();
   }
 
-  enableEditProfile() {
-    if (!this.state.isEditable) {
-      this.setState({ isEditable: true });
-    } else {
-      this.setState({ isEditable: false });
-    }
-  }
-
-  enableChangePassword() {
-    if (!this.state.isChangeable) {
-      this.setState({ isChangeable: true });
-    } else {
-      this.setState({ isChangeable: false });
-    }
-  }
 
   render() {
     const { userState } = this.props;
@@ -167,7 +143,7 @@ class TutorList extends Component {
                     </Col>
                   </Row>
                   <Button id="modalButton" style={{display: 'none'}} data-toggle="modal" data-target="#myModal">modal</Button>
-                  <Row>
+                  <Row >
                     {userState.allTutors.map(element => (
 
                       <Col md={4}>
