@@ -56,8 +56,9 @@ export class InfoModal extends Component {
                         </div>
 
                         <hr/>
-
-                        <Box id="rateModal" component="fieldset" borderColor="transparent" />
+                        <div  className="d-flex justify-content-center" >
+                        <Box  id="rateModal" component="fieldset" borderColor="transparent" />
+                        </div>
                       </div>
                       </div>
 

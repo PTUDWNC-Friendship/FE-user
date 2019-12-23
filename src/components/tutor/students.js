@@ -13,8 +13,16 @@ class StudentList extends Component {
     super(props);
 
     this.state = {
-      fetching: false
+      fetching: false,
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      dataPerPage: 2,
+      currentStudents: []
     };
+
+    this.loadMorePage = this.loadMorePage.bind(this);
+
   }
 
   componentDidMount() {
@@ -33,28 +41,52 @@ class StudentList extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const { user } = this.props.userState;
-
-    if (user !== null && !this.state.fetching ) {
-      this.props.fetchTutorContractsAction(user._id);
-    }
-
-    const { allContracts } = this.props.contractState;
-    if (allContracts.length !== 0 && !this.state.fetching)
-    {
+  componentDidUpdate(oldProps) {
+    if (oldProps.contractState.allContracts !== this.props.contractState.allContracts) {
+      const { search } = this.props;
+      const { dataPerPage } = this.state;
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        fetching: true
+        currentStudents: this.props.contractState.allContracts
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(0, dataPerPage)
       });
     }
-    if (user !== null) {
+  }
 
-      if (user.role === 'student') {
-        this.props.history.push('/home-student');
-      }
-    } else {
-      this.props.history.push('/login');
-    }
+  loadMorePage() {
+    const { search } = this.props;
+
+    this.setState(prevState => ({
+      indexLast: (prevState.currentPage + 1) * prevState.dataPerPage,
+      currentPage: prevState.currentPage + 1,
+      currentStudents: this.props.contractState.allContracts
+        .filter(element => {
+          if (!search) {
+            return true;
+          }
+          return true;
+        //   return (
+        //     element.category.toLowerCase().search(search.toLowerCase()) !==
+        //       -1 ||
+        //     element.name.toLowerCase().search(search.toLowerCase()) !== -1
+        //   );
+        })
+        .slice(
+          prevState.indexFirst,
+          (prevState.currentPage + 1) * prevState.dataPerPage
+        )
+    }));
   }
 
   passingProps(element) {
@@ -74,7 +106,7 @@ class StudentList extends Component {
     const subject = [];
     subject.push(<h>Default</h>);
 
-    const { allContracts } = this.props.contractState;
+    const { currentStudents } = this.state;
 
     return (
       <div className="col-md-12" data-aos="fade">
@@ -89,7 +121,7 @@ class StudentList extends Component {
                   <h2 className="mb-5 h3">All Students</h2>
                   <div className="rounded border jobs-wrap">
 
-                    {allContracts !== null ? (allContracts.map((value, index) => {
+                    {currentStudents !== null ? (currentStudents.map((value, index) => {
                       return (
                         <a key={index.toString()}
                           href="#detailModal" id="modalButton" data-toggle='modal' data-target="#myModal" onClick={() => this.passingProps(value.student)}
@@ -142,7 +174,7 @@ class StudentList extends Component {
                     ) : null}
                   </div>
                   <div className="col-md-12 text-center mt-5">
-                    <Link to="/" className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle" /> Load More</Link>
+                    <button type="button" onClick={this.loadMorePage} className="btn btn-success rounded py-3 px-5"><span className="icon-plus-circle" /> Load More</button>
                   </div>
                 </div>
               </div>
