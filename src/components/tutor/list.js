@@ -37,6 +37,7 @@ class TutorList extends Component {
   }
 
   componentDidMount() {
+
     this.props.getListTutors();
   }
 
@@ -176,7 +177,7 @@ class TutorList extends Component {
       if(element.subjects !== null) {
         for (let i = 0; i < element.subjects.length; i+=1) {
 
-          $('#subjectModal').append( `<div role="alert" class="alert alert-info" style="float: left; padding: 5%; margin-left: 3%" >${  element.subjects[i].name  }</div>`);
+          $('#subjectModal').append( `<div role="alert" class="alert alert-info" style="float: left; padding: 1%; margin-left: 3%" >${  element.subjects[i].name  }</div>`);
         }
       }
       if (element.rate !== null)
@@ -202,21 +203,6 @@ class TutorList extends Component {
     $('#tutorCard').click();
   }
 
-  enableEditProfile() {
-    if (!this.state.isEditable) {
-      this.setState({ isEditable: true });
-    } else {
-      this.setState({ isEditable: false });
-    }
-  }
-
-  enableChangePassword() {
-    if (!this.state.isChangeable) {
-      this.setState({ isChangeable: true });
-    } else {
-      this.setState({ isChangeable: false });
-    }
-  }
 
   // eslint-disable-next-line react/sort-comp
   onSelectCategory(e) {

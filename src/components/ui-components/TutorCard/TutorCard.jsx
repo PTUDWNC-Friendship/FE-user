@@ -35,7 +35,7 @@ export class TutorCard extends Component {
     return (
       <div  className="card card-user"  style={{marginBottom: '3%'}}>
         <div className="content" style={{width: '100%'}}>
-          <div className='align-items-center' style={{width: '50%', float: 'left'}}>
+          <div className='align-items-center' style={{width: '50%', float: 'left', }}>
           <Image
             className="avatar border-gray"
             src={this.props.avatar}

@@ -5,6 +5,7 @@ import $ from 'jquery';
 import { fetchUserById } from '../../actions/user';
 import { fetchTutorContracts } from '../../actions/contract';
 import StudentList from './view-childs/list-students';
+import { StudentCard } from '../ui-components/StudentCard/StudentCard';
 
 class Tutor extends React.Component {
 
@@ -75,78 +76,27 @@ class Tutor extends React.Component {
       $('#tutorCard').click();
     }
 
+    passingProps(element) {
+      if(element!==null) {
+        $("#imgModal").attr("src",element.imageURL);
+        $('#genderModal').text(element.gender!==null?`Gender: ${element.gender} `:'Gender: Other');
+        $('#phoneModal').text(element.phone!==null?`Contact: ${element.phone} `:'Phone number: Non-available');
+        $('#nameModal').text(`${element.firstName} ${element.lastName}`);
+        $('#addressModal').text(element.address!==null?`Address: ${element.address} `:'Address: Non-available');
+        $('#bioModal').text(element.bio);
 
-    showContentTable()
-    {
-      const { allContracts } = this.props.contractState;
-
-      return (
-        <div className="site-section bg-light">
-          <div className="container">
-            <div className="row">
-              <div
-                className="col-md-12 mb-5 mb-md-0"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <h2 className="mb-5 h3">
-                  Current <strong>Students</strong>
-                </h2>
-                <div className="rounded border jobs-wrap">
-                {allContracts !== null ? (allContracts.map((value, index) => {
-                  if (value.status.toLowerCase() === 'confirmed')
-                  {
-                    return (
-                      <a key={index.toString()}
-                        href="#detailModal" data-toggle='modal'
-                        className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
-                        <div className="company-logo blank-logo text-center text-md-left pl-3">
-                          <img src={value.student.imageURL} alt="" className="img-fluid mx-auto" />
-                        </div>
-                        <div className="job-details h-100">
-                          <div className="p-3 align-self-center">
-                            <h3>{`${value.student.firstName} ${value.student.lastName}`}</h3>
-                            <div className="d-block d-lg-flex">
-                              <div style={{width: '40%'}}><span className="icon-room mr-1" /> {value.student.address}</div>
-                              <div style={{width: '20%'}}><span className="icon-user mr-1" /> {value.student.gender}</div>
-                              <div><span className="icon-phone mr-1" /> {value.student.phone}</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="job-category align-self-center">
-                          <div className="p-3">
-                            <span className="text-info p-2 rounded border border-info">
-                              Tutoring
-                            </span>
-                          </div>
-                        </div>
-                      </a>
-                    );
-                  }
-                  return null;
-                })
-                ) : null}
-
-                </div>
-
-                <div className="col-md-12 text-center mt-5">
-                  <Link to="/list-students" className="btn btn-success rounded py-3 px-5">
-                    <span className="icon-plus-circle" /> All Students
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
+        $('#modalButton').click();
+      }
     }
+
 
     render() {
       const { tutor } = this.props.userState;
         return (
             <div className="site-wrap">
-
+              <StudentCard/>
                 <div className="site-blocks-cover overlay" data-aos="fade" data-stellar-background-ratio="0.5" style={{backgroundImage: "url('images/tutor-1.jpg')"}}>
+
                   <div className="container">
                     <div className="row align-items-center">
 
@@ -165,27 +115,6 @@ class Tutor extends React.Component {
                     </div>
                   </div>
                 </div>
-
-                  {/* <!-- Detail Modal HTML --> */}
-                  <div id="detailModal" className="modal fade">
-                    <div className="modal-dialog modal-dialog-centered container">
-                      <div className="modal-content">
-                        <form>
-                          <div className="modal-header">
-                            <h4 className="modal-title">Student detail</h4>
-                            <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                          </div>
-                          <div className="modal-body">
-                            Body ne`
-                          </div>
-                          <div className="modal-footer">
-                            <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                            <input type="submit" className="btn btn-danger" value="OK"/>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
 
                 <StudentList />
 

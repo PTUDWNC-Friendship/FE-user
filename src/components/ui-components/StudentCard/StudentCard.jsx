@@ -1,10 +1,15 @@
 
 import React, { Component } from "react";
 import { Image } from 'react-bootstrap';
-
-import Box from '@material-ui/core/Box';
+import { Link } from 'react-router-dom';
 
 export class StudentCard extends Component {
+
+  redirectToContracts()
+  {
+    window.location.href='/contracts-tutor';
+  }
+
   render() {
 
 
@@ -24,37 +29,31 @@ export class StudentCard extends Component {
 
                       <div className="modal-body">
                       <div className="card card-user" style={{marginBottom: '3%'}}>
-                        <div className="content" style={{width: '100%'}}>
-                          <div className='align-items-center' style={{width: '50%', float: 'left'}}>
+                        <div className="content" >
+                          <div className='text-center'>
                           <Image
                             id="imgModal"
                             className="avatar border-gray"
                             src=''
                             alt="..."
                           />
+                          <br/>
+                          <strong id="nameModal" style={{color: 'green'}}><br/></strong>
                           </div>
 
-                          <div style={{marginLeft: '50%'}}>
-                            <strong id="nameModal" style={{color: 'green'}}><br/></strong>
-                            <p id="titleModal"/>
-                            <p><strong id="priceModal"/> per hour</p>
-                            <div>
-                            <p id="addressModal"/>
-                            </div>
+                          <div>
 
+                            <p id="genderModal"/>
+                            <p><strong id="addressModal"/></p>
+                            <div>
+                            <p id="phoneModal"/>
+                            </div>
                           </div>
                           <div>
                           <p id="bioModal"/>
                           </div>
 
-                          <hr />
-
-                          <div id="subjectModal"/>
-
-
                         </div>
-
-                        <hr/>
 
                       </div>
                       </div>
@@ -62,6 +61,10 @@ export class StudentCard extends Component {
 
                       <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-primary" data-dismiss="modal"
+                                onClick={() => this.redirectToContracts()}>
+                          See Contracts
+                        </button>
                       </div>
 
                     </div>
