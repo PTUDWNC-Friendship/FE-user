@@ -1,12 +1,11 @@
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import { fetchTutorContracts } from '../../actions/contract';
 import { fetchUserById } from '../../actions/user';
-import { fetchStudentContracts, setTutor, setStudent, setDetailContract } from '../../actions/contract';
+import { fetchTutorContracts, setTutor, setStudent, setDetailContract } from '../../actions/contract';
 
 class ContractList extends Component {
 
@@ -14,8 +13,18 @@ class ContractList extends Component {
     super(props);
 
     this.state = {
-      fetching: false
+      fetching: false,
+
+      search: '',
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      dataPerPage: 5,
+      totalPage: 0,
+      tutorContracts: []
     };
+
+    this.choosePage = this.choosePage.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +45,7 @@ class ContractList extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(oldProps) {
     const { user } = this.props.userState;
 
     if (user !== null && !this.state.fetching ) {
@@ -53,14 +62,37 @@ class ContractList extends Component {
 
     }
 
+    // Authentication
     if (user !== null) {
-
       if (user.role === 'student') {
         this.props.history.push('/home-student');
       }
     } else {
       this.props.history.push('/login');
     }
+
+    // Pagination
+    if ( oldProps.contractState.allContracts !== this.props.contractState.allContracts ) {
+      const { search, dataPerPage} = this.state;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        totalPage: Math.round(this.props.contractState.allContracts.length / this.state.dataPerPage),
+        tutorContracts: this.props.contractState.allContracts
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(0, dataPerPage)
+      });
+    }
+
   }
 
   onDetailContract(value) {
@@ -74,12 +106,42 @@ class ContractList extends Component {
     });
   }
 
+  choosePage(page) {
+    const { search } = this.state;
+    // eslint-disable-next-line react/no-did-update-set-state
+    this.setState(prevState => {
+      const indexFirst = (page - 1) * prevState.dataPerPage;
+      const indexLast = page * prevState.dataPerPage;
+      return {
+        indexFirst,
+        indexLast,
+        currentPage: page,
+        tutorContracts: this.props.contractState.allContracts
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(indexFirst, indexLast)
+      };
+    });
+  }
 
   showContentTable()
   {
-
     const thTable = ["Student", "Duration", "Status",""];
-    const { allContracts } = this.props.contractState;
+    const { tutorContracts, currentPage, totalPage } = this.state;
+    const pageNumbers = [];
+    for (let i = 1; i <= this.state.totalPage; i+=1) {
+      pageNumbers.push(<li className={i === this.state.currentPage ? "page-item active" : "page-item"}><button type="button" onClick={() => this.choosePage(i)} className="page-link">{i}</button></li>);
+    }
+
     return (
       <div className="col-md-12" data-aos="fade">
         <Grid fluid>
@@ -102,7 +164,7 @@ class ContractList extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {allContracts !== null ? allContracts.map((value, index) => {
+                        {tutorContracts !== null ? tutorContracts.map((value, index) => {
                           return (
                             <tr key={index.toString()}>
                               <td>{`${value.student.firstName} ${value.student.lastName}`}</td>
@@ -126,24 +188,13 @@ class ContractList extends Component {
                         }) : null}
                       </tbody>
                   </table>
-
-
-
                   <div className="clearfix">
                       <ul className="pagination">
-                          <li className="page-item disabled"><Link to="#">Previous</Link></li>
-                          <li className="page-item"><Link to="#" className="page-link">1</Link></li>
-                          <li className="page-item"><Link to="#" className="page-link">2</Link></li>
-                          <li className="page-item active"><Link to="#" className="page-link">3</Link></li>
-                          <li className="page-item"><Link to="#" className="page-link">4</Link></li>
-                          <li className="page-item"><Link to="#" className="page-link">5</Link></li>
-                          <li className="page-item"><Link to="#" className="page-link">Next</Link></li>
+                          <li className={currentPage === 1 ? "page-item disabled" : "page-item"}><button type="button" className="page-link" onClick={() => this.choosePage(currentPage - 1)}>Previous</button></li>
+                          {pageNumbers}
+                          <li className={currentPage === totalPage ? "page-item disabled" : "page-item"}><button type="button" className="page-link" onClick={() => this.choosePage(currentPage + 1)}>Next</button></li>
                       </ul>
                   </div>
-
-
-
-
               </div>
             </div>
           </div>
