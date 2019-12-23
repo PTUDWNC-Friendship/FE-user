@@ -70,7 +70,7 @@ class TutorList extends Component {
       if(element.subjects !== null) {
         for (let i = 0; i < element.subjects.length; i+=1) {
 
-          $('#subjectModal').append( `<Alert style={{float:'left', padding: '5%', marginLeft: '3%'}}>${  element.subjects[i].name  }</Alert>`);
+          $('#subjectModal').append( `<div role="alert" class="alert alert-info" style="float: left; padding: 5%; margin-left: 3%" >${  element.subjects[i].name  }</div>`);
         }
       }
       if (element.rate !== null)
