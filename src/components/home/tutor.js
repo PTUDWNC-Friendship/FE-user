@@ -3,18 +3,9 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { fetchUserById } from '../../actions/user';
 import { fetchTutorContracts } from '../../actions/contract';
+import StudentList from './view-childs/list-students';
 
 class Tutor extends React.Component {
-
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        fetching: false
-      };
-    }
-
-    
 
     componentDidMount() {
       const { user } = this.props.userState;
@@ -27,115 +18,6 @@ class Tutor extends React.Component {
           history.push('/home-student');
         }
       }
-
-      if (user !== null && !this.state.fetching ) {
-        this.setState({
-          fetching: true
-        });
-        this.props.fetchUserByIdAction(user._id);
-      }
-
-      const { allContracts } = this.props.contractState;
-      if (allContracts.length !== 0 && !this.state.fetching)
-      {
-        this.setState({
-          fetching: true
-        });
-      }
-    }
-
-    componentDidUpdate() {
-      const { user } = this.props.userState;
-
-      if (user !== null && !this.state.fetching ) {
-        this.setState({
-          fetching: true
-        });
-        this.props.fetchUserByIdAction(user._id);
-      }
-
-      const { allContracts } = this.props.contractState;
-      if (allContracts.length !== 0 && !this.state.fetching)
-      {
-        this.setState({
-          fetching: true
-        });
-      }
-      if (user !== null) {
-
-        if (user.role === 'student') {
-          this.props.history.push('/home-student');
-        }
-      } else {
-        this.props.history.push('/login');
-      }
-    }
-
-
-
-    showContentTable()
-    {
-      const { allContracts } = this.props.contractState;
-
-      return (
-        <div className="site-section bg-light">
-          <div className="container">
-            <div className="row">
-              <div
-                className="col-md-12 mb-5 mb-md-0"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <h2 className="mb-5 h3">
-                  Current <strong>Students</strong>
-                </h2>
-                <div className="rounded border jobs-wrap">
-                {allContracts !== null ? (allContracts.map((value, index) => {
-                  if (value.status.toLowerCase() === 'confirmed')
-                  {
-                    return (
-                      <a key={index.toString()}
-                        href="#detailModal" data-toggle='modal'
-                        className="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
-                        <div className="company-logo blank-logo text-center text-md-left pl-3">
-                          <img src={value.student.imageURL} alt="" className="img-fluid mx-auto" />
-                        </div>
-                        <div className="job-details h-100">
-                          <div className="p-3 align-self-center">
-                            <h3>{`${value.student.firstName} ${value.student.lastName}`}</h3>
-                            <div className="d-block d-lg-flex">
-                              <div style={{width: '40%'}}><span className="icon-room mr-1" /> {value.student.address}</div>
-                              <div style={{width: '20%'}}><span className="icon-user mr-1" /> {value.student.gender}</div>
-                              <div><span className="icon-phone mr-1" /> {value.student.phone}</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="job-category align-self-center">
-                          <div className="p-3">
-                            <span className="text-info p-2 rounded border border-info">
-                              Tutoring
-                            </span>
-                          </div>
-                        </div>
-                      </a>
-                    );
-                  }
-                  return null;
-                })
-                ) : null}
-
-                </div>
-
-                <div className="col-md-12 text-center mt-5">
-                  <Link to="/list-students" className="btn btn-success rounded py-3 px-5">
-                    <span className="icon-plus-circle" /> All Students
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
     }
 
     render() {
@@ -182,7 +64,8 @@ class Tutor extends React.Component {
                       </div>
                     </div>
                   </div>
-                { this.showContentTable() }
+                
+                <StudentList />
 
                 <div className="site-section block-15">
                   <div className="container">
