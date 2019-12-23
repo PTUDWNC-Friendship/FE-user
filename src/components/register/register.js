@@ -1,14 +1,13 @@
 import React from "react";
 import clsx from "clsx";
 import fetch from "cross-fetch";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FacebookLogin from 'react-facebook-login';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -27,11 +26,10 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" to="https://material-ui.com/">
         Friendship
-      </Link>{" "}
+      </Link>
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -284,7 +282,7 @@ class Register extends React.Component {
 
               <Grid container justify="flex-end" style={{height: "50px"}}>
                 <Grid item>
-                  <Link href="/" variant="body2">
+                  <Link to="/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

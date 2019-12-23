@@ -1,4 +1,4 @@
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -100,7 +100,7 @@ class ContractList extends Component {
                               <span className="text-info p-2 rounded border border-info">
                                 {value.status}
                               </span>
-                              <a href='#detailModal' data-toggle='modal' className="fa fa-eye ml-5 p-0"/>
+                              <a data-target='#detailModal' data-toggle='modal' className="fa fa-eye ml-5 p-0"/>
                               </td>
                             </tr>
                           );
@@ -112,13 +112,13 @@ class ContractList extends Component {
 
                   <div className="clearfix">
                       <ul className="pagination">
-                          <li className="page-item disabled"><a href="#">Previous</a></li>
-                          <li className="page-item"><a href="#" className="page-link">1</a></li>
-                          <li className="page-item"><a href="#" className="page-link">2</a></li>
-                          <li className="page-item active"><a href="#" className="page-link">3</a></li>
-                          <li className="page-item"><a href="#" className="page-link">4</a></li>
-                          <li className="page-item"><a href="#" className="page-link">5</a></li>
-                          <li className="page-item"><a href="#" className="page-link">Next</a></li>
+                          <li className="page-item disabled"><Link to="#">Previous</Link></li>
+                          <li className="page-item"><Link to="#" className="page-link">1</Link></li>
+                          <li className="page-item"><Link to="#" className="page-link">2</Link></li>
+                          <li className="page-item active"><Link to="#" className="page-link">3</Link></li>
+                          <li className="page-item"><Link to="#" className="page-link">4</Link></li>
+                          <li className="page-item"><Link to="#" className="page-link">5</Link></li>
+                          <li className="page-item"><Link to="#" className="page-link">Next</Link></li>
                       </ul>
                   </div>
 
