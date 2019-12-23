@@ -14,10 +14,19 @@ class SpecialtyList extends Component {
       isInserting: false,
       isEditing: false,
       isDeleting: false,
-      selectedElement: null
+      selectedElement: null,
+
+      search: '',
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      dataPerPage: 5,
+      totalPage: 0,
+      subjects: []
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.choosePage = this.choosePage.bind(this);
   }
 
   componentWillUpdate() {
@@ -33,7 +42,7 @@ class SpecialtyList extends Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(oldProps) {
     const { user } = this.props.userState;
     const { tutor } = this.props.userState;
     if (user !== null && !this.state.isFetching ) {
@@ -74,6 +83,57 @@ class SpecialtyList extends Component {
       });
       this.props.fetchUserByIdAction(user._id);
     }
+
+    // Pagination
+    if ( oldProps.userState.tutor !== this.props.userState.tutor ) {
+      const { search, dataPerPage} = this.state;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        totalPage: Math.round(this.props.userState.tutor.subjects.length / this.state.dataPerPage),
+        subjects: this.props.userState.tutor.subjects
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(0, dataPerPage)
+      });
+    }
+
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  choosePage(page) {
+    const { search } = this.state;
+    // eslint-disable-next-line react/no-did-update-set-state
+    this.setState(prevState => {
+      const indexFirst = (page - 1) * prevState.dataPerPage;
+      const indexLast = page * prevState.dataPerPage;
+      return {
+        indexFirst,
+        indexLast,
+        currentPage: page,
+        subjects: this.props.userState.tutor.subjects
+          .filter(element => {
+            if (!search) {
+              return true;
+            }
+            return true;
+            // return (
+            //   element.category.toLowerCase().search(search.toLowerCase()) !==
+            //     -1 ||
+            //   element.name.toLowerCase().search(search.toLowerCase()) !== -1
+            // );
+          })
+          .slice(indexFirst, indexLast)
+      };
+    });
   }
 
   onInsertTutorSubject = e => {
@@ -124,126 +184,132 @@ class SpecialtyList extends Component {
 
   showContentTable() {
      const thTable = ["name", "category", "description", "Actions"];
-     const { tutor } = this.props.userState;
+     const { subjects, currentPage, totalPage } = this.state;
+     const pageNumbers = [];
+     for (let i = 1; i <= this.state.totalPage; i+=1) {
+       pageNumbers.push(<li className={i === this.state.currentPage ? "page-item active" : "page-item"}><button type="button" onClick={() => this.choosePage(i)} className="page-link">{i}</button></li>);
+     }
 
      return (
        <div className="col-md-12" data-aos="fade">
          <Grid fluid>
-          <div className="site-section bg-light">
-            <div className="container">
-              <div className="table-wrapper">
-                <div className="table-title">
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <h2>
-                        Your <b>Specialties</b>
-                      </h2>
-                    </div>
-                    <div className="col-sm-6">
-                      <a
-                        href="#addSpecialtyModal"
-                        className="btn btn-success"
-                        data-toggle="modal"
-                      >
-                        <i className="material-icons">&#xE147;</i>{' '}
-                        <span>Add New Specialty</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <table className="table specialties table-striped table-hover">
-                  <thead>
-                    <tr>
-                      {thTable.map((value, index) => {
-                        return <th key={index.toString()}>{value}</th>;
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                     {tutor !== null ? tutor.subjects.map((value, index) => {
-                       return (
-                         <tr key={index.toString()}>
-                           <td>{value.name}</td>
-                           <td>{value.category}</td>
-                           <td>{value.description}</td>
-                           <td>
-                             <a
-                               href="#editSpecialtyModal"
-                              className="edit"
-                              data-toggle="modal"
-                              onClick={() => this.handleSelectElement(value)}
-                            >
-                              <i
-                                className="material-icons"
-                                data-toggle="tooltip"
-                                title="Edit"
-                              >
-                                &#xE254;
-                              </i>
-                            </a>
-                            <a
-                              href="#deleteSpecialtyModal"
-                              className="delete"
-                              data-toggle="modal"
-                              onClick={() => this.handleSelectElement(value)}
-                            >
-                              <i
-                                className="material-icons"
-                                data-toggle="tooltip"
-                                title="Delete"
-                              >
-                                &#xE872;
-                              </i>
-                            </a>
-                          </td>
-                        </tr>
-                      );
-                    }) : null}
-                  </tbody>
-                </table>
-                <div className="clearfix">
-                  <ul className="pagination">
-                    <li className="page-item disabled">
-                      <a href="#">Previous</a>
-                    </li>
-                    <li className="page-item">
-                      <a href="#" className="page-link">
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a href="#" className="page-link">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item active">
-                      <a href="#" className="page-link">
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a href="#" className="page-link">
-                        4
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a href="#" className="page-link">
-                        5
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a href="#" className="page-link">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Grid>
-      </div>
-    );
+           <div className="site-section bg-light">
+             <div className="container">
+               <div className="table-wrapper">
+                 <div className="table-title">
+                   <div className="row">
+                     <div className="col-sm-6">
+                       <h2>
+                         Your <b>Specialties</b>
+                       </h2>
+                     </div>
+                     <div className="col-sm-6">
+                       <a
+                         href="#addSpecialtyModal"
+                         className="btn btn-success"
+                         data-toggle="modal"
+                       >
+                         <i className="material-icons">&#xE147;</i>{' '}
+                         <span>Add New Specialty</span>
+                       </a>
+                     </div>
+                   </div>
+                 </div>
+                 <table className="table specialties table-striped table-hover">
+                   <thead>
+                     <tr>
+                       {thTable.map((value, index) => {
+                         return <th key={index.toString()}>{value}</th>;
+                       })}
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {subjects !== null
+                       ? subjects.map((value, index) => {
+                           return (
+                             <tr key={index.toString()}>
+                               <td>{value.name}</td>
+                               <td>{value.category}</td>
+                               <td>{value.description}</td>
+                               <td>
+                                 <a
+                                   href="#editSpecialtyModal"
+                                   className="edit"
+                                   data-toggle="modal"
+                                   onClick={() =>
+                                     this.handleSelectElement(value)
+                                   }
+                                 >
+                                   <i
+                                     className="material-icons"
+                                     data-toggle="tooltip"
+                                     title="Edit"
+                                   >
+                                     &#xE254;
+                                   </i>
+                                 </a>
+                                 <a
+                                   href="#deleteSpecialtyModal"
+                                   className="delete"
+                                   data-toggle="modal"
+                                   onClick={() =>
+                                     this.handleSelectElement(value)
+                                   }
+                                 >
+                                   <i
+                                     className="material-icons"
+                                     data-toggle="tooltip"
+                                     title="Delete"
+                                   >
+                                     &#xE872;
+                                   </i>
+                                 </a>
+                               </td>
+                             </tr>
+                           );
+                         })
+                       : null}
+                   </tbody>
+                 </table>
+                 <div className="clearfix">
+                   <ul className="pagination">
+                     <li
+                       className={
+                         currentPage === 1 ? 'page-item disabled' : 'page-item'
+                       }
+                     >
+                       <button
+                         type="button"
+                         className="page-link"
+                         onClick={() => this.choosePage(currentPage - 1)}
+                       >
+                         Previous
+                       </button>
+                     </li>
+                     {pageNumbers}
+                     <li
+                       className={
+                         currentPage === totalPage
+                           ? 'page-item disabled'
+                           : 'page-item'
+                       }
+                     >
+                       <button
+                         type="button"
+                         className="page-link"
+                         onClick={() => this.choosePage(currentPage + 1)}
+                       >
+                         Next
+                       </button>
+                     </li>
+                   </ul>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </Grid>
+       </div>
+     );
   };
 
   render() {
