@@ -44,39 +44,12 @@ class StudentContractList extends Component {
 
   componentDidMount() {
     const { user } = this.props.userState;
-
-    if (user !== null && !this.state.fetching ) {
-      this.props.fetchUserByIdAction(user._id);
-      this.props.fetchStudentContractsAction(user._id);
-    }
-
-    const { allStudentContracts } = this.props.contractState;
-    if (allStudentContracts.length !== 0 && !this.state.fetching)
-    {
-      this.setState({
-        fetching: true
-      });
-    }
-
+    this.props.fetchUserByIdAction(user._id);
+    this.props.fetchStudentContractsAction(user._id);
   }
 
   componentDidUpdate(oldProps) {
     const { user } = this.props.userState;
-
-    if (user !== null && !this.state.fetching ) {
-      this.props.fetchUserByIdAction(user._id);
-      this.props.fetchStudentContractsAction(user._id);
-    }
-
-    const { allStudentContracts } = this.props.contractState;
-    if (allStudentContracts.length !== 0 && !this.state.fetching)
-    {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        fetching: true
-      });
-    }
-
     // Authentication
     if (user !== null) {
       if (user.role === 'tutor') {
