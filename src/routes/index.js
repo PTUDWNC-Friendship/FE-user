@@ -60,7 +60,7 @@ const routes = [
   {
     path: '/list-tutors',
     exact: false,
-    main: () => <TutorList />
+    main: ({location}) => <TutorList location={location} />
   },
   {
     path: '/list-students',
