@@ -17,6 +17,7 @@ import TutorList from '../components/tutor/list';
 import SpecialtyList from '../components/tutor/specialties';
 import StudentList from '../components/tutor/students';
 import ContractTutor from '../components/tutor/contracts';
+import Analysis from '../components/tutor/analysis';
 import StudentProfile from '../components/profile/student';
 
 import ContractStudent from '../components/student/contracts';
@@ -66,6 +67,11 @@ const routes = [
     path: '/list-students',
     exact: false,
     main: () => <StudentList />
+  },
+  {
+    path: '/analysis',
+    exact: false,
+    main: () => <Analysis />
   },
   {
     path: '/specialties-tutor',

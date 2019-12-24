@@ -80,9 +80,14 @@ class Header extends React.Component {
                               </li>
                             ) : null}
                             {userState.user.role === 'tutor' ? (
-                              <li>
-                                <Link to="/list-students">My Students</Link>
-                              </li>
+                              <>
+                                <li>
+                                  <Link to="/analysis">Analysis</Link>
+                                </li>
+                                <li>
+                                  <Link to="/list-students">My Students</Link>
+                                </li>
+                              </>
                             ) : null}
 
                             {/* ACCOUNT (USER) ======== */}
