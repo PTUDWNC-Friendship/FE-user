@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 
-import { Alert } from 'react-bootstrap';
-
-import Rating from '@material-ui/lab/Rating';
-import Box from '@material-ui/core/Box';
 import { fetchAllTutors } from '../../../actions/user';
 import { InfoModal } from '../../ui-components/InfoModal/InfoModal';
 

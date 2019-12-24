@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import fetch from 'cross-fetch';
-import { Spin, Alert } from 'antd';
+import { Spin } from 'antd';
 import { Button } from 'react-bootstrap';
 import Typography from '@material-ui/core/Typography';
 import 'antd/dist/antd.css';

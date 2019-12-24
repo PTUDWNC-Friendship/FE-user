@@ -42,7 +42,7 @@ class ForgotPassword extends React.Component {
       message: ''
     });
 
-    const { username, type } = this.state;
+    const { username } = this.state;
     fetch(`${SERVER_URL}/user/forgotpassword`, {
       method: 'POST',
       body: JSON.stringify({
@@ -65,7 +65,7 @@ class ForgotPassword extends React.Component {
   render() {
     const { message, isFetching, username } = this.state;
     const { classes } = this.props;
-    const types = ["local", "google", "facebook"];
+    // const types = ["local", "google", "facebook"];
 
     return (
       <div className={classes.body}>

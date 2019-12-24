@@ -9,10 +9,6 @@ import swal from 'sweetalert';
 import {setTutor, setStudent} from '../../actions/contract';
 import './contract.css';
 import { SERVER_URL } from '../../helpers/constant';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
-
-
-
 
 class Contract extends React.Component {
 

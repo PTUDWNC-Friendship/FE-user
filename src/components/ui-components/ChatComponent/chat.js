@@ -3,7 +3,7 @@ import React from 'react';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {  Button, Form, Row, Col} from 'react-bootstrap';
+import {  Button } from 'react-bootstrap';
 import $ from 'jquery';
 import './chat.css';
 import { fetchAllStudents, fetchAllTutors } from '../../../actions/user';

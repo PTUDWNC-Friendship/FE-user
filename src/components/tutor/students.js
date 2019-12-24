@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { fetchTutorContracts } from '../../actions/contract';
 import { StudentCard } from '../ui-components/StudentCard/StudentCard';

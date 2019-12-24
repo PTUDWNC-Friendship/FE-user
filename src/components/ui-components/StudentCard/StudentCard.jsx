@@ -1,7 +1,6 @@
 
 import React, { Component } from "react";
 import { Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 export class StudentCard extends Component {
 

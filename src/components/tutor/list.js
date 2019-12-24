@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import $ from 'jquery';
 import 'antd/dist/antd.css';
-import queryString from 'query-string';
+// import queryString from 'query-string';
 import { Slider } from 'antd';
 import { TutorCard } from '../ui-components/TutorCard/TutorCard';
 import { InfoModal } from '../ui-components/InfoModal/InfoModal';
@@ -234,6 +234,7 @@ class TutorList extends Component {
           if (element.price <= value[1] && element.price >= value[0]) {
             return true;
           }
+          return false;
         })
     });
   }
