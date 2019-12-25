@@ -44,8 +44,10 @@ class StudentContractList extends Component {
 
   componentDidMount() {
     const { user } = this.props.userState;
-    this.props.fetchUserByIdAction(user._id);
-    this.props.fetchStudentContractsAction(user._id);
+    if (user!== null) {
+      this.props.fetchUserByIdAction(user._id);
+      this.props.fetchStudentContractsAction(user._id);
+    }
   }
 
   componentDidUpdate(oldProps) {
@@ -456,8 +458,8 @@ class StudentContractList extends Component {
             </div>
             <div className="modal-footer d-flex justify-content-center">
 
-                    <Button onClick={()=>this.submitEvaluate()} style={{width: '60%'}} className="btn btn-danger" color="secondary">
-                        Dispute
+                    <Button onClick={()=>this.submitEvaluate()} style={{width: '60%'}} className="btn btn-success" color="secondary">
+                        Submit
                     </Button>
 
                 <button id="closeModal" style={{display: 'none'}} type="button" className="btn btn-default" data-dismiss="modal">Close</button>

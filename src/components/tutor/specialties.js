@@ -29,17 +29,12 @@ class SpecialtyList extends Component {
     this.choosePage = this.choosePage.bind(this);
   }
 
-  componentWillUpdate() {
+  componentDidMount() {
     const { user } = this.props.userState;
-
-    if (user !== null && !this.state.isFetching ) {
+    
+    if (user !== null) {
       this.props.fetchUserByIdAction(user._id);
     }
-    if (this.props.userState.tutor !== null && !this.state.isFetching ) {
-      this.setState({
-        isFetching: true
-      });
-    };
   }
 
   componentDidUpdate(oldProps) {
