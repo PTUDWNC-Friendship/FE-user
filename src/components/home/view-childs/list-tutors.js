@@ -111,7 +111,7 @@ class TutorList extends React.Component {
                   <Link
                     id="modalButton" data-toggle="modal" data-target="#myModal" onClick={() => this.passingProps(element)}
                     key={index.toString()}
-                    className="job-item d-block d-md-flex align-items-center  border-bottom fulltime"
+                    className="job-item d-block d-md-flex text-left  border-bottom fulltime"
                   >
                     <div className="company-logo blank-logo text-center text-md-left pl-3">
                       <img
