@@ -16,7 +16,7 @@ class StudentList extends Component {
       indexFirst: 0,
       indexLast: 0,
       currentPage: 1,
-      dataPerPage: 1,
+      dataPerPage: 2,
       currentStudents: []
     };
 
