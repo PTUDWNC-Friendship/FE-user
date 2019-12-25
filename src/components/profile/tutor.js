@@ -30,6 +30,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import $ from 'jquery';
+import swal from 'sweetalert';
 import { withRouter } from 'react-router-dom';
 import { FormInputs } from "../ui-components/FormInputs/FormInputs";
 import { UserCard } from "../ui-components/UserCard/UserCard";
@@ -71,78 +72,85 @@ class TutorProfile extends Component {
         });
         $('#idLoading').hide();
         $('#successMsgPass').show();
+      } else {
+        swal("Error!", "Xin vui lòng nhập lại mật khẩu xác nhận giống với mật khẩu đã nhập!", "error");
       }
     }
 
     onUpdateInfor = e => {
+
       $('#idLoading').show();
       $('#successMsg').hide();
       const { userState,onUpdateUser,onUpdateTutor, authorizeUserAction } = this.props;
       e.preventDefault();
-      const user = {
-        _id: e.target.id.value,
-        password: "",
-        gender: e.target.gender.value,
-        firstName: e.target.firstName.value.trim()!==""?e.target.firstName.value:e.target.firstName.placeholder,
-        lastName: e.target.lastName.value.trim()!==""?e.target.lastName.value:e.target.lastName.placeholder,
-        address: e.target.address.value.trim()!==""?e.target.address.value:e.target.address.placeholder,
-        phone: e.target.phone.value.trim()!==""?e.target.phone.value:e.target.phone.placeholder,
-        bio: e.target.bio.value.trim()!==""?e.target.bio.value:e.target.bio.placeholder,
-        imageURL: userState.user.imageURL
-      };
-      const tutor = {
-        _id: e.target.id.value,
-        title: e.target.title.value.trim()!==""?e.target.title.value:e.target.title.placeholder,
-        price: e.target.price.value.trim()!==""?e.target.price.value:e.target.price.placeholder,
-      };
 
-      const image = this.fileUpload.files[0];
-      if(this.fileUpload.files.length>0) {
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
-        uploadTask.on(
-          "state_changed",
-          snapshot => {
-            // progress function ...
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            if(progress===100) {
-              $('#idLoading').hide();
-              $('#successMsg').show();
-            }
-          },
-          error => {
-            // Error function ...
-            console.log(error);
-          },
-          () => {
-            storage
-              .ref("images")
-              .child(image.name)
-              .getDownloadURL()
-              .then(url => {
-                user.imageURL = url;
-                onUpdateUser(user);
-                onUpdateTutor(tutor);
-                authorizeUserAction();
-              });
-          }
-        );
+      if(e.target.price.value.trim()!==''&&isNaN(parseInt(e.target.price.value.trim(),10))) {
+        console.log(isNaN(parseInt(e.target.price.value.trim(),10)));
+        swal("Error!", "Price must be a number!", "error");
+        $('#idLoading').hide();
       } else {
-        Promise.resolve(
-          onUpdateUser(user),
-          onUpdateTutor(tutor)
-        ).then(()=>{
-          authorizeUserAction();
-          $('#idLoading').hide();
-          $('#successMsg').show();
+        const user = {
+          _id: e.target.id.value,
+          password: "",
+          gender: e.target.gender.value,
+          firstName: e.target.firstName.value.trim()!==""?e.target.firstName.value:e.target.firstName.placeholder,
+          lastName: e.target.lastName.value.trim()!==""?e.target.lastName.value:e.target.lastName.placeholder,
+          address: e.target.address.value.trim()!==""?e.target.address.value:e.target.address.placeholder,
+          phone: e.target.phone.value.trim()!==""?e.target.phone.value:e.target.phone.placeholder,
+          bio: e.target.bio.value.trim()!==""?e.target.bio.value:e.target.bio.placeholder,
+          imageURL: userState.user.imageURL
+        };
+        const tutor = {
+          _id: e.target.id.value,
+          title: e.target.title.value.trim()!==""?e.target.title.value:e.target.title.placeholder,
+          price: e.target.price.value.trim()!==""?e.target.price.value:e.target.price.placeholder,
+        };
+
+        const image = this.fileUpload.files[0];
+        if(this.fileUpload.files.length>0) {
+          const uploadTask = storage.ref(`images/${image.name}`).put(image);
+          uploadTask.on(
+            "state_changed",
+            snapshot => {
+              // progress function ...
+              const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              );
+              if(progress===100) {
+                $('#idLoading').hide();
+                $('#successMsg').show();
+              }
+            },
+            error => {
+              // Error function ...
+              console.log(error);
+            },
+            () => {
+              storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+                  user.imageURL = url;
+                  onUpdateUser(user);
+                  onUpdateTutor(tutor);
+                  authorizeUserAction();
+                });
+            }
+          );
+        } else {
+          Promise.resolve(
+            onUpdateUser(user),
+            onUpdateTutor(tutor)
+          ).then(()=>{
+            authorizeUserAction();
+            $('#idLoading').hide();
+            $('#successMsg').show();
+
+          });
 
 
-
-
-        });
-
-
+      }
     }
 
   }
@@ -352,7 +360,7 @@ class TutorProfile extends Component {
                               type: "text",
                               name: "title",
                               bsClass: "form-control",
-                              placeholder: currentTutor!==null?currentTutor.title:'',
+                              placeholder: currentTutor!==null?currentTutor.title:'None',
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             },
@@ -361,7 +369,7 @@ class TutorProfile extends Component {
                               type: "text",
                               name: "price",
                               bsClass: "form-control",
-                              placeholder: currentTutor!==null?currentTutor.price:'',
+                              placeholder: currentTutor!==null?currentTutor.price:0,
                               maxLength: '128',
                               disabled: !this.state.isEditable
                             },
