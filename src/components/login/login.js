@@ -94,7 +94,7 @@ class Login extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-  if($('#email').val()===''||$('#password').val()==='') {
+  if($('#email').val().trim()===''||$('#password').val()==='') {
     swal("Error!", "Please fill email and password!", "error");
   } else {
     $('#idLoading').show();

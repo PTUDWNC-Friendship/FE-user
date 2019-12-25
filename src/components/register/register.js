@@ -128,7 +128,7 @@ class Register extends React.Component {
   doRegister = e => {
     e.preventDefault();
 
-    if(e.target.password.value === "" || e.target.firstName.value ==="" || e.target.lastName.value ==="" || e.target.username.value==="") {
+    if(e.target.password.value === "" || e.target.firstName.value.trim() ==="" || e.target.lastName.value.trim() ==="" || e.target.username.value.trim() ==="") {
       swal("Error!", "Xin vui lòng nhập đầy đủ các thông tin!", "error");
     } else {
 
