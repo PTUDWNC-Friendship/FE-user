@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import $ from 'jquery';
 import 'antd/dist/antd.css';
 // import queryString from 'query-string';
-import { Slider } from 'antd';
+import { Slider, Input } from 'antd';
 import { TutorCard } from '../ui-components/TutorCard/TutorCard';
 import { InfoModal } from '../ui-components/InfoModal/InfoModal';
 import { fetchAllTutors } from '../../actions/user';
@@ -32,6 +32,8 @@ class TutorList extends Component {
     this.loadMorePage = this.loadMorePage.bind(this);
     this.onSelectCategory = this.onSelectCategory.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   componentDidMount() {
@@ -220,7 +222,38 @@ class TutorList extends Component {
           }
         }
         return false;
-      })
+      }).slice(0, this.state.dataPerPage)
+    });
+  }
+
+  onSearchChange(value) {
+    this.setState({
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      search: value,
+      tutors: this.props.userState.allTutors
+        .filter(element => {
+          if (!value) {
+            return true;
+          }
+          if (
+            `${element.firstName} ${element.lastName}`
+              .toLowerCase()
+              .search(value.toLowerCase()) !== -1 ||
+            element.title.toLowerCase().search(value.toLowerCase()) !== -1
+          ) {
+            return true;
+          }
+          // eslint-disable-next-line no-restricted-syntax
+          for (const subject of element.subjects) {
+            if (subject.name.toLowerCase().search(value.toLowerCase()) !== -1 ||
+                subject.category.toLowerCase().search(value.toLowerCase()) !== -1) {
+              return true;
+            }
+          }
+          return false;
+        }).slice(0, this.state.dataPerPage)
     });
   }
 
@@ -236,9 +269,22 @@ class TutorList extends Component {
             return true;
           }
           return false;
-        })
+        }).slice(0, this.state.dataPerPage)
     });
   }
+
+  handleReset() {
+    this.setState({
+      indexFirst: 0,
+      indexLast: 0,
+      currentPage: 1,
+      search: null,
+      priceFilter: null,
+      categoryFilter: null,
+      tutors: this.props.userState.allTutors.slice(0, this.state.dataPerPage)
+    });
+  }
+
 
   render() {
     const categories = ["Math", "Literature", "Biology", "Languages", "Geography", "Physics", "Chemistry", "History" ];
@@ -263,20 +309,31 @@ class TutorList extends Component {
             <div className="row align-items-center">
               <InfoModal />
               <div className="col-md-12" data-aos="fade">
-                <Grid fluid>
+                <Grid fluid cellSpacing={4}>
+                  <Row>
+                    <Col md={4}>
+                      <Input.Search
+                        placeholder="Search tutor's name, subject, ..."
+                        onSearch={this.onSearchChange}
+                        style={{ width: 400 }}
+                      />
+                    </Col>
+                  </Row>
                   <Row style={{ marginBottom: '3%' }}>
-                    <Col md={1}>Filters: </Col>
-
+                    <Col md={2}>
+                      {' '}
+                      <strong>Price($/hour):</strong>{' '}
+                    </Col>
                     <Col md={3}>
                       <Slider
                         range
                         step={10}
-                        defaultValue={[20, 50]}
+                        defaultValue={[0, 50]}
                         onChange={this.onChangePrice}
                         // onAfterChange={onAfterChange}
                       />
                     </Col>
-
+                    <Col md={1}>Category: </Col>
                     <Col md={3}>
                       <select
                         className="js-example-basic-single"
@@ -292,6 +349,15 @@ class TutorList extends Component {
                           );
                         })}
                       </select>
+                    </Col>
+                    <Col md={3}>
+                      <button
+                        className="btn btn-info"
+                        type="button"
+                        onClick={this.handleReset}
+                      >
+                        Reset
+                      </button>
                     </Col>
                   </Row>
                   <Button

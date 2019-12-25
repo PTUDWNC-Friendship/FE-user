@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import FacebookLogin from 'react-facebook-login';
+import swal from 'sweetalert';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -92,8 +93,11 @@ class Login extends React.Component {
   }
 
   handleSubmit = e => {
-    $('#idLoading').show();
     e.preventDefault();
+  if($('#email').val().trim()===''||$('#password').val()==='') {
+    swal("Error!", "Please fill email and password!", "error");
+  } else {
+    $('#idLoading').show();
     const { loginAction } = this.props;
     Promise.resolve(
       loginAction(e.target.email.value, e.target.password.value)
@@ -101,13 +105,16 @@ class Login extends React.Component {
       const { userState } = this.props;
       if (userState.isFetching === false) {
         if (userState.user === null) {
-          $('#errorMsg').show();
+          swal("Error!", "Incorrect email or password, please check again!", "error");
+          // $('#errorMsg').show();
           $('#idLoading').hide();
         } else {
           const { history } = this.props;
           if (userState.user.role === null) {
-            history.push('/roles');
-            $('#idLoading').hide();
+            swal("Sucessfully!", "Register studying with tutor successfully!", "success").then(()=>{
+              history.push('/roles');
+              $('#idLoading').hide();
+          });
           } else {
             if (userState.user.role === 'tutor') {
               history.push('/home-tutor');
@@ -120,6 +127,7 @@ class Login extends React.Component {
         }
       }
     });
+  }
   };
 
   responseFacebook = response => {

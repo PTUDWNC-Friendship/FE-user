@@ -4,10 +4,12 @@ import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {  Button } from 'react-bootstrap';
+import { Input } from 'antd';
 import $ from 'jquery';
 import './chat.css';
+import 'antd/dist/antd.css';
 import { fetchAllStudents, fetchAllTutors } from '../../../actions/user';
-
+// import queryString from 'query-string';
 
 
   function ChatWithPerson(array, user, coWorker) {
@@ -54,263 +56,304 @@ import { fetchAllStudents, fetchAllTutors } from '../../../actions/user';
 
 
 class Chat extends React.Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
-
-          this.state = {
-            userName: '',
-            coWorker: null,
-            message: '',
-            list: [],
-            allMessages: [],
-            listContacts: [],
-          };
-          const { userState, getListStudents, getListTutors } = this.props;
-          getListStudents();
-          getListTutors();
-          if(userState.user!==null) {
-
-            this.setState({
-              userName: userState.user.firstName + userState.user.lastName
-            });
-          }
-        this.messageRef = firebase.database().ref().child('messages');
-        this.listenMessages();
+    this.state = {
+      userName: '',
+      coWorker: null,
+      message: '',
+      list: [],
+      allMessages: [],
+      listContacts: [],
+      search: null
+    };
+    const { userState, getListStudents, getListTutors } = this.props;
+    getListStudents();
+    getListTutors();
+    if (userState.user !== null) {
+      this.setState({
+        userName: userState.user.firstName + userState.user.lastName
+      });
     }
-    
-    componentDidMount() {
+    this.messageRef = firebase
+      .database()
+      .ref()
+      .child('messages');
+    this.listenMessages();
+    this.onSearchChange = this.onSearchChange.bind(this);
+  }
 
-    }
+  onSearchChange(value) {
+    this.setState({
+      search: value
+    });
+  }
 
-    getMessageLatestUser(idSender,idUser) {
-      const sortArray = this.state.allMessages;
-      sortArray.sort(function(a,b){
-        // eslint-disable-next-line 
-        return new Date(b.date + " "+b.time) - new Date( a.date + " "+a.time);           
-        });
- 
-      
-      for(let i = 0 ; i<sortArray.length;i += 1) {
-        // eslint-disable-next-line 
-        if(!sortArray[i].hasOwnProperty('time')) {
-          sortArray.splice(i,1);
-          i -= 1;
-       
-        }
+  getMessageLatestUser(idSender, idUser) {
+    const sortArray = this.state.allMessages;
+    sortArray.sort(function(a, b) {
+      // eslint-disable-next-line
+      return new Date(b.date + ' ' + b.time) - new Date(a.date + ' ' + a.time);
+    });
+
+    for (let i = 0; i < sortArray.length; i += 1) {
+      // eslint-disable-next-line
+      if (!sortArray[i].hasOwnProperty('time')) {
+        sortArray.splice(i, 1);
+        i -= 1;
       }
-      // eslint-disable-next-line 
-      let latestMsg = {message: '', time: ''};
+    }
+    // eslint-disable-next-line
+    let latestMsg = { message: '', time: '' };
 
     // Sua lai thanh for thuong
-    for(let i = 0;i<sortArray.length;i+=1) {
-      if(idSender===sortArray[i].idSender&&sortArray[i].idReceiver===idUser) {
+    for (let i = 0; i < sortArray.length; i += 1) {
+      if (
+        idSender === sortArray[i].idSender &&
+        sortArray[i].idReceiver === idUser
+      ) {
         latestMsg.message = sortArray[i].message;
         latestMsg.time = sortArray[i].time;
         break;
       }
     }
-      return latestMsg;
-      }
-    
-      setChatWithAnother(coWorker) {
-        this.setState({
-          coWorker
-        });
-      }
+    return latestMsg;
+  }
 
-      handleChange(event) {
-        this.setState({message: event.target.value});
-      }
-      
+  setChatWithAnother(coWorker) {
+    this.setState({
+      coWorker
+    });
+  }
 
+  handleChange(event) {
+    this.setState({ message: event.target.value });
+  }
 
-      handleSend(coWorker) {
-        if (this.state.message) {
-          const { userState } = this.props;
-          const {user} = userState;
-          if(user!==null) {
-            const newItem = {
-              idSender: user._id,
-              idReceiver: coWorker._id,
-              userName: `${user.firstName  } ${ user.lastName}`,
-              message: this.state.message,
-              time: (new Date()).toString(),
-            };
-  
-            this.messageRef.push(newItem);
-            this.setState({ message: '' });
-          }
-        }
-      }
-
-      handleKeyPress(event, coWorker) {
-        if (event.key !== 'Enter') return;
-        this.handleSend(coWorker);
-      }
-
-      changeCoWorker(coWorker,index,length) {
-       
-        for(let i=0;i<length;i+=1) {
-            $(`#chat${i}`).removeClass('active_chat');
-        }
-
-        $(`#chat${index}`).addClass('active_chat');
-        if(coWorker!==null) {
-          this.setState({
-            coWorker
-          });
-        
-        }
-
-      }
-
-    listenMessages() {
-
-      this.messageRef       
-          .on('value', message => {
-            this.setState({
-              allMessages: Object.values(message.val()),
-              });
-          });
-
-
-        this.messageRef
-          .on('value', message => {
-            this.setState({
-                list: Object.values(message.val()),
-              });
-          });
-      }
-    
-      
-    
-
-    render() {
-      $('#chatForm').scrollTop =  $('#chatForm').scrollHeight;
+  handleSend(coWorker) {
+    if (this.state.message) {
       const { userState } = this.props;
-      const {user, allStudents, allTutors} = userState;
-      let coWorker = null;
-        // eslint-disable-next-line 
-      let userName = null;
-         // eslint-disable-next-line 
-      let listContacts = [];
-      if(user!==null) {
-        userName = `${user.firstName  } ${ user.lastName}`;
-        if(allStudents.length>0) {
-          // listContacts = user.role==='tutor'?allStudents:allTutors;
-          if(user.role==='tutor') {
-            
-           
-            allStudents.forEach((element,index) => {
-              if(index===0) {
-                coWorker = element;
-              }
-              const latestMsg = this.getMessageLatestUser(element._id,user._id);
-              // eslint-disable-next-line 
-              let item = {
-                _id: element._id,
-                // eslint-disable-next-line 
-                userName: element.firstName + ' ' + element.lastName,
-                ...latestMsg
-              };
-             
-              listContacts.push(item);
+      const { user } = userState;
+      if (user !== null) {
+        const newItem = {
+          idSender: user._id,
+          idReceiver: coWorker._id,
+          userName: `${user.firstName} ${user.lastName}`,
+          message: this.state.message,
+          time: new Date().toString()
+        };
 
-            });
-          }
-        }
-        if(allTutors.length>0) {
-          if(user.role==='student') {
-            allTutors.forEach((element,index) => {
-              if(index===0) {
-                coWorker = element;
-              }
-              const latestMsg = this.getMessageLatestUser(element._id,user._id);
-              // eslint-disable-next-line 
-              let item = {
-              ...element,
-                // eslint-disable-next-line 
-                userName: element.firstName + ' ' + element.lastName,
-                ...latestMsg
-              };
-             
-              listContacts.push(item);
+        this.messageRef.push(newItem);
+        this.setState({ message: '' });
+      }
+    }
+  }
 
-            });
-          }
+  handleKeyPress(event, coWorker) {
+    if (event.key !== 'Enter') return;
+    this.handleSend(coWorker);
+  }
+
+  changeCoWorker(coWorker, index, length) {
+    for (let i = 0; i < length; i += 1) {
+      $(`#chat${i}`).removeClass('active_chat');
+    }
+
+    $(`#chat${index}`).addClass('active_chat');
+    if (coWorker !== null) {
+      this.setState({
+        coWorker
+      });
+    }
+  }
+
+  listenMessages() {
+    this.messageRef.on('value', message => {
+      this.setState({
+        allMessages: Object.values(message.val())
+      });
+    });
+
+    this.messageRef.on('value', message => {
+      this.setState({
+        list: Object.values(message.val())
+      });
+    });
+  }
+
+  render() {
+    $('#chatForm').scrollTop = $('#chatForm').scrollHeight;
+    const { search } = this.state;
+    const { userState } = this.props;
+    const { user, allStudents, allTutors } = userState;
+    let coWorker = null;
+    let userName = null;
+    let listContacts = [];
+    if (user !== null) {
+      userName = `${user.firstName} ${user.lastName}`;
+      if (allStudents.length > 0) {
+        // listContacts = user.role==='tutor'?allStudents:allTutors;
+        if (user.role === 'tutor') {
+          allStudents.forEach((element, index) => {
+            if (index === 0) {
+              coWorker = element;
+            }
+            const latestMsg = this.getMessageLatestUser(element._id, user._id);
+            // eslint-disable-next-line
+            let item = {
+              _id: element._id,
+              // eslint-disable-next-line
+              userName: element.firstName + ' ' + element.lastName,
+              ...latestMsg
+            };
+
+            listContacts.push(item);
+          });
         }
       }
+      if (allTutors.length > 0) {
+        if (user.role === 'student') {
+          allTutors.forEach((element, index) => {
+            if (index === 0) {
+              coWorker = element;
+            }
+            const latestMsg = this.getMessageLatestUser(element._id, user._id);
+            // eslint-disable-next-line
+            let item = {
+              ...element,
+              // eslint-disable-next-line
+              userName: element.firstName + ' ' + element.lastName,
+              ...latestMsg
+            };
 
-
-        return (
-            <div className="container " style={{paddingTop: '114px'}}>
-                <h3 className=" text-center">Messaging</h3>
-                <div className="messaging">
-                  <div className="inbox_msg">
-                    <div className="inbox_people">
-                      <div className="headind_srch">
-                        <div className="recent_heading">
-                          <h4>Recent</h4>
-                        </div>
-                        <div className="srch_bar">
-                          <div className="stylish-input-group">
-                            <input type="text" className="search-bar"  placeholder="Search" />
-                            <span className="input-group-addon">
-                                <button type="button"> <i className="fa fa-search" aria-hidden="true" /> </button>
-                            </span> 
-                            </div>
-                        </div>
-                      </div>
-                      <div id="chatForm" className="inbox_chat">
-
-                          {listContacts.map((item,index)=>(
-                           index===0?(
-                           <Button style={{width: '100%'}} id={`chat${index}`} className="chat_list active_chat" onClick={()=>this.changeCoWorker(item,index,listContacts.length)}>
-                            <div className="chat_people">
-                              <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                              <div className="chat_ib">
-                           <h5> {item.userName}</h5>
-                                  <p>{item.message}</p>
-                              </div>
-                            </div>
-                          </Button>):
-                          (
-                            <Button id={`chat${index}`} style={{width: '100%'}} onClick={()=>this.changeCoWorker(item,index,listContacts.length)}  className="chat_list">
-                            <div className="chat_people">
-                              <div className="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
-                              <div className="chat_ib">
-                                <h5>{item.userName} </h5>
-                                <p>{item.message}</p>
-                              </div>
-                            </div>
-                          </Button>
-                          )
-                          ))}
-                     
-                      </div>
-                    </div>
-                    <div className="mesgs">
-                      <div className="msg_history">
-                      
-                      {user!==null&&this.state.coWorker!==null?ChatWithPerson(this.state.allMessages,user,this.state.coWorker):ChatWithPerson(this.state.allMessages,user,coWorker)}
-
-
-                      </div>
-                      <div className="type_msg">
-                        <div className="input_msg_write">
-                          <input type="text" className="write_msg" value={this.state.message}  onChange={this.handleChange.bind(this)} onKeyPress={e => this.state.coWorker!==null?this.handleKeyPress(e,this.state.coWorker):this.handleKeyPress(e,coWorker)} placeholder="Type a message" />
-                          <button className="msg_send_btn"  onClick={this.state.coWorker!==null?this.handleSend.bind(this, this.state.coWorker):this.handleSend.bind(this, coWorker)} type="button"> <i className="fa fa-paper-plane-o" aria-hidden="true" /></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                                  
-                  
-                </div>
-            </div>
-        );
+            listContacts.push(item);
+          });
+        }
+      }
     }
+    listContacts = listContacts.filter(element => {
+      if (!search) {
+        return true;
+      }
+      return element.userName.toLowerCase().search(search.toLowerCase()) !== -1;
+    });
+
+    return (
+      <div className="container " style={{ paddingTop: '114px' }}>
+        <h3 className=" text-center">Messaging</h3>
+        <div className="messaging">
+          <div className="inbox_msg">
+            <div className="inbox_people">
+              <div className="headind_srch">
+                <div className="recent_heading">
+                  <h4>Recent</h4>
+                </div>
+                <div className="srch_bar">
+                  <div className="stylish-input-group">
+                    <Input.Search
+                      placeholder="Search tutor's name, subject, ..."
+                      onSearch={this.onSearchChange}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div id="chatForm" className="inbox_chat">
+                {listContacts.map((item, index) =>
+                  index === 0 ? (
+                    <Button
+                      style={{ width: '100%' }}
+                      id={`chat${index}`}
+                      className="chat_list active_chat"
+                      onClick={() =>
+                        this.changeCoWorker(item, index, listContacts.length)
+                      }
+                    >
+                      <div className="chat_people">
+                        <div className="chat_img">
+                          {' '}
+                          <img
+                            src="https://ptetutorials.com/images/user-profile.png"
+                            alt="sunil"
+                          />{' '}
+                        </div>
+                        <div className="chat_ib">
+                          <h5> {item.userName}</h5>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </Button>
+                  ) : (
+                    <Button
+                      id={`chat${index}`}
+                      style={{ width: '100%' }}
+                      onClick={() =>
+                        this.changeCoWorker(item, index, listContacts.length)
+                      }
+                      className="chat_list"
+                    >
+                      <div className="chat_people">
+                        <div className="chat_img">
+                          {' '}
+                          <img
+                            src="https://ptetutorials.com/images/user-profile.png"
+                            alt="sunil"
+                          />{' '}
+                        </div>
+                        <div className="chat_ib">
+                          <h5>{item.userName} </h5>
+                          <p>{item.message}</p>
+                        </div>
+                      </div>
+                    </Button>
+                  )
+                )}
+              </div>
+            </div>
+            <div className="mesgs">
+              <div className="msg_history">
+                {user !== null && this.state.coWorker !== null
+                  ? ChatWithPerson(
+                      this.state.allMessages,
+                      user,
+                      this.state.coWorker
+                    )
+                  : ChatWithPerson(this.state.allMessages, user, coWorker)}
+              </div>
+              <div className="type_msg">
+                <div className="input_msg_write">
+                  <input
+                    type="text"
+                    className="write_msg"
+                    value={this.state.message}
+                    onChange={this.handleChange.bind(this)}
+                    onKeyPress={e =>
+                      this.state.coWorker !== null
+                        ? this.handleKeyPress(e, this.state.coWorker)
+                        : this.handleKeyPress(e, coWorker)
+                    }
+                    placeholder="Type a message"
+                  />
+                  <button
+                    className="msg_send_btn"
+                    onClick={
+                      this.state.coWorker !== null
+                        ? this.handleSend.bind(this, this.state.coWorker)
+                        : this.handleSend.bind(this, coWorker)
+                    }
+                    type="button"
+                  >
+                    {' '}
+                    <i className="fa fa-paper-plane-o" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => {

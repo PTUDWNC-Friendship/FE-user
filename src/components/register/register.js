@@ -2,6 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import fetch from "cross-fetch";
 import { withRouter, Link } from "react-router-dom";
+import swal from 'sweetalert';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FacebookLogin from 'react-facebook-login';
@@ -126,41 +127,51 @@ function StyledRadio(props) {
 class Register extends React.Component {
   doRegister = e => {
     e.preventDefault();
-    if (
-      e.target.password.value !== e.target.retypepassword.value ||
-      e.target.password.value === ""
-    ) {
-      $("#errorMsg").show();
+
+    if(e.target.password.value === "" || e.target.firstName.value.trim() ==="" || e.target.lastName.value.trim() ==="" || e.target.username.value.trim() ==="") {
+      swal("Error!", "Xin vui lòng nhập đầy đủ các thông tin!", "error");
     } else {
-      $("#errorMsg").hide();
 
-      fetch(`${SERVER_URL}/user/register`, {
-        method: "POST",
-        body: JSON.stringify({
-          username: e.target.username.value,
-          firstName: e.target.firstName.value,
-          lastName: e.target.lastName.value,
-          gender: e.target.gender.value,
-          password: e.target.password.value
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      })
-        .then(
-          response => response.json(),
-
-          error => console.log("An error occurred.", error)
-        )
-        .then(json => {
-          if (json != null) {
-            const { history } = this.props;
-            history.push("/login");
+          if (
+            e.target.password.value !== e.target.retypepassword.value ||
+            e.target.password.value === "" || e.target.firstName.value ==="" || e.target.lastName.value ==="" || e.target.username.value===""
+          ) {
+            swal("Error!", "Xin vui lòng nhập lại mật khẩu xác nhận giống với mật khẩu đã nhập!", "error");
+            $("#errorMsg").show();
           } else {
-            $("#errorMsgSer").show();
+            $("#errorMsg").hide();
+
+            fetch(`${SERVER_URL}/user/register`, {
+              method: "POST",
+              body: JSON.stringify({
+                username: e.target.username.value,
+                firstName: e.target.firstName.value,
+                lastName: e.target.lastName.value,
+                gender: e.target.gender.value,
+                password: e.target.password.value
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8"
+              }
+            })
+              .then(
+                response => response.json(),
+
+                error => console.log("An error occurred.", error)
+              )
+              .then(json => {
+                if (json != null) {
+                  const { history } = this.props;
+                  swal("Sucessfully!", "Register studying with tutor successfully!", "success").then(()=>{
+                    history.push("/login");
+                    $('#idLoading').hide();
+                });
+                } else {
+                  $("#errorMsgSer").show();
+                }
+              });
           }
-        });
-    }
+  }
   };
 
   render() {

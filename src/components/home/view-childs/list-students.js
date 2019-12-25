@@ -10,6 +10,7 @@ class StudentList extends Component {
     super(props);
     this.state = {
       // eslint-disable-next-line react/no-unused-state
+      fetching: false,
       indexFirst: 0,
       indexLast: 0,
       currentPage: 1,
@@ -22,10 +23,35 @@ class StudentList extends Component {
 
   componentDidMount() {
     const { user } = this.props.userState;
-    this.props.fetchTutorContractsAction(user._id);
+
+    if (user !== null && !this.state.fetching ) {
+      this.props.fetchTutorContractsAction(user._id);
+    }
+
+    const { allContracts } = this.props.contractState;
+    if (allContracts.length !== 0 && !this.state.fetching)
+    {
+      this.setState({
+        fetching: true
+      });
+    }
+
   }
 
   componentDidUpdate(oldProps) {
+    const { user } = this.props.userState;
+
+    if (user !== null && !this.state.fetching ) {
+      this.props.fetchTutorContractsAction(user._id);
+    }
+
+    const { allContracts } = this.props.contractState;
+    if (allContracts.length !== 0 && !this.state.fetching)
+    {
+      this.setState({
+        fetching: true
+      });
+    }
     if (oldProps.contractState.allContracts !== this.props.contractState.allContracts) {
       const { search } = this.props;
       const { dataPerPage } = this.state;
