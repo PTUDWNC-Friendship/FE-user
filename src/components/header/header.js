@@ -109,6 +109,12 @@ class Header extends React.Component {
                                       Profile
                                     </Link>
                                   </li>
+                                  {/* CHAT (USER) ======== */}
+                                  <li>
+                                    <Link to="/chat">
+                                      Messages
+                                    </Link>
+                                  </li>
                                   {/* SPECIALTIES (TUTOR) ======== */}
                                   {userState.user.role === 'tutor' ? (
                                     <li>
