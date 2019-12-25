@@ -163,6 +163,7 @@ class TutorList extends Component {
   }
 
   passingProps(element) {
+    console.log(element);
     if(element!==null) {
       $('#rateModal').empty();
       $("#imgModal").attr("src",element.imageURL);
@@ -180,7 +181,7 @@ class TutorList extends Component {
       }
       if (element.rate !== null)
       {
-        
+
         let star = '<fieldset class="MuiBox-root MuiBox-root-30"> <span class="MuiRating-root MuiRating-readOnly" role="img" aria-label="3 Stars"> ' ;
         for(let count = 0 ;count<10;count+=1) {
           if(count<element.rate) {

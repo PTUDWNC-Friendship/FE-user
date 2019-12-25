@@ -88,7 +88,7 @@ class Analysis extends Component {
             <div className="container">
               <div className="row">
                 <div className="col-md-12 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                  <h2 className="mb-5 h3">Your Revenue</h2>
+                  <h2 className="mb-5 h3">Your Revenue ($)</h2>
                   <div className="rounded border jobs-wrap">
 
                     <LineChart data={this.getRevenueFromContracts()} />
