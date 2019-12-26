@@ -63,11 +63,9 @@ export class InfoModal extends Component {
 
                       <div
                         id='feedbackModal'
-                        className="job-item d-block d-md-flex ml-5 text-left  border-bottom fulltime"
-                        style={{height: '250px', overflowY: 'scroll'}}
+                        className="job-item"
+                        style={{maxHeight: '250px', overflowY: 'scroll'}}
                        />
-
-
                       <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                       </div>
