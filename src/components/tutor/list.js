@@ -175,6 +175,7 @@ class TutorList extends Component {
       $('#addressModal').text(element.address!==null?`${element.address} `:'Việt Nam');
       $('#bioModal').text(element.bio);
       $('#subjectModal').empty();
+      $('#feedbackModal').empty();
       if(element.subjects !== null) {
         for (let i = 0; i < element.subjects.length; i+=1) {
           if(element.subjects[i] !== null) {
@@ -198,24 +199,28 @@ class TutorList extends Component {
         star ='';
       }
       if(element.feedbacks !== null) {
+        let feedback = '';
         for (let i = 0; i < element.feedbacks.length; i+=1) {
           if(element.feedbacks[i] !== null) {
-          $('#feedbackModal').append(
 
-             `
-             <div className="p-3 align-self-center">
-               <b>Anonymous feedback</b>
-               <div className="d-block d-lg-flex">
-                 <div className="mr-3">
-                   <span className="mr-1">
-                    ${element.feedbacks[i].comment}
-                   </span>
+          feedback +=   `<div class="job-details h-100">
+               <div class="p-3 align-self-center">
+                 <b>Anonymous feedback</b>
+                 <div class="d-block d-lg-flex">
+                   <div class="mr-3">
+                     <span class="mr-1">
+                      ${element.feedbacks[i].comment}
+                     </span>
+                   </div>
                  </div>
                </div>
-             </div>`
-           );
+             </div>
+             <br />
+             ` ;
+
           }
         }
+        $('#feedbackModal').append(feedback);
       }
 
       $('#modalButton').click();
