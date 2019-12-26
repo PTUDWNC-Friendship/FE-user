@@ -12,10 +12,13 @@ class Guest extends React.Component {
 
   componentDidMount() {
     const { userState, history } = this.props;
-    console.log(userState.user);
+    console.log("TCL: Guest -> componentDidMount -> userState", userState.user);
     if (userState.user !== null) {
       if (userState.user.status === 'notverified') {
         history.push('/verify');
+      }
+      if (userState.user.role === null) {
+        history.push('/roles');
       }
       else if (userState.user.role === 'student') {
         history.push('/home-student');
@@ -32,6 +35,9 @@ class Guest extends React.Component {
     if (userState.user !== null) {
       if (userState.user.status === 'notverified') {
         history.push('/verify');
+      }
+      if (!userState.user.role) {
+        history.push('/roles');
       }
       else if (userState.user.role === 'student') {
         history.push('/home-student');
