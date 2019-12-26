@@ -62,10 +62,14 @@ export class InfoModal extends Component {
                       </div>
 
                       <div
-                        id='feedbackModal'
+
                         className="job-item d-block d-md-flex ml-5 text-left  border-bottom fulltime"
-                        style={{height: '250px', overflowY: 'scroll'}}
-                       />
+                        style={{height: '250px', overflowY: 'auto'}}
+                       >
+
+                       <div id='feedbackModal' className="job-details h-100" />
+
+                       </div>
 
 
                       <div className="modal-footer">

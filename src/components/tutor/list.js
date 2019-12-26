@@ -201,15 +201,15 @@ class TutorList extends Component {
         for (let i = 0; i < element.feedbacks.length; i+=1) {
           if(element.feedbacks[i] !== null) {
           $('#feedbackModal').append(
-             `<div className="job-details h-100">
-               <div className="p-3 align-self-center">
-                 <b>Anonymous feedback</b>
-                 <div className="d-block d-lg-flex">
-                   <div className="mr-3">
-                     <span className="mr-1">
-                      ${element.feedbacks[i].comment}
-                     </span>
-                   </div>
+
+             `
+             <div className="p-3 align-self-center">
+               <b>Anonymous feedback</b>
+               <div className="d-block d-lg-flex">
+                 <div className="mr-3">
+                   <span className="mr-1">
+                    ${element.feedbacks[i].comment}
+                   </span>
                  </div>
                </div>
              </div>`
