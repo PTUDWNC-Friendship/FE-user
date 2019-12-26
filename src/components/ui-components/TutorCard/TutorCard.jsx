@@ -27,11 +27,15 @@ export class TutorCard extends Component {
   render() {
 
     const alerts = [];
-    for (let i = 0; i < this.props.subjects.length; i+=1) {
-      alerts.push(
-        <Alert style={{float:'left', padding: '1%', marginLeft: '3%'}}>{this.props.subjects[i].name}</Alert>
-      );
-    }
+      for (let i = 0; i < this.props.subjects.length; i+=1) {
+        if (this.props.subjects[i] !== null)
+        {
+          alerts.push(
+            <Alert style={{float:'left', padding: '1%', marginLeft: '3%'}}>{this.props.subjects[i].name}</Alert>
+          );
+        }
+      }
+
     return (
       <div  className="card card-user"  style={{marginBottom: '3%'}}>
         <div className="content" style={{width: '100%'}}>

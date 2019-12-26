@@ -82,6 +82,9 @@ class Header extends React.Component {
                             {userState.user.role === 'tutor' ? (
                               <>
                                 <li>
+                                  <Link to="/list-tutors">Tutors</Link>
+                                </li>
+                                <li>
                                   <Link to="/analysis">Analysis</Link>
                                 </li>
                                 <li>

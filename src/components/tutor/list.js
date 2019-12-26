@@ -292,7 +292,6 @@ class TutorList extends Component {
     const { userState } = this.props;
     const subject = [];
     subject.push(<h>Default</h>);
-
     return (
       <div>
         <div style={{ height: '113px' }} />
@@ -327,8 +326,9 @@ class TutorList extends Component {
                     <Col md={3}>
                       <Slider
                         range
-                        step={10}
-                        defaultValue={[0, 50]}
+                        step={100}
+                        max={1000}
+                        defaultValue={[0, 1000]}
                         onChange={this.onChangePrice}
                         // onAfterChange={onAfterChange}
                       />
