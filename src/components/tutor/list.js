@@ -177,8 +177,9 @@ class TutorList extends Component {
       $('#subjectModal').empty();
       if(element.subjects !== null) {
         for (let i = 0; i < element.subjects.length; i+=1) {
-
+          if(element.subjects[i] !== null) {
           $('#subjectModal').append( `<div role="alert" class="alert alert-info" style="float: left; padding: 1%; margin-left: 3%" >${  element.subjects[i].name  }</div>`);
+          }
         }
       }
       if (element.rate !== null)
@@ -196,6 +197,27 @@ class TutorList extends Component {
         $('#rateModal').append(star);
         star ='';
       }
+      if(element.feedbacks !== null) {
+        for (let i = 0; i < element.feedbacks.length; i+=1) {
+          if(element.feedbacks[i] !== null) {
+          $('#feedbackModal').append(
+             `<div className="job-details h-100">
+               <div className="p-3 align-self-center">
+                 <b>Anonymous feedback</b>
+                 <div className="d-block d-lg-flex">
+                   <div className="mr-3">
+                     <span className="mr-1">
+                      ${element.feedbacks[i].comment}
+                     </span>
+                   </div>
+                 </div>
+               </div>
+             </div>`
+           );
+          }
+        }
+      }
+
       $('#modalButton').click();
     }
   }
