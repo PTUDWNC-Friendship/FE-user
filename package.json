@@ -8,7 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.36",
     "@material-ui/pickers": "^3.2.8",
     "antd": "^3.26.0",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
     "chartkick": "^3.2.0",
